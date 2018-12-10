@@ -7,4 +7,6 @@ faruto.github.io
 
 博客 http://blog.sina.com.cn/faruto
 
+Email:patrick.lee@foxmail.com
+
 
