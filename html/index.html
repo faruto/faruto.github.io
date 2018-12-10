@@ -1,0 +1,283 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>FQuantStudio</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-12-10"><meta name="DC.source" content="index.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>FQuantStudio</h1><!--introduction--><p>by LiYang_faruto @ <a href="https://weibo.com/faruto">faruto&#24494;&#21338;</a> <a href="http://blog.sina.com.cn/faruto">faruto&#21338;&#23458;</a></p><p>Email:farutoliyang@foxmail.com</p><p>
+<table border="0" width="600px" id="table1">
+<tr><td><b><font size="2">这里为一些在线测试demo和在线帮助文档，全部由MATLAB自动publish生成</font></b></td></tr>
+<tr><td><span class="tip"><font size="2">FQuantToolBox最新版下载地址：<a target="_blank" href="https://github.com/faruto/FQuantToolBox"><font color="#0000FF">github</font></a></span></td></tr>
+<tr><td><span class="tip"><font size="2">FQuantToolBox在线帮助文档：<a target="_blank" href="https://faruto.github.io/FQuantToolBoxHelpOnLine/FQuantToolBoxHelpOnLine.html"><font color="#0000FF">FQuantToolBoxHelpOnLine</font></a></span></td></tr>
+<tr><td><span class="tip"><font size="2">注意：请在MATLAB R2014b或更高版本环境下使用FQuantToolBox</td></tr>
+<tr><td><span class="tip"><font size="2">量化投资交流论坛：<a target="_blank" href="http://www.matlabsky.com/forum-112-1.html"><font color="#0000FF">MATLAB技术论坛</font></a></font></span></td></tr>
+<tr><td><span class="tip"><font size="2">量化投资交流讨论QQ群：<br>
+QuantGroup 279908629 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=9f09ff976cfec29d114a2477e985dd4642517b62464de85298e15e310f242411"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="QuantGroup" title="QuantGroup"></a>
+</font></span></td></tr>
+<tr><td><span class="tip"><font size="2">作者faruto的联系方式：<a target="_blank" href="http://weibo.com/faruto"><font color="#0000FF">微博-faruto</font></a>，<a target="_blank" href="http://blog.sina.com.cn/faruto"><font color="#0000FF">博客</font></a>，<a target="_blank" href="http://weixin.sogou.com/gzh?openid=oIWsFt8I-RwyirZgFVM0Be9uioGI"><font color="#0000FF">微信公众号-FQuantStudio</font></a>(欢迎扫码关注)</font></span></td></tr>
+<tr><td><span class="tip"><font size="2"><img src="./FQuantStudioWeChat.jpg" width="90" height="90"></font></span></td></tr>
+<tr><td><span class="tip"><font size="2">书籍推荐：</font></span></td></tr>
+</table>
+<img src="./QuMBook.jpg" width="300" height="400">
+<img src="./QuMBook2-w.jpg" width="300" height="400">
+<img src="./QuMBook2-n.jpg" width="300" height="400">
+<img src="./ANN.jpg" width="300" height="400">
+<img src="./mOpt.jpg" width="300" height="400">
+<img src="./mOptN.jpg" width="300" height="400">
+<img src="./FuzzyCluster.jpg" width="300" height="400">
+<img src="./M4ML.png" width="300" height="400">
+<img src="./cM4ML.jpg" width="300" height="400">
+</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">&#12298;&#37327;&#21270;&#25237;&#36164;&#65306;&#20197;MATLAB&#20026;&#24037;&#20855;&#12299;-&#22522;&#30784;&#31687;-N&#20998;&#38047;&#23398;&#20250;MATLAB(60&lt;N&lt;180)</a></li><li><a href="#2">FQuantToolBox&#26159;&#20570;&#20160;&#20040;&#29992;&#30340;&#65311;</a></li><li><a href="#3">FQuantToolBox Online Demo(&#22312;&#32447;&#24110;&#21161;&#25991;&#26723;)</a></li><li><a href="#5">&#26399;&#36135;&#31574;&#30053;&#22238;&#27979;&#30340;&#26694;&#26550;&#12289;&#23454;&#29616;&#12289;&#27979;&#35797;&#8212;&#8212;&#20197;&#19968;&#20010;&#20855;&#26377;&#21697;&#31181;&#36890;&#29992;&#24615;&#21644;&#27979;&#35797;&#21608;&#26399;&#36890;&#29992;&#24615;&#30340;&#31574;&#30053;&#20026;&#20363;</a></li><li><a href="#6">&#32929;&#31080;&#31574;&#30053;&#22238;&#27979;&#30340;&#26694;&#26550;&#12289;&#23454;&#29616;&#12289;&#27979;&#35797;&#8212;&#8212;&#20197;&#21160;&#37327;&#31574;&#30053;&#20026;&#20363;</a></li><li><a href="#7">&#19968;&#31181;&#31616;&#21270;&#30340;&#25130;&#38754;&#21160;&#37327;&#32452;&#21512;&#27979;&#35797;[Python&amp;MATLAB]</a></li><li><a href="#8">&#19968;&#31867;&#31616;&#21333;&#30340;&#32676;&#20307;&#34892;&#20026;&#25321;&#26102;&#27169;&#22411;&#26694;&#26550;&#21450;&#23454;&#29616;&#27979;&#35797;</a></li><li><a href="#9">&#26399;&#26435;&#30456;&#20851;&#20989;&#25968;&#21644;&#24037;&#20855;-&#26399;&#26435;&#22797;&#24335;&#31574;&#30053;Demo</a></li><li><a href="#11">MATLABToolBox-MatlabTraderGUI[&#25345;&#32493;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]</a></li><li><a href="#14">MATLABToolBox-SVMToolBox[&#26242;&#20572;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]</a></li><li><a href="#18">MATLABToolBox-FuzzyClusterToolBox[&#26242;&#20572;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]</a></li><li><a href="#20">MATLABToolBox-EasyPaintToolBox[&#26242;&#20572;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]</a></li><li><a href="#23">&#32929;&#25351;&#26399;&#36135;&#22522;&#30784;&#30417;&#25511;GUI</a></li><li><a href="#26">&#24658;&#29983;UFX&#25509;&#21475;&#20108;&#27425;&#24320;&#21457; Based on Matlab</a></li><li><a href="#29">&#20854;&#20182;&#20449;&#24687;</a></li></ul></div><h2>&#12298;&#37327;&#21270;&#25237;&#36164;&#65306;&#20197;MATLAB&#20026;&#24037;&#20855;&#12299;-&#22522;&#30784;&#31687;-N&#20998;&#38047;&#23398;&#20250;MATLAB(60&lt;N&lt;180)<a name="1"></a></h2><p><a href="https://faruto.github.io/LearnMatlabUsingNmin/LearnMatlabUsingNmin.html">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991;&#12298;&#37327;&#21270;&#25237;&#36164;&#65306;&#20197;MATLAB&#20026;&#24037;&#20855;&#12299;-&#22522;&#30784;&#31687;-N&#20998;&#38047;&#23398;&#20250;MATLAB(60&lt;N&lt;180)</a></p><h2>FQuantToolBox&#26159;&#20570;&#20160;&#20040;&#29992;&#30340;&#65311;<a name="2"></a></h2><pre class="language-matlab">FQuantToolBox&#23450;&#20301;&#26159;&#20010;&#25968;&#25454;&#21644;&#22238;&#27979;&#24037;&#20855;&#31665;&#65292;&#27809;&#26377;&#23454;&#30424;&#20132;&#26131;&#30456;&#20851;&#25509;&#21475;&#30340;&#23454;&#29616;&#65288;&#20294;&#26410;&#26469;&#19981;&#25490;&#38500;&#22686;&#21152;&#30456;&#20851;&#21151;&#33021;&#65289;&#12290;
+</pre><pre class="language-matlab">&#25968;&#25454;&#26041;&#38754;&#65292;FQuantToolBox&#25968;&#25454;&#33719;&#21462;&#20989;&#25968;&#23436;&#20840;&#22522;&#20110;&#32593;&#32476;&#30340;&#20813;&#36153;&#25968;&#25454;&#28304;&#65288;&#20027;&#35201;&#20026;&#26032;&#28010;&#36130;&#32463;&#12289;&#38597;&#34382;&#36130;&#32463;&#31561;&#37329;&#34701;&#32593;&#31449;&#65289;&#65292;&#19981;&#20294;&#21487;&#20197;&#31215;&#32047;&#21382;&#21490;&#25968;&#25454;&#65292;&#20063;&#21487;&#20197;&#36827;&#34892;&#21160;&#24577;&#26356;&#26032;&#65292;
+&#29616;&#24050;&#23454;&#29616;&#30340;&#25968;&#25454;&#33719;&#21462;&#20026;A&#32929;&#24066;&#22330;&#30340;&#20840;&#37096;&#32929;&#31080;&#21517;&#31216;&#21644;&#23545;&#24212;&#20195;&#30721;&#65288;&#21253;&#21547;&#24050;&#36864;&#24066;&#32929;&#31080;&#65289;&#12289;A&#32929;&#24066;&#22330;&#30340;&#32929;&#31080;&#26085;&#32447;&#38500;&#26435;&#25968;&#25454;&#20197;&#21450;&#22797;&#26435;&#22240;&#23376;&#12289;A&#32929;&#24066;&#22330;&#30340;&#32929;&#31080;&#30340;&#38500;&#26435;&#38500;&#24687;&#20449;&#24687;&#12289;
+A&#32929;&#24066;&#22330;&#30340;&#32929;&#31080;&#27599;&#26085;&#20132;&#26131;&#26126;&#32454;&#25968;&#25454;&#65288;Tick&#25968;&#25454;&#65289;&#12289;A&#32929;&#24066;&#22330;&#30340;&#30340;&#32929;&#31080;&#36130;&#21153;&#25351;&#26631;&#25968;&#25454;&#12289;A&#32929;&#24066;&#22330;&#30340;&#32929;&#31080;&#30340;&#19977;&#24352;&#34920;&#65288;&#36164;&#20135;&#36127;&#20538;&#34920;&#12289;&#29616;&#37329;&#27969;&#37327;&#34920;&#12289;&#21033;&#28070;&#34920;&#65289;&#25968;&#25454;&#65292;
+&#26410;&#26469;&#25968;&#25454;&#26041;&#38754;&#20250;&#22686;&#21152;&#26356;&#22810;&#30340;&#25968;&#25454;&#65292;&#21253;&#25324;&#26399;&#36135;&#25968;&#25454;&#20197;&#21450;&#20854;&#20182;&#37329;&#34701;&#26631;&#30340;&#30340;&#25968;&#25454;&#65292;&#25972;&#20307;&#30340;&#24605;&#24819;&#36824;&#26159;&#23436;&#20840;&#22522;&#20110;&#32593;&#32476;&#33719;&#21462;&#21644;&#26356;&#26032;&#65292;&#23436;&#20840;&#20813;&#36153;&#12290;
+</pre><pre class="language-matlab">&#22522;&#20110;&#32593;&#32476;&#30340;&#25968;&#25454;&#33719;&#21462;&#30340;&#23454;&#29616;&#26041;&#24335;&#22823;&#20307;&#36807;&#31243;&#23601;&#26159;&#32593;&#32476;&#25968;&#25454;&#32593;&#22336;&#23547;&#25214;&#8212;&#8212;&gt; &#32593;&#22336;&#20998;&#26512;&#8212;&#8212;&gt; urlread+&#27491;&#21017;&#34920;&#36798;&#24335; &#25968;&#25454;&#25552;&#21462;&#12290;&#36827;&#34892;&#32593;&#32476;&#25968;&#25454;&#30340;&#25235;&#21462;&#65292;&#27491;&#21017;&#34920;&#36798;&#24335;&#26159;&#19968;&#23450;&#20250;&#36935;&#21040;&#30340;&#65292;
+MATLAB&#20013;&#26377;&#30456;&#24212;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#20989;&#25968;&#65292;&#26377;&#20851;&#27491;&#21017;&#34920;&#36798;&#24335;&#30340;&#19996;&#35199;&#36825;&#37324;&#19981;&#20570;&#23637;&#24320;&#65292;&#21508;&#20301;&#30475;&#23448;&#38656;&#35201;&#33258;&#34892;&#20570;&#20123;&#21151;&#35838;&#65292;FQuantToolBox&#24037;&#20855;&#31665;&#30340;Doc&#25991;&#20214;&#22841;&#20869;&#26377;&#20010;&#25105;&#37325;&#26032;&#25972;&#29702;&#36807;&#30340;
+&#12298;MATALB&#27491;&#21017;&#34920;&#36798;&#24335;&#38646;&#22522;&#30784;&#36215;&#27493;&#25945;&#31243;.doc&#12299;&#25991;&#26723;&#65292;&#21487;&#20197;&#24110;&#21161;&#24744;&#23398;&#20064;&#27491;&#21017;&#34920;&#36798;&#24335;&#30456;&#20851;&#30340;&#19996;&#35199;&#12290;
+</pre><pre class="language-matlab">&#22238;&#27979;&#26041;&#38754;&#65292;FQuantToolBox&#24037;&#20855;&#31665;&#24403;&#19979;&#25552;&#20379;&#20102;&#19968;&#20010;&#8220;&#22914;&#20309;&#26500;&#24314;&#22522;&#20110;MATLAB&#30340;&#22238;&#27979;&#31995;&#32479;&#8221;&#30340;demo&#26679;&#20363;&#65292;&#27492;&#37096;&#20998;&#20869;&#23481;&#26469;&#33258;&#25105;&#20986;&#29256;&#30340;&#12298;&#37327;&#21270;&#25237;&#36164;&#65306;&#20197;MATLAB&#20026;&#24037;&#20855;&#12299;&#30340;&#30456;&#20851;&#31456;&#33410;&#65292;
+&#26410;&#26469;&#22238;&#27979;&#26041;&#38754;&#20250;&#22686;&#28155;&#26356;&#22810;&#30340;&#36741;&#21161;&#20989;&#25968;&#21644;&#25554;&#20214;&#65292;&#26041;&#20415;&#24744;&#20351;&#29992;MATLAB&#36827;&#34892;&#32929;&#31080;&#20197;&#21450;&#26399;&#36135;&#30456;&#20851;&#31574;&#30053;&#30340;&#22238;&#27979;&#12290;
+</pre><pre class="language-matlab">&#26410;&#26469;FQuantToolBox&#24037;&#20855;&#31665;&#27599;&#27425;&#21457;&#24067;&#37117;&#20250;&#25552;&#20379;&#20004;&#20010;&#29256;&#26412;&#65292;&#26080;&#21382;&#21490;&#25968;&#25454;&#29256;&#26412;&#21644;&#26377;&#21382;&#21490;&#25968;&#25454;&#29256;&#26412;&#12290;&#26080;&#21382;&#21490;&#25968;&#25454;&#29256;&#26412;&#20165;&#25552;&#20379;&#30456;&#20851;&#20989;&#25968;&#65292;&#20320;&#21487;&#20197;&#22312;&#33258;&#24049;&#26412;&#22320;&#36816;&#34892;&#30456;&#20851;&#33050;&#26412;&#26469;&#25209;&#37327;&#33719;&#21462;&#21382;&#21490;&#25968;&#25454;&#65307;
+&#26377;&#21382;&#21490;&#25968;&#25454;&#29256;&#26412;&#19981;&#20294;&#25552;&#20379;&#30456;&#20851;&#20989;&#25968;&#65292;&#36824;&#25552;&#20379;&#24050;&#32463;&#33719;&#21462;&#22909;&#30340;&#21382;&#21490;&#25968;&#25454;&#65288;A&#32929;&#24066;&#22330;&#20840;&#37096;&#32929;&#31080;&#32929;&#31080;&#21517;&#31216;&#21644;&#20195;&#30721;&#12289;&#26085;&#32447;&#25968;&#25454;&#12289;&#27599;&#26085;&#20132;&#26131;&#26126;&#32454;&#25968;&#25454;&#12289;&#38500;&#26435;&#38500;&#24687;&#20449;&#24687;&#12289;&#36130;&#21153;&#25351;&#26631;&#25968;&#25454;&#12289;&#19977;&#24352;&#21464;&#25968;&#25454;&#65289;&#65292;
+&#33410;&#30465;&#24744;&#33719;&#21462;&#21382;&#21490;&#25968;&#25454;&#30340;&#26102;&#38388;&#65292;&#20294;&#30456;&#24212;&#30340;&#19979;&#36733;&#25991;&#20214;&#20063;&#20250;&#27604;&#36739;&#22823;&#65288;&#23588;&#20854;&#32929;&#31080;&#27599;&#26085;&#20132;&#26131;&#26126;&#32454;&#25968;&#25454;&#65289;&#65292;&#26032;&#30340;&#25968;&#25454;&#26356;&#26032;&#21482;&#38656;&#36816;&#34892;&#30456;&#24212;&#33050;&#26412;&#20989;&#25968;&#23601;&#21487;&#20197;&#36827;&#34892;&#20840;&#24066;&#22330;&#26368;&#26032;&#25968;&#25454;&#30340;&#26356;&#26032;&#12290;
+</pre><h2>FQuantToolBox Online Demo(&#22312;&#32447;&#24110;&#21161;&#25991;&#26723;)<a name="3"></a></h2><p><a href="https://faruto.github.io/FQuantToolBoxHelpOnLine/FQuantToolBoxHelpOnLine.html">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991;FQuantToolBox Online Demo</a></p><p><img vspace="5" hspace="5" src="FQhelp.png" alt=""> </p><h2>&#26399;&#36135;&#31574;&#30053;&#22238;&#27979;&#30340;&#26694;&#26550;&#12289;&#23454;&#29616;&#12289;&#27979;&#35797;&#8212;&#8212;&#20197;&#19968;&#20010;&#20855;&#26377;&#21697;&#31181;&#36890;&#29992;&#24615;&#21644;&#27979;&#35797;&#21608;&#26399;&#36890;&#29992;&#24615;&#30340;&#31574;&#30053;&#20026;&#20363;<a name="5"></a></h2><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&amp;mid=210213114&amp;idx=2&amp;sn=9a4e0cb7f25fac09fbacfab2b54546bc&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991; &#26399;&#36135;&#31574;&#30053;&#22238;&#27979;&#30340;&#26694;&#26550;&#12289;&#23454;&#29616;&#12289;&#27979;&#35797;&#8212;&#8212;&#20197;&#19968;&#20010;&#20855;&#26377;&#21697;&#31181;&#36890;&#29992;&#24615;&#21644;&#27979;&#35797;&#21608;&#26399;&#36890;&#29992;&#24615;&#30340;&#31574;&#30053;&#20026;&#20363;</a></p><h2>&#32929;&#31080;&#31574;&#30053;&#22238;&#27979;&#30340;&#26694;&#26550;&#12289;&#23454;&#29616;&#12289;&#27979;&#35797;&#8212;&#8212;&#20197;&#21160;&#37327;&#31574;&#30053;&#20026;&#20363;<a name="6"></a></h2><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&amp;mid=210213114&amp;idx=1&amp;sn=1bf1832b43f5d46a1b3c931484608570&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991; &#32929;&#31080;&#31574;&#30053;&#22238;&#27979;&#30340;&#26694;&#26550;&#12289;&#23454;&#29616;&#12289;&#27979;&#35797;&#8212;&#8212;&#20197;&#21160;&#37327;&#31574;&#30053;&#20026;&#20363;</a></p><h2>&#19968;&#31181;&#31616;&#21270;&#30340;&#25130;&#38754;&#21160;&#37327;&#32452;&#21512;&#27979;&#35797;[Python&amp;MATLAB]<a name="7"></a></h2><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&amp;mid=204989303&amp;idx=1&amp;sn=8438eb4cd073159db4be7814878c320d&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991; &#19968;&#31181;&#31616;&#21270;&#30340;&#25130;&#38754;&#21160;&#37327;&#32452;&#21512;&#27979;&#35797;[Python&amp;MATLAB]</a></p><h2>&#19968;&#31867;&#31616;&#21333;&#30340;&#32676;&#20307;&#34892;&#20026;&#25321;&#26102;&#27169;&#22411;&#26694;&#26550;&#21450;&#23454;&#29616;&#27979;&#35797;<a name="8"></a></h2><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&amp;mid=208480402&amp;idx=1&amp;sn=46a21a3a454cb5d639750b845aed33b1&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991; &#19968;&#31867;&#31616;&#21333;&#30340;&#32676;&#20307;&#34892;&#20026;&#25321;&#26102;&#27169;&#22411;&#26694;&#26550;&#21450;&#23454;&#29616;&#27979;&#35797;</a></p><h2>&#26399;&#26435;&#30456;&#20851;&#20989;&#25968;&#21644;&#24037;&#20855;-&#26399;&#26435;&#22797;&#24335;&#31574;&#30053;Demo<a name="9"></a></h2><p>&#26399;&#26435;&#30456;&#20851;&#20989;&#25968;&#22312;FQuantToolBox&#24037;&#20855;&#31665;&#19979;&#30340;&lt;OptionFunTool&gt;&#25991;&#20214;&#22841;&#20869;</p><p>&#35831;&#28857;&#20987;&#26597;&#30475; <a href="http://faruto.matlabsky.com/OptionsStraDemo/">&#26399;&#26435;&#22797;&#24335;&#31574;&#30053;Demo</a></p><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&amp;mid=210213114&amp;idx=3&amp;sn=917bd209e74e6d1094726f6dff797657&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd">&#28857;&#27492;&#38405;&#35835;&#20840;&#25991; &#26399;&#26435;&#22797;&#24335;&#31574;&#30053;&#31616;&#20171;&#21450;MATLAB&#27979;&#35797;</a></p><h2>MATLABToolBox-MatlabTraderGUI[&#25345;&#32493;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]<a name="11"></a></h2><p>&#35831;&#28857;&#20987;&#26597;&#30475;&#19979;&#36733;&#28304;&#30721; <a href="http://www.matlabsky.com/thread-37264-1-1.html">&#22522;&#20110;MATLAB&#30340;&#34892;&#24773;&#36719;&#20214;MatlabTraderGUI V1.1&#65288;Beta&#29256;&#26412;&#65289;</a></p><p><img vspace="5" hspace="5" src="MT.jpg" alt=""> </p><h2>MATLABToolBox-SVMToolBox[&#26242;&#20572;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]<a name="14"></a></h2><p>&#35831;&#28857;&#20987;&#26597;&#30475;&#19979;&#36733;&#28304;&#30721; <a href="http://www.matlabsky.com/thread-17936-1-1.html">Libsvm3.1-[FarutoUltimate3.1Mcode]</a></p><p>&#35831;&#28857;&#20987;&#26597;&#30475;&#19979;&#36733;&#28304;&#30721; <a href="http://www.matlabsky.com/thread-9333-1-1.html">SVM_GUI_3.1[mcode]]</a> &#65288;&#20381;&#36182;&#21253;&#65306;Libsvm3.1-[FarutoUltimate3.1Mcode]&#65289;</p><p><img vspace="5" hspace="5" src="SVMGUI.jpg" alt=""> </p><h2>MATLABToolBox-FuzzyClusterToolBox[&#26242;&#20572;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]<a name="18"></a></h2><p>&#35831;&#28857;&#20987;&#26597;&#30475;&#19979;&#36733;&#28304;&#30721; <a href="http://www.matlabsky.com/thread-9329-1-1.html">FuzzyClusterToolBox</a></p><h2>MATLABToolBox-EasyPaintToolBox[&#26242;&#20572;&#26356;&#26032;-&#20840;&#37096;&#24320;&#28304;]<a name="20"></a></h2><p>&#35831;&#28857;&#20987;&#26597;&#30475;&#19979;&#36733;&#28304;&#30721; <a href="http://www.matlabsky.com/thread-13161-1-1.html">EasyPaintToolBox</a></p><p><img vspace="5" hspace="5" src="EP.jpg" alt=""> </p><h2>&#32929;&#25351;&#26399;&#36135;&#22522;&#30784;&#30417;&#25511;GUI<a name="23"></a></h2><p>More Info see <a href="http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&amp;mid=403268238&amp;idx=1&amp;sn=0962724042720e9d3b5111ff452b0c56&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd">BasisGUI</a></p><p><img vspace="5" hspace="5" src="BasisGUI.jpg" alt=""> </p><h2>&#24658;&#29983;UFX&#25509;&#21475;&#20108;&#27425;&#24320;&#21457; Based on Matlab<a name="26"></a></h2><p>No More Info</p><p><img vspace="5" hspace="5" src="UFXGUI.jpg" alt=""> </p><h2>&#20854;&#20182;&#20449;&#24687;<a name="29"></a></h2><p>
+<table border="0" width="600px" id="table1">
+<tr><td><b><font size="2">这里为一些在线测试demo和在线帮助文档，全部由MATLAB自动publish生成</font></b></td></tr>
+<tr><td><span class="tip"><font size="2">FQuantToolBox最新版下载地址：<a target="_blank" href="https://github.com/faruto/FQuantToolBox"><font color="#0000FF">github</font></a></font></span></td></tr>
+<tr><td><span class="tip"><font size="2">FQuantToolBox使用交流讨论论坛：<a target="_blank" href="http://www.matlabsky.com/forum-112-1.html"><font color="#0000FF">MATLAB技术论坛</font></a></font></span></td></tr>
+<tr><td><span class="tip"><font size="2">量化投资交流讨论QQ群：<br>
+QuantGroup 279908629 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=9f09ff976cfec29d114a2477e985dd4642517b62464de85298e15e310f242411"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="QuantGroup" title="QuantGroup"></a>
+</font></span></td></tr>
+<tr><td><span class="tip"><font size="2">作者faruto的联系方式：<a target="_blank" href="http://weibo.com/faruto"><font color="#0000FF">微博-faruto</font></a>，<a target="_blank" href="http://blog.sina.com.cn/faruto"><font color="#0000FF">博客</font></a>，<a target="_blank" href="http://weixin.sogou.com/gzh?openid=oIWsFt8I-RwyirZgFVM0Be9uioGI"><font color="#0000FF">微信公众号-FQuantStudio</font></a>(欢迎扫码关注)</font></span></td></tr>
+<tr><td><span class="tip"><font size="2"><img src="./FQuantStudioWeChat.jpg" width="90" height="90"></font></span></td></tr>
+<tr><td><span class="tip"><font size="2">书籍推荐：</font></span></td></tr>
+</table>
+<img src="./QuMBook.jpg" width="300" height="400">
+<img src="./QuMBook2-w.jpg" width="300" height="400">
+<img src="./QuMBook2-n.jpg" width="300" height="400">
+<img src="./ANN.jpg" width="300" height="400">
+<img src="./mOpt.jpg" width="300" height="400">
+<img src="./mOptN.jpg" width="300" height="400">
+<img src="./FuzzyCluster.jpg" width="300" height="400">
+<img src="./M4ML.png" width="300" height="400">
+<img src="./cM4ML.jpg" width="300" height="400">
+<br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255207519'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1255207519' type='text/javascript'%3E%3C/script%3E"));</script>
+</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% FQuantStudio
+% by LiYang_faruto @ <https://weibo.com/faruto faruto微博> <http://blog.sina.com.cn/faruto faruto博客> 
+%
+% Email:farutoliyang@foxmail.com 
+% 
+% 
+% <html>
+% <table border="0" width="600px" id="table1">	
+% <tr><td><b><font size="2">这里为一些在线测试demo和在线帮助文档，全部由MATLAB自动publish生成</font></b></td></tr>	
+% <tr><td><span class="tip"><font size="2">FQuantToolBox最新版下载地址：<a target="_blank" href="https://github.com/faruto/FQuantToolBox"><font color="#0000FF">github</font></a></span></td></tr>
+% <tr><td><span class="tip"><font size="2">FQuantToolBox在线帮助文档：<a target="_blank" href="https://faruto.github.io/FQuantToolBoxHelpOnLine/FQuantToolBoxHelpOnLine.html"><font color="#0000FF">FQuantToolBoxHelpOnLine</font></a></span></td></tr>
+% <tr><td><span class="tip"><font size="2">注意：请在MATLAB R2014b或更高版本环境下使用FQuantToolBox</td></tr>
+% <tr><td><span class="tip"><font size="2">量化投资交流论坛：<a target="_blank" href="http://www.matlabsky.com/forum-112-1.html"><font color="#0000FF">MATLAB技术论坛</font></a></font></span></td></tr>
+% <tr><td><span class="tip"><font size="2">量化投资交流讨论QQ群：<br>
+% QuantGroup 279908629 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=9f09ff976cfec29d114a2477e985dd4642517b62464de85298e15e310f242411"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="QuantGroup" title="QuantGroup"></a>
+% </font></span></td></tr> 	
+% <tr><td><span class="tip"><font size="2">作者faruto的联系方式：<a target="_blank" href="http://weibo.com/faruto"><font color="#0000FF">微博-faruto</font></a>，<a target="_blank" href="http://blog.sina.com.cn/faruto"><font color="#0000FF">博客</font></a>，<a target="_blank" href="http://weixin.sogou.com/gzh?openid=oIWsFt8I-RwyirZgFVM0Be9uioGI"><font color="#0000FF">微信公众号-FQuantStudio</font></a>(欢迎扫码关注)</font></span></td></tr>
+% <tr><td><span class="tip"><font size="2"><img src="./FQuantStudioWeChat.jpg" width="90" height="90"></font></span></td></tr>
+% <tr><td><span class="tip"><font size="2">书籍推荐：</font></span></td></tr>
+% </table>
+% <img src="./QuMBook.jpg" width="300" height="400">
+% <img src="./QuMBook2-w.jpg" width="300" height="400">
+% <img src="./QuMBook2-n.jpg" width="300" height="400">
+% <img src="./ANN.jpg" width="300" height="400">
+% <img src="./mOpt.jpg" width="300" height="400">
+% <img src="./mOptN.jpg" width="300" height="400">
+% <img src="./FuzzyCluster.jpg" width="300" height="400">
+% <img src="./M4ML.png" width="300" height="400">
+% <img src="./cM4ML.jpg" width="300" height="400">
+% </html>
+% 
+%% 《量化投资：以MATLAB为工具》-基础篇-N分钟学会MATLAB(60<N<180)
+%
+% <https://faruto.github.io/LearnMatlabUsingNmin/LearnMatlabUsingNmin.html 点此阅读全文《量化投资：以MATLAB为工具》-基础篇-N分钟学会MATLAB(60<N<180)>
+%% FQuantToolBox是做什么用的？
+%   FQuantToolBox定位是个数据和回测工具箱，没有实盘交易相关接口的实现（但未来不排除增加相关功能）。
+% 
+%   数据方面，FQuantToolBox数据获取函数完全基于网络的免费数据源（主要为新浪财经、雅虎财经等金融网站），不但可以积累历史数据，也可以进行动态更新，
+% 现已实现的数据获取为A股市场的全部股票名称和对应代码（包含已退市股票）、A股市场的股票日线除权数据以及复权因子、A股市场的股票的除权除息信息、
+% A股市场的股票每日交易明细数据（Tick数据）、A股市场的的股票财务指标数据、A股市场的股票的三张表（资产负债表、现金流量表、利润表）数据，
+% 未来数据方面会增加更多的数据，包括期货数据以及其他金融标的的数据，整体的思想还是完全基于网络获取和更新，完全免费。
+% 
+%   基于网络的数据获取的实现方式大体过程就是网络数据网址寻找——> 网址分析——> urlread+正则表达式 数据提取。进行网络数据的抓取，正则表达式是一定会遇到的，
+% MATLAB中有相应的正则表达式函数，有关正则表达式的东西这里不做展开，各位看官需要自行做些功课，FQuantToolBox工具箱的Doc文件夹内有个我重新整理过的
+% 《MATALB正则表达式零基础起步教程.doc》文档，可以帮助您学习正则表达式相关的东西。
+% 
+%   回测方面，FQuantToolBox工具箱当下提供了一个“如何构建基于MATLAB的回测系统”的demo样例，此部分内容来自我出版的《量化投资：以MATLAB为工具》的相关章节，
+% 未来回测方面会增添更多的辅助函数和插件，方便您使用MATLAB进行股票以及期货相关策略的回测。
+% 
+%   未来FQuantToolBox工具箱每次发布都会提供两个版本，无历史数据版本和有历史数据版本。无历史数据版本仅提供相关函数，你可以在自己本地运行相关脚本来批量获取历史数据；
+% 有历史数据版本不但提供相关函数，还提供已经获取好的历史数据（A股市场全部股票股票名称和代码、日线数据、每日交易明细数据、除权除息信息、财务指标数据、三张变数据），
+% 节省您获取历史数据的时间，但相应的下载文件也会比较大（尤其股票每日交易明细数据），新的数据更新只需运行相应脚本函数就可以进行全市场最新数据的更新。
+%% FQuantToolBox Online Demo(在线帮助文档)
+%
+% <https://faruto.github.io/FQuantToolBoxHelpOnLine/FQuantToolBoxHelpOnLine.html 点此阅读全文FQuantToolBox Online Demo>
+%%
+% 
+% <<FQhelp.png>>
+% 
+
+%% 期货策略回测的框架、实现、测试——以一个具有品种通用性和测试周期通用性的策略为例
+%
+% <http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&mid=210213114&idx=2&sn=9a4e0cb7f25fac09fbacfab2b54546bc&3rd=MzA3MDU4NTYzMw==&scene=6#rd 点此阅读全文 期货策略回测的框架、实现、测试——以一个具有品种通用性和测试周期通用性的策略为例>
+%% 股票策略回测的框架、实现、测试——以动量策略为例
+%
+% <http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&mid=210213114&idx=1&sn=1bf1832b43f5d46a1b3c931484608570&3rd=MzA3MDU4NTYzMw==&scene=6#rd 点此阅读全文 股票策略回测的框架、实现、测试——以动量策略为例>
+
+%% 一种简化的截面动量组合测试[Python&MATLAB]
+%
+% <http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&mid=204989303&idx=1&sn=8438eb4cd073159db4be7814878c320d&3rd=MzA3MDU4NTYzMw==&scene=6#rd 点此阅读全文 一种简化的截面动量组合测试[Python&MATLAB]>
+%% 一类简单的群体行为择时模型框架及实现测试
+%
+% <http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&mid=208480402&idx=1&sn=46a21a3a454cb5d639750b845aed33b1&3rd=MzA3MDU4NTYzMw==&scene=6#rd 点此阅读全文 一类简单的群体行为择时模型框架及实现测试>
+
+%% 期权相关函数和工具-期权复式策略Demo
+% 期权相关函数在FQuantToolBox工具箱下的<OptionFunTool>文件夹内
+%%
+% 请点击查看 <http://faruto.matlabsky.com/OptionsStraDemo/ 期权复式策略Demo>
+% 
+% <http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&mid=210213114&idx=3&sn=917bd209e74e6d1094726f6dff797657&3rd=MzA3MDU4NTYzMw==&scene=6#rd 点此阅读全文 期权复式策略简介及MATLAB测试>
+%% MATLABToolBox-MatlabTraderGUI[持续更新-全部开源]
+%%
+% 请点击查看下载源码 <http://www.matlabsky.com/thread-37264-1-1.html 基于MATLAB的行情软件MatlabTraderGUI V1.1（Beta版本）>
+%%
+% 
+% <<MT.jpg>>
+% 
+
+%% MATLABToolBox-SVMToolBox[暂停更新-全部开源]
+%%
+% 请点击查看下载源码 <http://www.matlabsky.com/thread-17936-1-1.html Libsvm3.1-[FarutoUltimate3.1Mcode]>
+%%
+% 请点击查看下载源码 <http://www.matlabsky.com/thread-9333-1-1.html SVM_GUI_3.1[mcode]]>
+% （依赖包：Libsvm3.1-[FarutoUltimate3.1Mcode]）
+%%
+% 
+% <<SVMGUI.jpg>>
+% 
+
+%% MATLABToolBox-FuzzyClusterToolBox[暂停更新-全部开源]
+%%
+% 请点击查看下载源码 <http://www.matlabsky.com/thread-9329-1-1.html FuzzyClusterToolBox>
+
+%% MATLABToolBox-EasyPaintToolBox[暂停更新-全部开源]
+%%
+% 请点击查看下载源码 <http://www.matlabsky.com/thread-13161-1-1.html EasyPaintToolBox>
+%%
+% 
+% <<EP.jpg>>
+% 
+
+%% 股指期货基础监控GUI
+%%
+% More Info see <http://mp.weixin.qq.com/s?__biz=MzA5NzEzNDk4Mw==&mid=403268238&idx=1&sn=0962724042720e9d3b5111ff452b0c56&3rd=MzA3MDU4NTYzMw==&scene=6#rd BasisGUI>
+%%
+% 
+% <<BasisGUI.jpg>>
+% 
+
+%% 恒生UFX接口二次开发 Based on Matlab
+%%
+% No More Info
+%%
+% 
+% <<UFXGUI.jpg>>
+% 
+
+%% 其他信息
+% <html>
+% <table border="0" width="600px" id="table1">	
+% <tr><td><b><font size="2">这里为一些在线测试demo和在线帮助文档，全部由MATLAB自动publish生成</font></b></td></tr>	
+% <tr><td><span class="tip"><font size="2">FQuantToolBox最新版下载地址：<a target="_blank" href="https://github.com/faruto/FQuantToolBox"><font color="#0000FF">github</font></a></font></span></td></tr>
+% <tr><td><span class="tip"><font size="2">FQuantToolBox使用交流讨论论坛：<a target="_blank" href="http://www.matlabsky.com/forum-112-1.html"><font color="#0000FF">MATLAB技术论坛</font></a></font></span></td></tr>
+% <tr><td><span class="tip"><font size="2">量化投资交流讨论QQ群：<br>
+% QuantGroup 279908629 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=9f09ff976cfec29d114a2477e985dd4642517b62464de85298e15e310f242411"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="QuantGroup" title="QuantGroup"></a>
+% </font></span></td></tr> 	
+% <tr><td><span class="tip"><font size="2">作者faruto的联系方式：<a target="_blank" href="http://weibo.com/faruto"><font color="#0000FF">微博-faruto</font></a>，<a target="_blank" href="http://blog.sina.com.cn/faruto"><font color="#0000FF">博客</font></a>，<a target="_blank" href="http://weixin.sogou.com/gzh?openid=oIWsFt8I-RwyirZgFVM0Be9uioGI"><font color="#0000FF">微信公众号-FQuantStudio</font></a>(欢迎扫码关注)</font></span></td></tr>
+% <tr><td><span class="tip"><font size="2"><img src="./FQuantStudioWeChat.jpg" width="90" height="90"></font></span></td></tr>
+% <tr><td><span class="tip"><font size="2">书籍推荐：</font></span></td></tr>
+% </table>
+% <img src="./QuMBook.jpg" width="300" height="400">
+% <img src="./QuMBook2-w.jpg" width="300" height="400">
+% <img src="./QuMBook2-n.jpg" width="300" height="400">
+% <img src="./ANN.jpg" width="300" height="400">
+% <img src="./mOpt.jpg" width="300" height="400">
+% <img src="./mOptN.jpg" width="300" height="400">
+% <img src="./FuzzyCluster.jpg" width="300" height="400">
+% <img src="./M4ML.png" width="300" height="400">
+% <img src="./cM4ML.jpg" width="300" height="400">
+% <br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255207519'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1255207519' type='text/javascript'%3E%3C/script%3E"));</script>
+% </html>
+% 
+
+##### SOURCE END #####
+--></body></html>

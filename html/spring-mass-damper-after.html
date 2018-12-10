@@ -1,0 +1,283 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Transient Behavior and Location of Characteristic Roots in the Complex Plane</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-24"><meta name="DC.source" content="spring-mass-damper-after.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Transient Behavior and Location of Characteristic Roots in the Complex Plane</h1><!--introduction--><pre class="codeoutput error">Error using evalin
+Undefined function or variable 'mass'.</pre><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Initial Value Problem</a></li><li><a href="#2">Set physical and derived parameters.</a></li><li><a href="#3">Set initial conditions.</a></li><li><a href="#4">Set simulation parameters.</a></li><li><a href="#5">Undamped system.</a></li><li><a href="#6">Consider several damping ratios.</a></li><li><a href="#7">Track characteristic roots as damping ratio increases.</a></li><li><a href="#8">Show the "odesys" function.</a></li></ul></div><h2>Initial Value Problem<a name="1"></a></h2><p>Consider the system described by the following second-order, ordinary differential equation and associated initial conditions:</p><p><img src="spring-mass-damper-after_eq18140140639739991068.png" alt="$$\frac{d^2x}{dt^2} + 2\zeta\omega_n\frac{dx}{dt} + \omega_n^2x = 0; x(0)=x0,\frac{dx}{dt}(0)=0 $$"></p><p>We would like to examine the behavior of the free response of the system as the damping ratio changes.  This will be done first by solving the initial value problem for various damping ratios and plotting the results.  Then, we will explore changes in the damping ratio affect the characteristic roots.  (Recall that the characteristic roots dictate the free-response behavior.)</p><h2>Set physical and derived parameters.<a name="2"></a></h2><p>To enable numerical solution of the differential equation, we will set specific values for the mass and (linear) spring rate.  We will then use these to derive the (circular) natural frequency.</p><pre class="codeinput">param.m = 1;                            <span class="comment">% Mass [kg]</span>
+param.k = 1;                            <span class="comment">% Spring rate [N/m]</span>
+param.wn = sqrt(param.k/param.m);       <span class="comment">% (Circular) natural frequency [rad/s]</span>
+</pre><h2>Set initial conditions.<a name="3"></a></h2><p>To solve our 2nd order differential equation, we need two initial conditions: one on position, the other on velocity.  Moreover, recall from the accompanying PowerPoint slides that we have represented our 2nd order linear ODE into a system of 1st order ODE's amenable to solution using MATLAB. Having defined position and velocity as our system states, we must define an initial state vector.</p><pre class="codeinput">x0 = 1;              <span class="comment">% Position [m]</span>
+x0_dot = 0;          <span class="comment">% Velocity [m/s]</span>
+z0 = [x0 ; x0_dot];  <span class="comment">% Initial condition on state vector</span>
+</pre><h2>Set simulation parameters.<a name="4"></a></h2><p>We will define the duration of our simulation to be approximately 4 periods.  To accommodate changes in physical parameters, we will parameterize the duration by the natural frequency.  We then define the associated time step and vector of simulation time.  Note that the time step dt serves to define the times at which output will be provided, not the solver time step.</p><pre class="codeinput">tend = 4*round((2*pi)/param.wn);    <span class="comment">% Simulate for approximately 4 periods [s]</span>
+dt = round((2*pi)/param.wn)/1000;   <span class="comment">% Time step [s]</span>
+tsim = 0:dt:tend;                   <span class="comment">% Vector of simulation times [s]</span>
+</pre><h2>Undamped system.<a name="5"></a></h2><p>We first consider an undamped system, characterized by a damping ratio of zero.  Physically, this represents a system with zero dissipation of energy.  We will plot the free response to confirm the expected behavior.</p><p>To solve the system of 1st order ODE's, we will use the baseline ode45 solver.  The solver requires a vector of state derivatives; in this case, we call upon a function to define them.</p><pre class="codeinput">param.zeta = 0;     <span class="comment">% Damping ratio</span>
+
+
+[t,z] = ode45(@(t,z) odesys( t,z,param ),tsim,z0);
+x(:,1) = z(:,1);    <span class="comment">% Save solution for future plotting.</span>
+
+
+plot(t,x(:,1),<span class="string">'linewidth'</span>,2);grid <span class="string">on</span>;hold <span class="string">all</span>
+
+
+    ylim([-1 1])
+    xlabel(<span class="string">'Time [s]'</span>);
+    ylabel(<span class="string">'Position [m]'</span>)
+    title(<span class="string">'Free Response: Undamped 2nd Order System'</span>);
+</pre><h2>Consider several damping ratios.<a name="6"></a></h2><p>Now we will consider four distinct values of the damping ratio corresponding to four distinct types of system behavior: undamped, underdamped, critically damped, and overdamped.  These terms refer to the behavior of the system as it returns to its equilibrium state.  We will plot and compare the free responses for these cases.</p><pre class="codeinput">zetavals = [0 1/sqrt(2) 1 1.5]; <span class="comment">% Damping ratios to consider.</span>
+
+case1 = <span class="string">'Undamped: zeta = 0'</span> ;
+case2 = <span class="string">'Underdamped: zeta = 0.707'</span> ;
+case3 = <span class="string">'Critically Damped: zeta = 1'</span> ;
+case4 = <span class="string">'Overdamped: zeta = 1.5'</span> ;
+
+<span class="keyword">for</span> i = 2: length(zetavals)
+
+    param.zeta = zetavals(i); <span class="comment">% Set current damping ratio.</span>
+    [t,z] = ode45(@(t,z) odesys( t,z,param ),tsim,z0); <span class="comment">% Compute free response.</span>
+    x(:,i) = z(:,1); <span class="comment">% Save solution for future plotting.</span>
+
+<span class="keyword">end</span>;
+
+
+figure      <span class="comment">% Plot results</span>
+
+    plot(t,x,<span class="string">'linewidth'</span>,2);grid <span class="string">on</span>
+    xlabel(<span class="string">'Time [s]'</span>);
+    ylabel(<span class="string">'Position [m]'</span>)
+    title(<span class="string">'Free Response of 2nd Order System for Various Damping Ratios'</span>);
+    legend(case1,case2,case3,case4,0)
+</pre><h2>Track characteristic roots as damping ratio increases.<a name="7"></a></h2><p>Recalling that the free response of a system is governed by its characteristic roots, we will examine the changes in these roots as the damping ratio changes over a more finely spaced set of values.  Since the roots may have real and imaginary parts, we will plot them in the complex plane.  For each value of the damping ratio, we will compute the characteristic roots as the eigenvalues of the associated state matrix.</p><pre class="codeinput">zeta_range = 0:0.01:1.5;          <span class="comment">% Damping ratio: undamped to overdamped.</span>
+S = zeros(2,length(zeta_range));  <span class="comment">% Initialize characteristic roots array.</span>
+
+<span class="keyword">for</span> i = 1:length(zeta_range)
+
+    S(:,i) = eig([0 1; -param.wn^2 -2*zeta_range(i)*param.wn]); <span class="comment">% Characteristic roots.</span>
+
+<span class="keyword">end</span>;
+
+figure      <span class="comment">% Plot characteristic roots in complex plane.</span>
+
+    plot(S,<span class="string">'bx'</span>,<span class="string">'linewidth'</span>,2,<span class="string">'markersize'</span>,5); grid <span class="string">on</span>;
+    set(gca,<span class="string">'YAxisLocation'</span>,<span class="string">'right'</span>)
+    xlabel(<span class="string">'Real Axis'</span>,<span class="string">'Position'</span>,[-1.5 -0.1 1])
+    ylabel(<span class="string">'Imaginary Axis'</span>)
+    title(<span class="string">'Loci of Characteristic Roots in Complex Plane for Various Damping Ratios'</span>)
+</pre><h2>Show the "odesys" function.<a name="8"></a></h2><p>Here we record the function used to define the state matrix corresponding to our system of ordinary differential equations.</p><pre class="codeinput">type <span class="string">odesys.m</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Transient Behavior and Location of Characteristic Roots in the Complex Plane
+%
+%% Initial Value Problem
+%
+% Consider the system described by the following second-order, 
+% ordinary differential equation and associated initial conditions:
+%
+% $$\frac{d^2x}{dt^2} + 2\zeta\omega_n\frac{dx}{dt} + \omega_n^2x = 0; x(0)=x0,\frac{dx}{dt}(0)=0 $$
+%
+% We would like to examine the behavior of the free response of the 
+% system as the damping ratio changes.  This will be done first by solving
+% the initial value problem for various damping ratios and plotting the
+% results.  Then, we will explore changes in the damping ratio affect the
+% characteristic roots.  (Recall that the characteristic roots dictate the
+% free-response behavior.)
+
+%% Set physical and derived parameters.
+%
+% To enable numerical solution of the differential equation, we will set
+% specific values for the mass and (linear) spring rate.  We will then use
+% these to derive the (circular) natural frequency.
+%
+param.m = 1;                            % Mass [kg]
+param.k = 1;                            % Spring rate [N/m]
+param.wn = sqrt(param.k/param.m);       % (Circular) natural frequency [rad/s]
+
+
+%% Set initial conditions.
+%
+% To solve our 2nd order differential equation, we need two initial
+% conditions: one on position, the other on velocity.  Moreover, recall 
+% from the accompanying PowerPoint slides that we have represented our
+% 2nd order linear ODE into a system of 1st order ODE's amenable to
+% solution using MATLAB. Having defined position and velocity as our
+% system states, we must define an initial state vector.
+
+x0 = 1;              % Position [m]
+x0_dot = 0;          % Velocity [m/s]
+z0 = [x0 ; x0_dot];  % Initial condition on state vector
+
+
+%% Set simulation parameters.
+%
+% We will define the duration of our simulation to be approximately 4
+% periods.  To accommodate changes in physical parameters, we will
+% parameterize the duration by the natural frequency.  We then define the
+% associated time step and vector of simulation time.  Note that the time
+% step dt serves to define the times at which output will be provided, not
+% the solver time step.
+
+tend = 4*round((2*pi)/param.wn);    % Simulate for approximately 4 periods [s]
+dt = round((2*pi)/param.wn)/1000;   % Time step [s]
+tsim = 0:dt:tend;                   % Vector of simulation times [s]
+
+
+%% Undamped system.
+%
+% We first consider an undamped system, characterized by a damping ratio of
+% zero.  Physically, this represents a system with zero dissipation of
+% energy.  We will plot the free response to confirm the expected behavior.
+%
+% To solve the system of 1st order ODE's, we will use the baseline ode45
+% solver.  The solver requires a vector of state derivatives; in this
+% case, we call upon a function to define them.
+
+param.zeta = 0;     % Damping ratio
+
+
+[t,z] = ode45(@(t,z) odesys( t,z,param ),tsim,z0);
+x(:,1) = z(:,1);    % Save solution for future plotting.
+
+
+plot(t,x(:,1),'linewidth',2);grid on;hold all
+
+
+    ylim([-1 1])
+    xlabel('Time [s]');
+    ylabel('Position [m]')
+    title('Free Response: Undamped 2nd Order System');
+
+
+%% Consider several damping ratios.
+%
+% Now we will consider four distinct values of the damping ratio
+% corresponding to four distinct types of system behavior: undamped,
+% underdamped, critically damped, and overdamped.  These terms refer to the
+% behavior of the system as it returns to its equilibrium state.  We will
+% plot and compare the free responses for these cases.
+
+zetavals = [0 1/sqrt(2) 1 1.5]; % Damping ratios to consider.
+
+case1 = 'Undamped: zeta = 0' ;
+case2 = 'Underdamped: zeta = 0.707' ;
+case3 = 'Critically Damped: zeta = 1' ;
+case4 = 'Overdamped: zeta = 1.5' ;
+
+for i = 2: length(zetavals)
+    
+    param.zeta = zetavals(i); % Set current damping ratio.
+    [t,z] = ode45(@(t,z) odesys( t,z,param ),tsim,z0); % Compute free response.
+    x(:,i) = z(:,1); % Save solution for future plotting.
+
+end;
+
+
+figure      % Plot results
+
+    plot(t,x,'linewidth',2);grid on
+    xlabel('Time [s]');
+    ylabel('Position [m]')
+    title('Free Response of 2nd Order System for Various Damping Ratios');
+    legend(case1,case2,case3,case4,0)
+    
+    
+%% Track characteristic roots as damping ratio increases.
+%
+% Recalling that the free response of a system is governed by its
+% characteristic roots, we will examine the changes in these roots as the
+% damping ratio changes over a more finely spaced set of values.  Since the
+% roots may have real and imaginary parts, we will plot them in the complex 
+% plane.  For each value of the damping ratio, we will compute the
+% characteristic roots as the eigenvalues of the associated state matrix.
+ 
+zeta_range = 0:0.01:1.5;          % Damping ratio: undamped to overdamped.
+S = zeros(2,length(zeta_range));  % Initialize characteristic roots array.
+
+for i = 1:length(zeta_range)
+    
+    S(:,i) = eig([0 1; -param.wn^2 -2*zeta_range(i)*param.wn]); % Characteristic roots.
+
+end;
+
+figure      % Plot characteristic roots in complex plane.
+
+    plot(S,'bx','linewidth',2,'markersize',5); grid on;
+    set(gca,'YAxisLocation','right')
+    xlabel('Real Axis','Position',[-1.5 -0.1 1])
+    ylabel('Imaginary Axis')
+    title('Loci of Characteristic Roots in Complex Plane for Various Damping Ratios')
+
+    
+%% Show the "odesys" function.
+%
+% Here we record the function used to define the state matrix
+% corresponding to our system of ordinary differential equations.
+
+type odesys.m
+##### SOURCE END #####
+--></body></html>
