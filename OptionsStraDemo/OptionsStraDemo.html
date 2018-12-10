@@ -1,0 +1,1173 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>OptionsStraDemo</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-11"><meta name="DC.source" content="OptionsStraDemo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">A Little Clean Work</a></li><li><a href="#4">straddle &amp;&amp; strangle</a></li><li><a href="#5">&#22402;&#30452;&#20215;&#24046;&#22871;&#21033;</a></li><li><a href="#6">butterfly</a></li><li><a href="#7">condor</a></li><li><a href="#8">sub function-BuyCallPL</a></li><li><a href="#9">sub function-BuyPutPL</a></li><li><a href="#10">Record Time</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> OptionsStraDemo
+</pre><pre class="codeinput"><span class="comment">%%&#26399;&#26435;&#22797;&#24335;&#31574;&#30053;Demo</span>
+<span class="comment">% by LiYang @www.matlabsky.com</span>
+<span class="comment">% Email:farutoliyang@gmail.com</span>
+<span class="comment">% 2014/01/09</span>
+</pre><h2>A Little Clean Work<a name="3"></a></h2><pre class="codeinput">tic;
+<span class="comment">% clear;</span>
+<span class="comment">% clc;</span>
+<span class="comment">% close all;</span>
+format <span class="string">compact</span>;
+</pre><h2>straddle &amp;&amp; strangle<a name="4"></a></h2><pre class="codeinput">scrsz = get(0,<span class="string">'ScreenSize'</span>);
+figure(<span class="string">'Position'</span>,[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+<span class="comment">% &#20080;&#20837;&#36328;&#24335;&#31574;&#30053;&#25439;&#30410;&#22270;(long straddle)</span>
+subplot(221)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price&lt;=call_strike).*-1*call_value + (price&gt;call_strike).*(price-call_strike-call_value);
+plot(price, call_pl);
+hold <span class="string">on</span>;
+
+put_strike = 2000;
+put_value = 100;
+put_pl = (price&gt;=put_strike).*-1*put_value + (price&lt;put_strike).*(-1*price+put_strike-put_value);
+plot(price, put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+ylim( [-300 300] );
+grid <span class="string">on</span>;
+title(<span class="string">'&#20080;&#20837;&#36328;&#24335;&#31574;&#30053;&#25439;&#30410;&#22270;(long straddle) Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+<span class="comment">% &#21334;&#20986;&#36328;&#24335;&#31574;&#30053;&#25439;&#30410;&#22270;(short straddle)</span>
+subplot(222)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price&lt;=call_strike).*-1*call_value + (price&gt;call_strike).*(price-call_strike-call_value);
+plot(price, -call_pl);
+hold <span class="string">on</span>;
+
+put_strike = 2000;
+put_value = 100;
+put_pl = (price&gt;=put_strike).*-1*put_value + (price&lt;put_strike).*(-1*price+put_strike-put_value);
+plot(price, -put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+ylim( [-300 300] );
+grid <span class="string">on</span>;
+title(<span class="string">'&#21334;&#20986;&#36328;&#24335;&#31574;&#30053;&#25439;&#30410;&#22270;(short straddle) Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+<span class="comment">% &#20080;&#20837;&#21202;&#24335;&#65288;&#23485;&#36328;&#24335;&#65289;&#31574;&#30053;&#25439;&#30410;&#22270;(long strangle)</span>
+subplot(223)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price&lt;=call_strike).*-1*call_value + (price&gt;call_strike).*(price-call_strike-call_value);
+plot(price, call_pl);
+hold <span class="string">on</span>;
+
+put_strike = 1500;
+put_value = 100;
+put_pl = (price&gt;=put_strike).*-1*put_value + (price&lt;put_strike).*(-1*price+put_strike-put_value);
+plot(price, put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+ylim( [-300 300] );
+grid <span class="string">on</span>;
+title(<span class="string">'&#20080;&#20837;&#21202;&#24335;&#65288;&#23485;&#36328;&#24335;&#65289;&#31574;&#30053;&#25439;&#30410;&#22270;(long strangle) Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+<span class="comment">% &#21334;&#20986;&#21202;&#24335;&#65288;&#23485;&#36328;&#24335;&#65289;&#31574;&#30053;&#25439;&#30410;&#22270;(short strangle)</span>
+subplot(224)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price&lt;=call_strike).*-1*call_value + (price&gt;call_strike).*(price-call_strike-call_value);
+plot(price, -call_pl);
+hold <span class="string">on</span>;
+
+put_strike = 1500;
+put_value = 100;
+put_pl = (price&gt;=put_strike).*-1*put_value + (price&lt;put_strike).*(-1*price+put_strike-put_value);
+plot(price, -put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+ylim( [-300 300] );
+grid <span class="string">on</span>;
+title(<span class="string">'&#21334;&#20986;&#21202;&#24335;&#65288;&#23485;&#36328;&#24335;&#65289;&#31574;&#30053;&#25439;&#30410;&#22270;(short strangle) Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+</pre><img vspace="5" hspace="5" src="OptionsStraDemo_01.png" alt=""> <h2>&#22402;&#30452;&#20215;&#24046;&#22871;&#21033;<a name="5"></a></h2><pre class="codeinput">scrsz = get(0,<span class="string">'ScreenSize'</span>);
+figure(<span class="string">'Position'</span>,[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+<span class="comment">% &#29275;&#24066;&#30475;&#28072;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033;</span>
+subplot(221)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 200;
+buy_call_pl = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 100;
+sell_call_pl = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_call_pl + sell_call_pl;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#29275;&#24066;&#30475;&#28072;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033; Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+<span class="comment">% &#29275;&#24066;&#30475;&#36300;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033;</span>
+subplot(222)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 100;
+buy_put_pl = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 200;
+sell_put_pl = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_put_pl + sell_put_pl;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#29275;&#24066;&#30475;&#36300;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033; Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#29066;&#24066;&#30475;&#28072;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033;</span>
+subplot(223)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 200;
+buy_call_pl = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 100;
+sell_call_pl = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_call_pl + sell_call_pl;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#29066;&#24066;&#30475;&#28072;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033; Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+<span class="comment">% &#29066;&#24066;&#30475;&#36300;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033;</span>
+subplot(224)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 100;
+buy_put_pl = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 200;
+sell_put_pl = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_put_pl + sell_put_pl;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#29066;&#24066;&#30475;&#36300;&#26399;&#26435;&#22402;&#30452;&#20215;&#24046;&#22871;&#21033; Demo'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+</pre><img vspace="5" hspace="5" src="OptionsStraDemo_02.png" alt=""> <h2>butterfly<a name="6"></a></h2><pre class="codeinput">scrsz = get(0,<span class="string">'ScreenSize'</span>);
+figure(<span class="string">'Position'</span>,[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+<span class="comment">% &#20080;&#20837;&#34678;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using call&#65289;</span>
+subplot(221)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 1500;
+value = 250;
+sell_call_pl = -2*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_call_pl1 + sell_call_pl +buy_call_pl3;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#20080;&#20837;&#34678;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using call&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#20080;&#20837;&#34678;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using put&#65289;</span>
+subplot(222)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 1500;
+value = 250;
+sell_put_pl = -2*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_put_pl1 + sell_put_pl +buy_put_pl3;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#20080;&#20837;&#34678;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using put&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#21334;&#20986;&#34678;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using call&#65289;</span>
+subplot(223)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 1500;
+value = 250;
+sell_call_pl = -2*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_call_pl1 + sell_call_pl +buy_call_pl3;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#21334;&#20986;&#34678;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using call&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#21334;&#20986;&#34678;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using put&#65289;</span>
+subplot(224)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 1500;
+value = 250;
+sell_put_pl = -2*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_put_pl1 + sell_put_pl +buy_put_pl3;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#21334;&#20986;&#34678;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long butterfly using put&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+</pre><img vspace="5" hspace="5" src="OptionsStraDemo_03.png" alt=""> <h2>condor<a name="7"></a></h2><pre class="codeinput">scrsz = get(0,<span class="string">'ScreenSize'</span>);
+figure(<span class="string">'Position'</span>,[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+<span class="comment">% &#20080;&#20837;&#40560;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using call&#65289;</span>
+subplot(221)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 1700;
+value = 210;
+sell_call_pl1 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl1;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 1300;
+value = 380;
+sell_call_pl2 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl2;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_call_pl1 + sell_call_pl1 +sell_call_pl2 +buy_call_pl3;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#20080;&#20837;&#40560;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using call&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#20080;&#20837;&#40560;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using put&#65289;</span>
+subplot(222)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 1700;
+value = 380;
+sell_put_pl1 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl1;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+strike = 1300;
+value = 210;
+sell_put_pl2 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl2;
+plot(price, demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_put_pl1 + sell_put_pl1 +sell_put_pl2 +buy_put_pl3;
+plot(price, total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#20080;&#20837;&#40560;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using put&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#21334;&#20986;&#40560;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using call&#65289;</span>
+subplot(223)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 1700;
+value = 210;
+sell_call_pl1 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl1;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 1300;
+value = 380;
+sell_call_pl2 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl2;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_call_pl1 + sell_call_pl1 +sell_call_pl2 +buy_call_pl3;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#21334;&#20986;&#40560;&#24335;&#65288;&#30475;&#28072;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using call&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+<span class="comment">% &#21334;&#20986;&#40560;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using put&#65289;</span>
+subplot(224)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 1700;
+value = 380;
+sell_put_pl1 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl1;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+strike = 1300;
+value = 210;
+sell_put_pl2 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl2;
+plot(price, -demopl);
+hold <span class="string">on</span>;
+
+total_pl = buy_put_pl1 + sell_put_pl1 +sell_put_pl2 +buy_put_pl3;
+plot(price, -total_pl, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5);
+
+ylabel(<span class="string">'P&amp;L'</span>);
+xlabel(<span class="string">'&#26631;&#30340;&#29289;&#20215;&#26684;'</span>);
+<span class="comment">% ylim( [-500 500] );</span>
+grid <span class="string">on</span>;
+title(<span class="string">'&#21334;&#20986;&#40560;&#24335;&#65288;&#30475;&#36300;&#65289;&#20215;&#24046;&#32452;&#21512;&#31574;&#30053;&#65288;long condor using put&#65289;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+</pre><img vspace="5" hspace="5" src="OptionsStraDemo_04.png" alt=""> <h2>sub function-BuyCallPL<a name="8"></a></h2><pre class="codeinput">    <span class="keyword">function</span> pl = BuyCallPL( price,  call_strike, call_value)
+        pl = <span class="keyword">...</span>
+            (price&lt;=call_strike).*-1*call_value + (price&gt;call_strike).*(price-call_strike-call_value);
+    <span class="keyword">end</span>
+</pre><h2>sub function-BuyPutPL<a name="9"></a></h2><pre class="codeinput">    <span class="keyword">function</span> pl = BuyPutPL( price,  put_strike, put_value)
+        pl = <span class="keyword">...</span>
+            (price&gt;=put_strike).*-1*put_value + (price&lt;put_strike).*(-1*price+put_strike-put_value);
+    <span class="keyword">end</span>
+</pre><h2>Record Time<a name="10"></a></h2><pre class="codeinput">toc;
+</pre><pre class="codeoutput">Elapsed time is 4.032251 seconds.
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function OptionsStraDemo
+%%期权复式策略Demo
+% by LiYang @www.matlabsky.com
+% Email:farutoliyang@gmail.com
+% 2014/01/09
+%% A Little Clean Work
+tic;
+% clear;
+% clc;
+% close all;
+format compact;
+
+%% straddle && strangle
+scrsz = get(0,'ScreenSize');
+figure('Position',[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+% 买入跨式策略损益图(long straddle)
+subplot(221)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price<=call_strike).*-1*call_value + (price>call_strike).*(price-call_strike-call_value);
+plot(price, call_pl);
+hold on;
+
+put_strike = 2000;
+put_value = 100;
+put_pl = (price>=put_strike).*-1*put_value + (price<put_strike).*(-1*price+put_strike-put_value);
+plot(price, put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+ylim( [-300 300] );
+grid on;
+title('买入跨式策略损益图(long straddle) Demo', 'FontWeight', 'Bold');
+% 卖出跨式策略损益图(short straddle)
+subplot(222)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price<=call_strike).*-1*call_value + (price>call_strike).*(price-call_strike-call_value);
+plot(price, -call_pl);
+hold on;
+
+put_strike = 2000;
+put_value = 100;
+put_pl = (price>=put_strike).*-1*put_value + (price<put_strike).*(-1*price+put_strike-put_value);
+plot(price, -put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+ylim( [-300 300] );
+grid on;
+title('卖出跨式策略损益图(short straddle) Demo', 'FontWeight', 'Bold');
+% 买入勒式（宽跨式）策略损益图(long strangle)
+subplot(223)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price<=call_strike).*-1*call_value + (price>call_strike).*(price-call_strike-call_value);
+plot(price, call_pl);
+hold on;
+
+put_strike = 1500;
+put_value = 100;
+put_pl = (price>=put_strike).*-1*put_value + (price<put_strike).*(-1*price+put_strike-put_value);
+plot(price, put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+ylim( [-300 300] );
+grid on;
+title('买入勒式（宽跨式）策略损益图(long strangle) Demo', 'FontWeight', 'Bold');
+% 卖出勒式（宽跨式）策略损益图(short strangle)
+subplot(224)
+
+price = 1000:1:3000;
+
+call_strike = 2000;
+call_value = 150;
+call_pl = (price<=call_strike).*-1*call_value + (price>call_strike).*(price-call_strike-call_value);
+plot(price, -call_pl);
+hold on;
+
+put_strike = 1500;
+put_value = 100;
+put_pl = (price>=put_strike).*-1*put_value + (price<put_strike).*(-1*price+put_strike-put_value);
+plot(price, -put_pl);
+
+total_pl = call_pl + put_pl;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+ylim( [-300 300] );
+grid on;
+title('卖出勒式（宽跨式）策略损益图(short strangle) Demo', 'FontWeight', 'Bold');
+
+%% 垂直价差套利
+scrsz = get(0,'ScreenSize');
+figure('Position',[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+% 牛市看涨期权垂直价差套利
+subplot(221)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 200;
+buy_call_pl = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl;
+plot(price, demopl);
+hold on;
+
+strike = 2000;
+value = 100;
+sell_call_pl = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, demopl);
+hold on;
+
+total_pl = buy_call_pl + sell_call_pl;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('牛市看涨期权垂直价差套利 Demo', 'FontWeight', 'Bold');
+% 牛市看跌期权垂直价差套利
+subplot(222)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 100;
+buy_put_pl = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl;
+plot(price, demopl);
+hold on;
+
+strike = 2000;
+value = 200;
+sell_put_pl = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, demopl);
+hold on;
+
+total_pl = buy_put_pl + sell_put_pl;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('牛市看跌期权垂直价差套利 Demo', 'FontWeight', 'Bold');
+
+% 熊市看涨期权垂直价差套利
+subplot(223)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 200;
+buy_call_pl = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl;
+plot(price, -demopl);
+hold on;
+
+strike = 2000;
+value = 100;
+sell_call_pl = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, -demopl);
+hold on;
+
+total_pl = buy_call_pl + sell_call_pl;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('熊市看涨期权垂直价差套利 Demo', 'FontWeight', 'Bold');
+% 熊市看跌期权垂直价差套利
+subplot(224)
+
+price = 1000:1:3000;
+
+strike = 1500;
+value = 100;
+buy_put_pl = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl;
+plot(price, -demopl);
+hold on;
+
+strike = 2000;
+value = 200;
+sell_put_pl = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, -demopl);
+hold on;
+
+total_pl = buy_put_pl + sell_put_pl;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('熊市看跌期权垂直价差套利 Demo', 'FontWeight', 'Bold');
+
+%% butterfly
+scrsz = get(0,'ScreenSize');
+figure('Position',[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+% 买入蝶式（看涨）价差组合策略（long butterfly using call）
+subplot(221)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, demopl);
+hold on;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, demopl);
+hold on;
+
+strike = 1500;
+value = 250;
+sell_call_pl = -2*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, demopl);
+hold on;
+
+total_pl = buy_call_pl1 + sell_call_pl +buy_call_pl3;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('买入蝶式（看涨）价差组合策略（long butterfly using call）', 'FontWeight', 'Bold');
+
+% 买入蝶式（看跌）价差组合策略（long butterfly using put）
+subplot(222)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, demopl);
+hold on;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, demopl);
+hold on;
+
+strike = 1500;
+value = 250;
+sell_put_pl = -2*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, demopl);
+hold on;
+
+total_pl = buy_put_pl1 + sell_put_pl +buy_put_pl3;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('买入蝶式（看跌）价差组合策略（long butterfly using put）', 'FontWeight', 'Bold');
+
+% 卖出蝶式（看涨）价差组合策略（long butterfly using call）
+subplot(223)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, -demopl);
+hold on;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, -demopl);
+hold on;
+
+strike = 1500;
+value = 250;
+sell_call_pl = -2*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl;
+plot(price, -demopl);
+hold on;
+
+total_pl = buy_call_pl1 + sell_call_pl +buy_call_pl3;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('卖出蝶式（看涨）价差组合策略（long butterfly using call）', 'FontWeight', 'Bold');
+
+% 卖出蝶式（看跌）价差组合策略（long butterfly using put）
+subplot(224)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, -demopl);
+hold on;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, -demopl);
+hold on;
+
+strike = 1500;
+value = 250;
+sell_put_pl = -2*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl;
+plot(price, -demopl);
+hold on;
+
+total_pl = buy_put_pl1 + sell_put_pl +buy_put_pl3;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('卖出蝶式（看跌）价差组合策略（long butterfly using put）', 'FontWeight', 'Bold');
+
+%% condor
+scrsz = get(0,'ScreenSize');
+figure('Position',[scrsz(3)*1/4 scrsz(4)*1/6 scrsz(3)*4/5 scrsz(4)]*3/4);
+
+% 买入鹰式（看涨）价差组合策略（long condor using call）
+subplot(221)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, demopl);
+hold on;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, demopl);
+hold on;
+
+strike = 1700;
+value = 210;
+sell_call_pl1 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl1;
+plot(price, demopl);
+hold on;
+
+strike = 1300;
+value = 380;
+sell_call_pl2 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl2;
+plot(price, demopl);
+hold on;
+
+total_pl = buy_call_pl1 + sell_call_pl1 +sell_call_pl2 +buy_call_pl3;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('买入鹰式（看涨）价差组合策略（long condor using call）', 'FontWeight', 'Bold');
+
+% 买入鹰式（看跌）价差组合策略（long condor using put）
+subplot(222)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, demopl);
+hold on;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, demopl);
+hold on;
+
+strike = 1700;
+value = 380;
+sell_put_pl1 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl1;
+plot(price, demopl);
+hold on;
+
+strike = 1300;
+value = 210;
+sell_put_pl2 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl2;
+plot(price, demopl);
+hold on;
+
+total_pl = buy_put_pl1 + sell_put_pl1 +sell_put_pl2 +buy_put_pl3;
+plot(price, total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('买入鹰式（看跌）价差组合策略（long condor using put）', 'FontWeight', 'Bold');
+
+% 卖出鹰式（看涨）价差组合策略（long condor using call）
+subplot(223)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 400;
+buy_call_pl1 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl1;
+plot(price, -demopl);
+hold on;
+
+strike = 2000;
+value = 200;
+buy_call_pl3 = BuyCallPL( price,  strike, value);
+demopl = buy_call_pl3;
+plot(price, -demopl);
+hold on;
+
+strike = 1700;
+value = 210;
+sell_call_pl1 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl1;
+plot(price, -demopl);
+hold on;
+
+strike = 1300;
+value = 380;
+sell_call_pl2 = -1*BuyCallPL( price,  strike, value);
+demopl = sell_call_pl2;
+plot(price, -demopl);
+hold on;
+
+total_pl = buy_call_pl1 + sell_call_pl1 +sell_call_pl2 +buy_call_pl3;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('卖出鹰式（看涨）价差组合策略（long condor using call）', 'FontWeight', 'Bold');
+
+% 卖出鹰式（看跌）价差组合策略（long condor using put）
+subplot(224)
+
+price = 0:1:3000;
+
+strike = 1000;
+value = 200;
+buy_put_pl1 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl1;
+plot(price, -demopl);
+hold on;
+
+strike = 2000;
+value = 400;
+buy_put_pl3 = BuyPutPL( price,  strike, value);
+demopl = buy_put_pl3;
+plot(price, -demopl);
+hold on;
+
+strike = 1700;
+value = 380;
+sell_put_pl1 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl1;
+plot(price, -demopl);
+hold on;
+
+strike = 1300;
+value = 210;
+sell_put_pl2 = -1*BuyPutPL( price,  strike, value);
+demopl = sell_put_pl2;
+plot(price, -demopl);
+hold on;
+
+total_pl = buy_put_pl1 + sell_put_pl1 +sell_put_pl2 +buy_put_pl3;
+plot(price, -total_pl, 'r', 'LineWidth', 1.5);
+
+ylabel('P&L');
+xlabel('标的物价格');
+% ylim( [-500 500] );
+grid on;
+title('卖出鹰式（看跌）价差组合策略（long condor using put）', 'FontWeight', 'Bold');
+
+%% sub function-BuyCallPL
+    function pl = BuyCallPL( price,  call_strike, call_value)
+        pl = ...
+            (price<=call_strike).*-1*call_value + (price>call_strike).*(price-call_strike-call_value);
+    end
+%% sub function-BuyPutPL
+    function pl = BuyPutPL( price,  put_strike, put_value)
+        pl = ...
+            (price>=put_strike).*-1*put_value + (price<put_strike).*(-1*price+put_strike-put_value);
+    end
+%% Record Time
+toc;
+
+end
+##### SOURCE END #####
+--></body></html>
