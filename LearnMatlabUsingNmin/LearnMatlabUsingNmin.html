@@ -1,0 +1,1632 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>&#12298;&#37327;&#21270;&#25237;&#36164;&#65306;&#20197;MATLAB&#20026;&#24037;&#20855;&#12299;-&#22522;&#30784;&#31687;-N&#20998;&#38047;&#23398;&#20250;MATLAB(60&lt;N&lt;180)</title><meta name="generator" content="MATLAB 7.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-08-14"><meta name="DC.source" content="LearnMatlabUsingNmin.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+
+  </style></head><body><div class="content"><h1>&#12298;&#37327;&#21270;&#25237;&#36164;&#65306;&#20197;MATLAB&#20026;&#24037;&#20855;&#12299;-&#22522;&#30784;&#31687;-N&#20998;&#38047;&#23398;&#20250;MATLAB(60&lt;N&lt;180)</h1><!--introduction--><p>Learn Matlab Using N minutes(60&lt;N&lt;180)</p><p>by LiYang</p><p>Email:farutoliyang@gmail.com</p><p>Last Updated 2013/08</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">A Little Clean Work</a></li><li><a href="#2">&#33021;&#21542;&#31616;&#21333;&#20030;&#19968;&#20010;MATLAB&#30340;&#20363;&#23376;&#65311;</a></li><li><a href="#3">&#22914;&#20309;&#26597;&#30475;&#20989;&#25968;&#30340;&#20195;&#30721;&#65311;</a></li><li><a href="#4">MATLAB&#37324;&#38754;&#21487;&#20197;&#20351;&#29992;&#31185;&#23398;&#35745;&#25968;&#27861;&#20040;&#65311;</a></li><li><a href="#5">&#22914;&#20309;&#24674;&#22797;MATLAB&#30340;&#25991;&#20214;&#20851;&#32852;&#65311;</a></li><li><a href="#6">MATLAB&#21487;&#20197;&#35835;Excel&#30340;&#25968;&#25454;&#65311;</a></li><li><a href="#7">&#22914;&#20309;&#21024;&#25481;&#32570;&#22833;&#20540;&#65311;</a></li><li><a href="#8">&#22914;&#20309;&#23558;&#23383;&#31526;&#20018;&#36716;&#21464;&#20026;&#21629;&#20196;&#25191;&#34892;&#65311;</a></li><li><a href="#9">&#22914;&#20309;&#21521;&#19968;&#20010;&#21521;&#37327;&#36861;&#21152;&#20803;&#32032;&#65311;</a></li><li><a href="#10">&#22914;&#20309;&#31227;&#38500;&#30697;&#38453;&#30340;&#26576;&#34892;&#65288;&#21015;&#65289;&#25968;&#25454;&#65311;</a></li><li><a href="#11">&#22914;&#20309;&#27604;&#36739;&#20004;&#20010;&#30697;&#38453;&#26159;&#21542;&#30456;&#21516;&#21602;&#65311;</a></li><li><a href="#12">&#22914;&#20309;&#21435;&#25481;&#25968;&#25454;&#20013;&#30340;&#37325;&#22797;&#20803;&#32032;&#65311;</a></li><li><a href="#13">&#22914;&#20309;&#27714;&#25968;&#25454;&#30340;&#26497;&#20540;&#65311;</a></li><li><a href="#14">&#22914;&#20309;&#27714;&#30697;&#38453;&#26368;&#22823;(&#23567;)&#20540;&#24182;&#36820;&#22238;&#20854;&#34892;&#21015;&#21495;&#65311;</a></li><li><a href="#15">&#22914;&#20309;&#20174;&#19968;&#32452;&#25968;&#25454;&#20013;&#38543;&#26426;&#25277;&#21462;&#25968;&#25454;&#65311;</a></li><li><a href="#16">&#22914;&#20309;&#23558;&#25968;&#25454;&#26631;&#20934;&#21270;&#65311;</a></li><li><a href="#17">&#22914;&#20309;&#35745;&#31639;&#31215;&#20998;&#65311;</a></li><li><a href="#18">MATLAB&#22914;&#20309;&#36827;&#34892;&#22797;&#25968;&#35745;&#31639;&#65311;</a></li><li><a href="#19">&#22914;&#20309;&#29983;&#25104;&#23545;&#35282;&#30697;&#38453;&#65311;</a></li><li><a href="#20">&#22914;&#20309;&#26500;&#36896;&#19978;&#65288;&#19979;&#65289;&#19977;&#35282;&#30697;&#38453;&#65311;</a></li><li><a href="#21">MATLAB&#24120;&#29992;&#30340;&#36816;&#31639;&#31526;&#21495;&#26377;&#21738;&#20123;&#65311;</a></li><li><a href="#22">&#22914;&#20309;&#27714;&#30697;&#38453;&#21508;&#34892;&#65288;&#21015;&#65289;&#30340;&#22343;&#20540;&#65311;</a></li><li><a href="#23">&#22914;&#20309;&#35745;&#31639;&#32452;&#21512;&#25968;&#25110;&#24471;&#21040;&#25152;&#26377;&#32452;&#21512;&#65311;</a></li><li><a href="#24">&#22914;&#20309;&#22312;MATLAB&#37324;&#38754;&#27714;&#65288;&#20559;&#65289;&#23548;&#25968;&#65311;</a></li><li><a href="#25">&#22914;&#20309;&#27714;&#19968;&#20803;&#26041;&#31243;&#30340;&#26681;&#65311;</a></li><li><a href="#26">&#22914;&#20309;&#22312;&#23383;&#31526;&#20018;&#20013;&#36873;&#21462;&#29305;&#23450;&#20301;&#32622;&#30340;&#23383;&#31526;&#65311;</a></li><li><a href="#27">&#22914;&#20309;&#36820;&#22238;&#23383;&#31526;&#20010;&#25968;&#65311;</a></li><li><a href="#28">&#26085;&#26399;&#21487;&#20197;&#20570;&#31639;&#26415;&#36816;&#31639;&#20040;&#65311;</a></li><li><a href="#29">&#22914;&#20309;&#23558;&#26085;&#26399;&#34920;&#31034;&#20026;&#8220;07-Aug- 2013&#8221;&#36825;&#31181;&#26684;&#24335;&#65311;</a></li><li><a href="#30">&#22914;&#20309;&#22312;&#21516;&#19968;&#30011;&#38754;&#30011;&#20986;&#22810;&#24352;&#22270;&#65311;</a></li><li><a href="#31">&#24590;&#20040;&#20570;&#39292;&#22270;&#65311;</a></li><li><a href="#32">MATLAB&#22914;&#20309;&#20570;&#21452;&#22352;&#26631;&#65311;</a></li><li><a href="#33">&#22914;&#26524;&#32472;&#22270;&#26102;&#26631;&#39064;&#22826;&#38271;&#65292;&#22914;&#20309;&#25442;&#34892;&#65311;</a></li><li><a href="#34">&#22914;&#20309;&#29992;&#19981;&#21516;&#30340;&#39068;&#33394;&#26469;&#20195;&#34920;&#25968;&#25454;&#65311;</a></li><li><a href="#35">&#22914;&#20309;&#35843;&#25972;&#25152;&#32472;&#22270;&#24418;&#30340;&#22823;&#23567;&#65311;</a></li><li><a href="#36">&#22914;&#20309;&#32472;&#21046;&#26925;&#22278;&#25110;&#21452;&#26354;&#32447;&#65311;</a></li><li><a href="#37">&#22312;MATLAB&#20013;&#22914;&#20309;&#32472;&#21046;K&#32447;&#22270;&#65311;</a></li><li><a href="#38">&#22914;&#20309;&#20570;&#32447;&#24615;&#22238;&#24402;&#27169;&#22411;&#65311;</a></li><li><a href="#39">&#22914;&#20309;&#20570;&#20027;&#25104;&#20998;&#20998;&#26512;&#65311;</a></li><li><a href="#40">&#22810;&#39033;&#24335;&#22238;&#24402;&#24212;&#35813;&#29992;&#20160;&#20040;&#20989;&#25968;&#65311;</a></li><li><a href="#41">&#22914;&#20309;&#20570;&#32858;&#31867;&#20998;&#26512;&#65311;</a></li><li><a href="#42">&#22914;&#20309;&#21033;&#29992;MATLAB&#33719;&#21462;&#20813;&#36153;&#30340;&#37329;&#34701;&#25968;&#25454;&#65311;</a></li><li><a href="#43">&#22312;MATLAB&#20013;&#22914;&#20309;&#22788;&#29702;&#22320;&#22270;&#25968;&#25454;&#65311;</a></li><li><a href="#44">&#22914;&#20309;&#35745;&#31639;&#19968;&#20010;&#36164;&#37329;&#27969;&#30340;&#26368;&#22823;&#22238;&#25764;&#65311;</a></li><li><a href="#45">Test</a></li><li><a href="#46">Record Time</a></li></ul></div><h2>A Little Clean Work<a name="1"></a></h2><pre class="codeinput">tic;
+clear;
+clc;
+close <span class="string">all</span>;
+format <span class="string">compact</span>;
+</pre><h2>&#33021;&#21542;&#31616;&#21333;&#20030;&#19968;&#20010;MATLAB&#30340;&#20363;&#23376;&#65311;<a name="2"></a></h2><pre class="codeinput">Mean_Value = 0;
+STD_Value = 1;
+Data_Num = 100;
+
+x = random(<span class="string">'Normal'</span>, Mean_Value, STD_Value, Data_Num, 1);
+x_dataset = dataset(x);
+
+whos
+mean_x = mean(x)
+std_x = std(x)
+summary(x_dataset)
+</pre><pre class="codeoutput">  Name              Size            Bytes  Class      Attributes
+
+  Data_Num          1x1                 8  double               
+  Mean_Value        1x1                 8  double               
+  STD_Value         1x1                 8  double               
+  x               100x1               800  double               
+  x_dataset       100x1              1784  dataset              
+
+mean_x =
+    0.1861
+std_x =
+    1.0350
+x: [100x1 double]
+    min        1st quartile    median     3rd quartile    max   
+    -2.2751    -0.51495        0.20808    0.90037         2.7304
+</pre><h2>&#22914;&#20309;&#26597;&#30475;&#20989;&#25968;&#30340;&#20195;&#30721;&#65311;<a name="3"></a></h2><pre class="codeinput">edit <span class="string">mean</span>;
+</pre><h2>MATLAB&#37324;&#38754;&#21487;&#20197;&#20351;&#29992;&#31185;&#23398;&#35745;&#25968;&#27861;&#20040;&#65311;<a name="4"></a></h2><pre class="codeinput">format <span class="string">longG</span>
+1e10
+1.2e-4
+
+format <span class="string">short</span>
+</pre><pre class="codeoutput">ans =
+               10000000000
+ans =
+                   0.00012
+</pre><h2>&#22914;&#20309;&#24674;&#22797;MATLAB&#30340;&#25991;&#20214;&#20851;&#32852;&#65311;<a name="5"></a></h2><pre class="codeinput">cwd=pwd;
+cd([matlabroot <span class="string">'\toolbox\matlab\winfun\private'</span>]);
+fileassoc(<span class="string">'add'</span>,{<span class="string">'.m'</span>,<span class="string">'.mat'</span>,<span class="string">'.fig'</span>,<span class="string">'.p'</span>,<span class="string">'.mdl'</span>,[<span class="string">'.'</span> mexext]});<span class="comment">%&#37325;&#28857;</span>
+cd(cwd);
+disp(<span class="string">'Changed Windows file associations. FIG, M, MAT, MDL, MEX, andP files are now associated with MATLAB.'</span>)
+</pre><pre class="codeoutput">Changed Windows file associations. FIG, M, MAT, MDL, MEX, andP files are now associated with MATLAB.
+</pre><h2>MATLAB&#21487;&#20197;&#35835;Excel&#30340;&#25968;&#25454;&#65311;<a name="6"></a></h2><pre class="codeinput">values = {1, 2, 3 ; 4, 5, <span class="string">'x'</span> ; 7, 8, 9};
+headers = {<span class="string">'First'</span>, <span class="string">'Second'</span>, <span class="string">'Third'</span>};
+xlswrite(<span class="string">'eg_Mat2Excel.xlsx'</span>, [headers; values]);
+
+A = xlsread(<span class="string">'eg_Mat2Excel.xlsx'</span>)
+</pre><pre class="codeoutput">A =
+     1     2     3
+     4     5   NaN
+     7     8     9
+</pre><h2>&#22914;&#20309;&#21024;&#25481;&#32570;&#22833;&#20540;&#65311;<a name="7"></a></h2><pre class="codeinput">A = [1 NaN 3]
+
+A( isnan(A) ) = []
+</pre><pre class="codeoutput">A =
+     1   NaN     3
+A =
+     1     3
+</pre><h2>&#22914;&#20309;&#23558;&#23383;&#31526;&#20018;&#36716;&#21464;&#20026;&#21629;&#20196;&#25191;&#34892;&#65311;<a name="8"></a></h2><pre class="codeinput">A = 3;
+B = 5;
+
+string = [num2str(A),<span class="string">'+'</span>,num2str(B)]
+
+eval(string);
+</pre><pre class="codeoutput">string =
+3+5
+ans =
+     8
+</pre><h2>&#22914;&#20309;&#21521;&#19968;&#20010;&#21521;&#37327;&#36861;&#21152;&#20803;&#32032;&#65311;<a name="9"></a></h2><pre class="codeinput">A = [1 2 3 4]
+
+A(end+1) = 5
+</pre><pre class="codeoutput">A =
+     1     2     3     4
+A =
+     1     2     3     4     5
+</pre><h2>&#22914;&#20309;&#31227;&#38500;&#30697;&#38453;&#30340;&#26576;&#34892;&#65288;&#21015;&#65289;&#25968;&#25454;&#65311;<a name="10"></a></h2><pre class="codeinput">A = magic(5)
+B = A;
+C = A;
+
+B(5,:) = []
+C(:,5) = []
+</pre><pre class="codeoutput">A =
+    17    24     1     8    15
+    23     5     7    14    16
+     4     6    13    20    22
+    10    12    19    21     3
+    11    18    25     2     9
+B =
+    17    24     1     8    15
+    23     5     7    14    16
+     4     6    13    20    22
+    10    12    19    21     3
+C =
+    17    24     1     8
+    23     5     7    14
+     4     6    13    20
+    10    12    19    21
+    11    18    25     2
+</pre><h2>&#22914;&#20309;&#27604;&#36739;&#20004;&#20010;&#30697;&#38453;&#26159;&#21542;&#30456;&#21516;&#21602;&#65311;<a name="11"></a></h2><pre class="codeinput">A = magic(5)
+B = A;
+
+B(1) = 888
+
+whetherAequalsB = all( all( A == B ) )
+</pre><pre class="codeoutput">A =
+    17    24     1     8    15
+    23     5     7    14    16
+     4     6    13    20    22
+    10    12    19    21     3
+    11    18    25     2     9
+B =
+   888    24     1     8    15
+    23     5     7    14    16
+     4     6    13    20    22
+    10    12    19    21     3
+    11    18    25     2     9
+whetherAequalsB =
+     0
+</pre><h2>&#22914;&#20309;&#21435;&#25481;&#25968;&#25454;&#20013;&#30340;&#37325;&#22797;&#20803;&#32032;&#65311;<a name="12"></a></h2><pre class="codeinput">A = [1 1 2 2 3 4 5 6 6]
+
+A_unique = unique(A)
+</pre><pre class="codeoutput">A =
+     1     1     2     2     3     4     5     6     6
+A_unique =
+     1     2     3     4     5     6
+</pre><h2>&#22914;&#20309;&#27714;&#25968;&#25454;&#30340;&#26497;&#20540;&#65311;<a name="13"></a></h2><pre class="codeinput">A = 1:10
+
+A_min = min(A)
+
+A_max = max(A)
+</pre><pre class="codeoutput">A =
+     1     2     3     4     5     6     7     8     9    10
+A_min =
+     1
+A_max =
+    10
+</pre><h2>&#22914;&#20309;&#27714;&#30697;&#38453;&#26368;&#22823;(&#23567;)&#20540;&#24182;&#36820;&#22238;&#20854;&#34892;&#21015;&#21495;&#65311;<a name="14"></a></h2><pre class="codeinput"><span class="comment">% &#26041;&#27861;1</span>
+disp(<span class="string">'&#26041;&#27861;1'</span>);
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+[C,I]=max(A(:))
+[m,n]=ind2sub(size(A),I)
+<span class="comment">% &#26041;&#27861;2</span>
+disp(<span class="string">'&#26041;&#27861;2'</span>);
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+[M,I]=max(A)
+[N,J]=max(M)
+[I(J),J]
+<span class="comment">% &#26041;&#27861;3</span>
+disp(<span class="string">'&#26041;&#27861;3'</span>);
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+N=max(max(A))    <span class="comment">%&#25110;&#32773;N=max(A(:))</span>
+[r,c]=find(N==A)
+<span class="comment">% &#26041;&#27861;4</span>
+disp(<span class="string">'&#26041;&#27861;4'</span>);
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+[Y_col,Ind_row]=max(A)   <span class="comment">%&#27599;&#21015;&#30340;&#26368;&#22823;&#20540;&#21450;&#34892;&#21495;</span>
+[Y_row,Ind_col]=max(A')    <span class="comment">%&#27599;&#34892;&#30340;&#26368;&#22823;&#20540;&#21450;&#21015;&#21495;</span>
+</pre><pre class="codeoutput">&#26041;&#27861;1
+A =
+     0    17    50
+   -12    40     3
+     5   -10     2
+    30     4     3
+C =
+    50
+I =
+     9
+m =
+     1
+n =
+     3
+&#26041;&#27861;2
+A =
+     0    17    50
+   -12    40     3
+     5   -10     2
+    30     4     3
+M =
+    30    40    50
+I =
+     4     2     1
+N =
+    50
+J =
+     3
+ans =
+     1     3
+&#26041;&#27861;3
+A =
+     0    17    50
+   -12    40     3
+     5   -10     2
+    30     4     3
+N =
+    50
+r =
+     1
+c =
+     3
+&#26041;&#27861;4
+A =
+     0    17    50
+   -12    40     3
+     5   -10     2
+    30     4     3
+Y_col =
+    30    40    50
+Ind_row =
+     4     2     1
+Y_row =
+    50    40     5    30
+Ind_col =
+     3     2     1     1
+</pre><h2>&#22914;&#20309;&#20174;&#19968;&#32452;&#25968;&#25454;&#20013;&#38543;&#26426;&#25277;&#21462;&#25968;&#25454;&#65311;<a name="15"></a></h2><pre class="codeinput">out = randsrc(5,5,[-3 -1 1 3; .2 .3 .3 .2])
+</pre><pre class="codeoutput">out =
+    -1     1    -1     1     1
+    -1     1     3     1    -1
+     1    -3     1    -3     3
+     3     3     3    -1     3
+     3    -1    -1    -1    -1
+</pre><h2>&#22914;&#20309;&#23558;&#25968;&#25454;&#26631;&#20934;&#21270;&#65311;<a name="16"></a></h2><pre class="codeinput">x = [1 1 2 3 5 8 11]
+
+Z = zscore(x)
+
+Ztemp = ( x-mean(x) )./std(x)
+</pre><pre class="codeoutput">x =
+     1     1     2     3     5     8    11
+Z =
+   -0.8967   -0.8967   -0.6352   -0.3736    0.1495    0.9341    1.7187
+Ztemp =
+   -0.8967   -0.8967   -0.6352   -0.3736    0.1495    0.9341    1.7187
+</pre><h2>&#22914;&#20309;&#35745;&#31639;&#31215;&#20998;&#65311;<a name="17"></a></h2><pre class="codeinput">syms <span class="string">x</span>
+int(sin(x))
+
+integral(@sin, 0,pi)
+</pre><pre class="codeoutput">ans =
+-cos(x)
+ans =
+    2.0000
+</pre><h2>MATLAB&#22914;&#20309;&#36827;&#34892;&#22797;&#25968;&#35745;&#31639;&#65311;<a name="18"></a></h2><pre class="codeinput">Z = complex(3,4)
+
+<span class="comment">% &#23454;&#37096;</span>
+Z_real = real( Z )
+<span class="comment">% &#34394;&#37096;</span>
+Z_imag = imag( Z )
+<span class="comment">% &#27169;</span>
+Z_abs = abs( Z )
+<span class="comment">% &#36752;&#35282;</span>
+Z_angle = angle( Z )
+<span class="comment">% &#20849;&#36717;</span>
+ZC = conj( Z )
+</pre><pre class="codeoutput">Z =
+   3.0000 + 4.0000i
+Z_real =
+     3
+Z_imag =
+     4
+Z_abs =
+     5
+Z_angle =
+    0.9273
+ZC =
+   3.0000 - 4.0000i
+</pre><h2>&#22914;&#20309;&#29983;&#25104;&#23545;&#35282;&#30697;&#38453;&#65311;<a name="19"></a></h2><pre class="codeinput">X = diag([1 1 2 3 5 8])
+
+x = magic(5)
+
+x_diag = diag(x)
+</pre><pre class="codeoutput">X =
+     1     0     0     0     0     0
+     0     1     0     0     0     0
+     0     0     2     0     0     0
+     0     0     0     3     0     0
+     0     0     0     0     5     0
+     0     0     0     0     0     8
+x =
+    17    24     1     8    15
+    23     5     7    14    16
+     4     6    13    20    22
+    10    12    19    21     3
+    11    18    25     2     9
+x_diag =
+    17
+     5
+    13
+    21
+     9
+</pre><h2>&#22914;&#20309;&#26500;&#36896;&#19978;&#65288;&#19979;&#65289;&#19977;&#35282;&#30697;&#38453;&#65311;<a name="20"></a></h2><pre class="codeinput">tl = tril(ones(4,4),-1)
+
+tu = triu(ones(4,4),-1)
+</pre><pre class="codeoutput">tl =
+     0     0     0     0
+     1     0     0     0
+     1     1     0     0
+     1     1     1     0
+tu =
+     1     1     1     1
+     1     1     1     1
+     0     1     1     1
+     0     0     1     1
+</pre><h2>MATLAB&#24120;&#29992;&#30340;&#36816;&#31639;&#31526;&#21495;&#26377;&#21738;&#20123;&#65311;<a name="21"></a></h2><pre class="codeinput">a=magic(3)
+b=pascal(3)
+
+disp(<span class="string">'a/b'</span>)
+a/b
+disp(<span class="string">'a*inv(b)'</span>)
+a*inv(b)
+
+disp(<span class="string">'a\b'</span>)
+a\b
+disp(<span class="string">'inv(a)*b'</span>)
+inv(a)*b
+
+a/b-(b'\a')'
+
+disp(<span class="string">'a^3'</span>)
+a^3
+disp(<span class="string">'a*a*a'</span>)
+a*a*a
+
+disp(<span class="string">'a.*b'</span>)
+a.*b
+disp(<span class="string">'a.\b'</span>)
+a.\b
+disp(<span class="string">'a./b'</span>)
+a./b
+disp(<span class="string">'a.^b'</span>)
+a.^b
+</pre><pre class="codeoutput">a =
+     8     1     6
+     3     5     7
+     4     9     2
+b =
+     1     1     1
+     1     2     3
+     1     3     6
+a/b
+ans =
+    27   -31    12
+     1     2     0
+   -13    29   -12
+a*inv(b)
+ans =
+   27.0000  -31.0000   12.0000
+    1.0000    2.0000    0.0000
+  -13.0000   29.0000  -12.0000
+a\b
+ans =
+    0.0667    0.0500    0.0972
+    0.0667    0.3000    0.6389
+    0.0667    0.0500   -0.0694
+inv(a)*b
+ans =
+    0.0667    0.0500    0.0972
+    0.0667    0.3000    0.6389
+    0.0667    0.0500   -0.0694
+ans =
+     0     0     0
+     0     0     0
+     0     0     0
+a^3
+ans =
+        1197        1029        1149
+        1077        1125        1173
+        1101        1221        1053
+a*a*a
+ans =
+        1197        1029        1149
+        1077        1125        1173
+        1101        1221        1053
+a.*b
+ans =
+     8     1     6
+     3    10    21
+     4    27    12
+a.\b
+ans =
+    0.1250    1.0000    0.1667
+    0.3333    0.4000    0.4286
+    0.2500    0.3333    3.0000
+a./b
+ans =
+    8.0000    1.0000    6.0000
+    3.0000    2.5000    2.3333
+    4.0000    3.0000    0.3333
+a.^b
+ans =
+     8     1     6
+     3    25   343
+     4   729    64
+</pre><h2>&#22914;&#20309;&#27714;&#30697;&#38453;&#21508;&#34892;&#65288;&#21015;&#65289;&#30340;&#22343;&#20540;&#65311;<a name="22"></a></h2><pre class="codeinput">a = magic(4)
+<span class="comment">% &#21508;&#34892;&#22343;&#20540;</span>
+a_rowmean = mean(a , 2)
+<span class="comment">% &#21508;&#21015;&#22343;&#20540;</span>
+a_colmean = mean(a , 1)
+</pre><pre class="codeoutput">a =
+    16     2     3    13
+     5    11    10     8
+     9     7     6    12
+     4    14    15     1
+a_rowmean =
+    8.5000
+    8.5000
+    8.5000
+    8.5000
+a_colmean =
+    8.5000    8.5000    8.5000    8.5000
+</pre><h2>&#22914;&#20309;&#35745;&#31639;&#32452;&#21512;&#25968;&#25110;&#24471;&#21040;&#25152;&#26377;&#32452;&#21512;&#65311;<a name="23"></a></h2><pre class="codeinput">combnum = nchoosek(4, 2)
+
+comb = nchoosek([1 2 3 4], 2)
+
+fac = factorial(4)
+</pre><pre class="codeoutput">combnum =
+     6
+comb =
+     1     2
+     1     3
+     1     4
+     2     3
+     2     4
+     3     4
+fac =
+    24
+</pre><h2>&#22914;&#20309;&#22312;MATLAB&#37324;&#38754;&#27714;&#65288;&#20559;&#65289;&#23548;&#25968;&#65311;<a name="24"></a></h2><pre class="codeinput">syms <span class="string">x</span>
+dy_dx = diff( sin(x)/x )
+</pre><pre class="codeoutput">dy_dx =
+cos(x)/x - sin(x)/x^2
+</pre><h2>&#22914;&#20309;&#27714;&#19968;&#20803;&#26041;&#31243;&#30340;&#26681;&#65311;<a name="25"></a></h2><pre class="codeinput">syms <span class="string">x</span>
+
+s1 = solve( x^2-1 )
+
+s2 = solve(x^2 + 4*x + 1 == 0)
+
+s3 = solve(x^4 + 1 == 2*x^2 - 1)
+</pre><pre class="codeoutput">s1 =
+  1
+ -1
+s2 =
+   3^(1/2) - 2
+ - 3^(1/2) - 2
+s3 =
+  (1 + i)^(1/2)
+  (1 - i)^(1/2)
+ -(1 + i)^(1/2)
+ -(1 - i)^(1/2)
+</pre><h2>&#22914;&#20309;&#22312;&#23383;&#31526;&#20018;&#20013;&#36873;&#21462;&#29305;&#23450;&#20301;&#32622;&#30340;&#23383;&#31526;&#65311;<a name="26"></a></h2><pre class="codeinput">str = <span class="string">'abcdef'</span>
+
+substr1 = str( [2 4] )
+
+substr2 = str( 1:3 )
+</pre><pre class="codeoutput">str =
+abcdef
+substr1 =
+bd
+substr2 =
+abc
+</pre><h2>&#22914;&#20309;&#36820;&#22238;&#23383;&#31526;&#20010;&#25968;&#65311;<a name="27"></a></h2><pre class="codeinput">str = <span class="string">'abcdef'</span>
+strlen = length(str)
+</pre><pre class="codeoutput">str =
+abcdef
+strlen =
+     6
+</pre><h2>&#26085;&#26399;&#21487;&#20197;&#20570;&#31639;&#26415;&#36816;&#31639;&#20040;&#65311;<a name="28"></a></h2><pre class="codeinput">n1 = datenum( <span class="string">'01/08/2013'</span>, <span class="string">'dd/mm/yyyy'</span> )
+
+n2 = datenum( <span class="string">'08/08/2013'</span>, <span class="string">'dd/mm/yyyy'</span> )
+
+n3 = n1 + 2
+
+d1 = datestr( n1, <span class="string">'dd/mm/yyyy'</span> )
+
+d2 = datestr( n2, <span class="string">'dd/mm/yyyy'</span> )
+
+d3 = datestr( n3, <span class="string">'dd/mm/yyyy'</span> )
+</pre><pre class="codeoutput">n1 =
+      735447
+n2 =
+      735454
+n3 =
+      735449
+d1 =
+01/08/2013
+d2 =
+08/08/2013
+d3 =
+03/08/2013
+</pre><h2>&#22914;&#20309;&#23558;&#26085;&#26399;&#34920;&#31034;&#20026;&#8220;07-Aug- 2013&#8221;&#36825;&#31181;&#26684;&#24335;&#65311;<a name="29"></a></h2><pre class="codeinput">d = datestr( datenum( <span class="string">'07/08/2013'</span>, <span class="string">'dd/mm/yyyy'</span> ), <span class="string">'dd-mmm-yyyy'</span> )
+</pre><pre class="codeoutput">d =
+07-Aug-2013
+</pre><h2>&#22914;&#20309;&#22312;&#21516;&#19968;&#30011;&#38754;&#30011;&#20986;&#22810;&#24352;&#22270;&#65311;<a name="30"></a></h2><pre class="codeinput">figure;
+income = [3.2,4.1,5.0,5.6];
+outgo = [2.5,4.0,3.35,4.9];
+
+subplot(2,1,1);
+plot(income);
+title(<span class="string">'Income'</span>);
+
+subplot(2,1,2);
+plot(outgo);
+title(<span class="string">'Outgo'</span>);
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_01.png" alt=""> <h2>&#24590;&#20040;&#20570;&#39292;&#22270;&#65311;<a name="31"></a></h2><pre class="codeinput">x = [1 3 0.5 2.5 2];
+explode = [0 1 0 0 0];
+
+figure;
+subplot(2,1,1);
+pie(x,explode);
+title(<span class="string">'&#20108;&#32500;&#39292;&#22270;'</span>);
+colormap <span class="string">jet</span>
+
+subplot(2,1,2);
+pie3(x,explode);
+title(<span class="string">'&#19977;&#32500;&#39292;&#22270;'</span>);
+colormap <span class="string">hsv</span>
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_02.png" alt=""> <h2>MATLAB&#22914;&#20309;&#20570;&#21452;&#22352;&#26631;&#65311;<a name="32"></a></h2><pre class="codeinput">figure
+x = 0:0.01:20;
+y1 = 200*exp(-0.05*x).*sin(x);
+y2 = 0.8*exp(-0.5*x).*sin(10*x);
+[AX,H1,H2] = plotyy(x,y1,x,y2,<span class="string">'plot'</span>);
+
+set(get(AX(1),<span class="string">'Ylabel'</span>),<span class="string">'String'</span>,<span class="string">'Slow Decay'</span>)
+set(get(AX(2),<span class="string">'Ylabel'</span>),<span class="string">'String'</span>,<span class="string">'Fast Decay'</span>)
+xlabel(<span class="string">'Time (\musec)'</span>)
+title(<span class="string">'Multiple Decay Rates'</span>)
+set(H1,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>)
+set(H2,<span class="string">'LineStyle'</span>,<span class="string">':'</span>)
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_03.png" alt=""> <h2>&#22914;&#26524;&#32472;&#22270;&#26102;&#26631;&#39064;&#22826;&#38271;&#65292;&#22914;&#20309;&#25442;&#34892;&#65311;<a name="33"></a></h2><pre class="codeinput">figure
+subplot(2,1,1);
+ezplot( @sin );
+title(<span class="string">'First line+Second line'</span>);
+
+subplot(2,1,2);
+ezplot( @sin );
+str = {<span class="string">'First line'</span>;<span class="string">'Second line'</span>};
+title( str );
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_04.png" alt=""> <h2>&#22914;&#20309;&#29992;&#19981;&#21516;&#30340;&#39068;&#33394;&#26469;&#20195;&#34920;&#25968;&#25454;&#65311;<a name="34"></a></h2><pre class="codeinput">figure;
+x = -pi:.1:pi;
+y = sin(x);
+z = cos(x);
+RGB = [1 0 0];
+plot( y, <span class="string">'Color'</span>, RGB )
+hold <span class="string">on</span>;
+RGB = [0 0.5 0.5];
+plot( z, <span class="string">'Color'</span>, RGB )
+legend(<span class="string">'sinx'</span>, <span class="string">'cosx'</span>);
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_05.png" alt=""> <h2>&#22914;&#20309;&#35843;&#25972;&#25152;&#32472;&#22270;&#24418;&#30340;&#22823;&#23567;&#65311;<a name="35"></a></h2><pre class="codeinput">left = 100;
+bottom = 100;
+width = 500;
+height = 500;
+figure( <span class="string">'Position'</span>, [left, bottom, width, height]);
+ezplot(@sin)
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_06.png" alt=""> <h2>&#22914;&#20309;&#32472;&#21046;&#26925;&#22278;&#25110;&#21452;&#26354;&#32447;&#65311;<a name="36"></a></h2><pre class="codeinput">t = 0:0.01:2*pi;
+a = 1;
+b = 2;
+x = a*sin(t);
+y = b*cos(t);
+figure;
+plot(x,y);
+xlim( [-pi/2, pi/2] );
+ylim( [-3, 3] );
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_07.png" alt=""> <h2>&#22312;MATLAB&#20013;&#22914;&#20309;&#32472;&#21046;K&#32447;&#22270;&#65311;<a name="37"></a></h2><pre class="codeinput">load <span class="string">disney</span>;
+candle(dis_HIGH(end-20:end), dis_LOW(end-20:end), dis_CLOSE(end-20:end),<span class="keyword">...</span>
+        dis_OPEN(end-20:end), <span class="string">'b'</span>);
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_08.png" alt=""> <h2>&#22914;&#20309;&#20570;&#32447;&#24615;&#22238;&#24402;&#27169;&#22411;&#65311;<a name="38"></a></h2><pre class="codeinput">x1 = [.2 .5 .6 .8 1.0 1.1]';
+x2 = [.1 .3 .4 .9 1.1 1.4]';
+
+A = [ones(size(x1)) x1 x2]
+b = [.17 .26 .28 .23 .27 .34]'
+
+a1 = A\b
+
+a2 = lscov(A, b)
+</pre><pre class="codeoutput">A =
+    1.0000    0.2000    0.1000
+    1.0000    0.5000    0.3000
+    1.0000    0.6000    0.4000
+    1.0000    0.8000    0.9000
+    1.0000    1.0000    1.1000
+    1.0000    1.1000    1.4000
+b =
+    0.1700
+    0.2600
+    0.2800
+    0.2300
+    0.2700
+    0.3400
+a1 =
+    0.1203
+    0.3284
+   -0.1312
+a2 =
+    0.1203
+    0.3284
+   -0.1312
+</pre><h2>&#22914;&#20309;&#20570;&#20027;&#25104;&#20998;&#20998;&#26512;&#65311;<a name="39"></a></h2><pre class="codeinput"><span class="comment">% &#36733;&#20837;&#25968;&#25454;</span>
+load <span class="string">cities</span>;
+
+whos
+<span class="comment">%   Name             Size         Bytes  Class</span>
+<span class="comment">%   categories    9x14          252  char array</span>
+<span class="comment">%   names          329x43       28294  char array</span>
+<span class="comment">%   ratings         329x9         23688  double array</span>
+
+<span class="comment">% % ratings&#25968;&#25454;&#30340;box&#22270;</span>
+figure;
+boxplot(ratings,<span class="string">'orientation'</span>,<span class="string">'horizontal'</span>,<span class="string">'labels'</span>,categories);
+grid <span class="string">on</span>;
+
+<span class="comment">% % &#26631;&#20934;&#21270;&#39044;&#22788;&#29702;</span>
+stdr = std(ratings);
+sr = ratings./repmat(stdr,329,1);
+<span class="comment">% % &#20351;&#29992;princomp&#20989;&#25968;&#36827;&#34892;&#20027;&#25104;&#20998;&#20998;&#26512;</span>
+[coef,score,latent,t2] = princomp(sr);
+
+<span class="comment">% % &#36755;&#20986;&#21442;&#25968;&#35762;&#35299;</span>
+
+<span class="comment">% coef:9*9&#30697;&#38453;</span>
+<span class="comment">% &#20027;&#25104;&#20998;&#31995;&#25968;:&#21363;&#21407;&#22987;&#25968;&#25454;&#32447;&#24615;&#32452;&#21512;&#29983;&#25104;&#20027;&#25104;&#20998;&#25968;&#25454;&#20013;&#27599;&#19968;&#32500;&#25968;&#25454;&#21069;&#38754;&#30340;&#31995;&#25968;.</span>
+<span class="comment">% coef&#30340;&#27599;&#19968;&#21015;&#20195;&#34920;&#19968;&#20010;&#26032;&#29983;&#25104;&#30340;&#20027;&#25104;&#20998;&#30340;&#31995;&#25968;.</span>
+<span class="comment">% &#27604;&#22914;&#20320;&#24819;&#21462;&#20986;&#21069;&#19977;&#20010;&#20027;&#25104;&#20998;&#30340;&#31995;&#25968;, &#22914;&#19979;&#21487;&#23454;&#29616;: pca3 = coef(:,1:3);</span>
+
+<span class="comment">% score:329*9&#30697;&#38453;</span>
+<span class="comment">% &#23383;&#38754;&#29702;&#35299;:&#20027;&#25104;&#20998;&#24471;&#20998;</span>
+<span class="comment">% &#21363;&#21407;&#22987;&#25968;&#25454;&#22312;&#26032;&#29983;&#25104;&#30340;&#20027;&#25104;&#20998;&#31354;&#38388;&#37324;&#30340;&#22352;&#26631;&#20540;.</span>
+
+<span class="comment">% latent:9*1&#30697;&#38453;</span>
+<span class="comment">% &#19968;&#20010;&#21015;&#21521;&#37327;,&#30001;sr&#30340;&#21327;&#26041;&#24046;&#30697;&#38453;&#30340;&#29305;&#24449;&#20540;&#32452;&#25104;.</span>
+<span class="comment">% &#21363; latent = sort(eig(cov(sr)),'descend');</span>
+<span class="comment">% &#27979;&#35797;&#22914;&#19979;:</span>
+<span class="comment">% sort(eig(cov(sr)),'descend') =</span>
+<span class="comment">%     3.4083</span>
+<span class="comment">%     1.2140</span>
+<span class="comment">%     1.1415</span>
+<span class="comment">%     0.9209</span>
+<span class="comment">%     0.7533</span>
+<span class="comment">%     0.6306</span>
+<span class="comment">%     0.4930</span>
+<span class="comment">%     0.3180</span>
+<span class="comment">%     0.1204</span>
+<span class="comment">% latent =</span>
+<span class="comment">%     3.4083</span>
+<span class="comment">%     1.2140</span>
+<span class="comment">%     1.1415</span>
+<span class="comment">%     0.9209</span>
+<span class="comment">%     0.7533</span>
+<span class="comment">%     0.6306</span>
+<span class="comment">%     0.4930</span>
+<span class="comment">%     0.3180</span>
+<span class="comment">%     0.1204</span>
+
+<span class="comment">% t2:329*1</span>
+<span class="comment">% &#19968;&#20013;&#22810;&#20803;&#32479;&#35745;&#36317;&#31163;,&#35760;&#24405;&#30340;&#26159;&#27599;&#19968;&#20010;&#35266;&#23519;&#37327;&#21040;&#20013;&#24515;&#30340;&#36317;&#31163;</span>
+
+<span class="comment">% % &#22914;&#20309;&#25552;&#21462;&#20027;&#25104;&#20998;,&#36798;&#21040;&#38477;&#32500;&#30340;&#30446;&#30340;</span>
+<span class="comment">% &#36890;&#36807;latent,&#21487;&#20197;&#30693;&#36947;&#25552;&#21462;&#21069;&#20960;&#20010;&#20027;&#25104;&#20998;&#23601;&#21487;&#20197;&#20102;.</span>
+figure;
+percent_explained = 100*latent/sum(latent);
+pareto(percent_explained);
+xlabel(<span class="string">'Principal Component'</span>);
+ylabel(<span class="string">'Variance Explained (%)'</span>);
+
+<span class="comment">% &#22270;&#20013;&#30340;&#32447;&#34920;&#31034;&#30340;&#32047;&#31215;&#21464;&#37327;&#35299;&#37322;&#31243;&#24230;.</span>
+<span class="comment">% &#36890;&#36807;&#30475;&#22270;&#21487;&#20197;&#30475;&#20986;&#21069;&#19971;&#20010;&#20027;&#25104;&#20998;&#21487;&#20197;&#34920;&#31034;&#20986;&#21407;&#22987;&#25968;&#25454;&#30340;90%.</span>
+<span class="comment">% &#25152;&#20197;&#22312;90%&#30340;&#24847;&#20041;&#19979;&#21482;&#38656;&#25552;&#21462;&#21069;&#19971;&#20010;&#20027;&#25104;&#20998;&#21363;&#21487;,&#36827;&#32780;&#36798;&#21040;&#20027;&#25104;&#20998;&#25552;&#21462;&#30340;&#30446;&#30340;.</span>
+
+<span class="comment">% % &#32467;&#26524;&#30340;&#21487;&#35270;&#21270;</span>
+figure;
+biplot(coef(:,1:2), <span class="string">'scores'</span>,score(:,1:2),<span class="keyword">...</span>
+<span class="string">'varlabels'</span>,categories);
+axis([-.26 1 -.51 .51]);
+<span class="comment">% &#27178;&#22352;&#26631;&#21644;&#32437;&#22352;&#26631;&#20998;&#21035;&#34920;&#31034;&#31532;&#19968;&#20027;&#25104;&#20998;&#21644;&#31532;&#20108;&#20027;&#25104;&#20998;</span>
+<span class="comment">% &#32418;&#33394;&#30340;&#28857;&#20195;&#34920;329&#20010;&#35266;&#23519;&#37327;,&#20854;&#22352;&#26631;&#23601;&#26159;score</span>
+<span class="comment">% &#34013;&#33394;&#30340;&#21521;&#37327;&#30340;&#26041;&#21521;&#21644;&#38271;&#24230;&#34920;&#31034;&#20102;&#27599;&#20010;&#21407;&#22987;&#21464;&#37327;&#23545;&#26032;&#30340;&#20027;&#25104;&#20998;&#30340;&#36129;&#29486;,&#20854;&#22352;&#26631;&#23601;&#26159;coef.</span>
+</pre><pre class="codeoutput">  Name                   Size              Bytes  Class      Attributes
+
+  A                      6x3                 144  double               
+  AX                     1x2                  16  double               
+  A_max                  1x1                   8  double               
+  A_min                  1x1                   8  double               
+  A_unique               1x6                  48  double               
+  B                      5x5                 200  double               
+  C                      1x1                   8  double               
+  Data_Num               1x1                   8  double               
+  H1                     1x1                   8  double               
+  H2                     1x1                   8  double               
+  I                      1x3                  24  double               
+  Ind_col                1x4                  32  double               
+  Ind_row                1x3                  24  double               
+  J                      1x1                   8  double               
+  M                      1x3                  24  double               
+  Mean_Value             1x1                   8  double               
+  N                      1x1                   8  double               
+  RGB                    1x3                  24  double               
+  STD_Value              1x1                   8  double               
+  X                      6x6                 288  double               
+  Y_col                  1x3                  24  double               
+  Y_row                  1x4                  32  double               
+  Z                      1x1                  16  double     complex   
+  ZC                     1x1                  16  double     complex   
+  Z_abs                  1x1                   8  double               
+  Z_angle                1x1                   8  double               
+  Z_imag                 1x1                   8  double               
+  Z_real                 1x1                   8  double               
+  Ztemp                  1x7                  56  double               
+  a                      1x1                   8  double               
+  a1                     3x1                  24  double               
+  a2                     3x1                  24  double               
+  a_colmean              1x4                  32  double               
+  a_rowmean              4x1                  32  double               
+  ans                    3x3                  72  double               
+  b                      6x1                  48  double               
+  bottom                 1x1                   8  double               
+  c                      1x1                   8  double               
+  categories             9x14                252  char                 
+  comb                   6x2                  96  double               
+  combnum                1x1                   8  double               
+  cwd                    1x91                182  char                 
+  d                      1x11                 22  char                 
+  d1                     1x10                 20  char                 
+  d2                     1x10                 20  char                 
+  d3                     1x10                 20  char                 
+  dis                  782x5               39036  fints                
+  dis_CLOSE            782x1                6256  double               
+  dis_HIGH             782x1                6256  double               
+  dis_LOW              782x1                6256  double               
+  dis_OPEN             782x1                6256  double               
+  dis_VOLUME           782x1                6256  double               
+  dis_nv               782x4               32722  fints                
+  dy_dx                  1x1                  60  sym                  
+  explode                1x5                  40  double               
+  fac                    1x1                   8  double               
+  headers                1x3                 212  cell                 
+  height                 1x1                   8  double               
+  income                 1x4                  32  double               
+  left                   1x1                   8  double               
+  m                      1x1                   8  double               
+  mean_x                 1x1                   8  double               
+  n                      1x1                   8  double               
+  n1                     1x1                   8  double               
+  n2                     1x1                   8  double               
+  n3                     1x1                   8  double               
+  names                329x43              28294  char                 
+  out                    5x5                 200  double               
+  outgo                  1x4                  32  double               
+  q_dis                 13x4                1974  fints                
+  r                      1x1                   8  double               
+  ratings              329x9               23688  double               
+  s1                     2x1                  60  sym                  
+  s2                     2x1                  60  sym                  
+  s3                     4x1                  60  sym                  
+  std_x                  1x1                   8  double               
+  str                    2x1                 162  cell                 
+  string                 1x3                   6  char                 
+  strlen                 1x1                   8  double               
+  substr1                1x2                   4  char                 
+  substr2                1x3                   6  char                 
+  t                      1x629              5032  double               
+  tl                     4x4                 128  double               
+  tu                     4x4                 128  double               
+  values                 3x3                 606  cell                 
+  whetherAequalsB        1x1                   1  logical              
+  width                  1x1                   8  double               
+  x                      1x629              5032  double               
+  x1                     6x1                  48  double               
+  x2                     6x1                  48  double               
+  x_dataset            100x1                1784  dataset              
+  x_diag                 5x1                  40  double               
+  y                      1x629              5032  double               
+  y1                     1x2001            16008  double               
+  y2                     1x2001            16008  double               
+  z                      1x63                504  double               
+
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_09.png" alt=""> <img vspace="5" hspace="5" src="LearnMatlabUsingNmin_10.png" alt=""> <img vspace="5" hspace="5" src="LearnMatlabUsingNmin_11.png" alt=""> <h2>&#22810;&#39033;&#24335;&#22238;&#24402;&#24212;&#35813;&#29992;&#20160;&#20040;&#20989;&#25968;&#65311;<a name="40"></a></h2><pre class="codeinput">x = (-pi: 0.1: pi)';
+y = sin(x);
+
+p = polyfit(x,y,3)
+
+f = polyval(p,x);
+
+figure;
+plot(x,y,<span class="string">'-'</span>, x,f,<span class="string">'ro'</span>);
+legend(<span class="string">'&#21407;&#22987;&#25968;&#25454;'</span>, <span class="string">'&#22810;&#39033;&#24335;&#25311;&#21512;&#25968;&#25454;'</span>);
+</pre><pre class="codeoutput">p =
+   -0.0931   -0.0020    0.8557    0.0041
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_12.png" alt=""> <h2>&#22914;&#20309;&#20570;&#32858;&#31867;&#20998;&#26512;&#65311;<a name="41"></a></h2><pre class="codeinput"><span class="comment">% kmeans</span>
+figure;
+X = [randn(100,2)+ones(100,2);<span class="keyword">...</span>
+     randn(100,2)-ones(100,2)];
+opts = statset(<span class="string">'Display'</span>,<span class="string">'final'</span>);
+
+[idx,ctrs] = kmeans(X,2,<span class="keyword">...</span>
+                    <span class="string">'Distance'</span>,<span class="string">'city'</span>,<span class="keyword">...</span>
+                    <span class="string">'Replicates'</span>,5,<span class="keyword">...</span>
+                    <span class="string">'Options'</span>,opts);
+
+plot(X(idx==1,1),X(idx==1,2),<span class="string">'r.'</span>,<span class="string">'MarkerSize'</span>,12)
+hold <span class="string">on</span>
+plot(X(idx==2,1),X(idx==2,2),<span class="string">'b.'</span>,<span class="string">'MarkerSize'</span>,12)
+plot(ctrs(:,1),ctrs(:,2),<span class="string">'kx'</span>,<span class="keyword">...</span>
+     <span class="string">'MarkerSize'</span>,12,<span class="string">'LineWidth'</span>,2)
+plot(ctrs(:,1),ctrs(:,2),<span class="string">'ko'</span>,<span class="keyword">...</span>
+     <span class="string">'MarkerSize'</span>,12,<span class="string">'LineWidth'</span>,2)
+legend(<span class="string">'Cluster 1'</span>,<span class="string">'Cluster 2'</span>,<span class="string">'Centroids'</span>,<span class="keyword">...</span>
+       <span class="string">'Location'</span>,<span class="string">'NW'</span>)
+
+<span class="comment">% FCM</span>
+data = rand(100,2);
+options = [2;100;1e-5;1];
+[center,U,obj_fcn] = fcm(data,2,options);
+figure;
+plot(data(:,1), data(:,2),<span class="string">'o'</span>);
+title(<span class="string">'DemoTest of FCM Cluster'</span>);
+xlabel(<span class="string">'1st Dimension'</span>);
+ylabel(<span class="string">'2nd Dimension'</span>);
+grid <span class="string">on</span>;
+hold <span class="string">on</span>;
+maxU = max(U);
+index1 = find(U(1,:) == maxU);
+index2 = find(U(2,:) == maxU);
+line(data(index1,1),data(index1,2),<span class="string">'marker'</span>,<span class="string">'*'</span>,<span class="string">'color'</span>,<span class="string">'g'</span>);
+line(data(index2,1),data(index2,2),<span class="string">'marker'</span>,<span class="string">'*'</span>,<span class="string">'color'</span>,<span class="string">'r'</span>);
+plot([center([1 2],1)],[center([1 2],2)],<span class="string">'*'</span>,<span class="string">'color'</span>,<span class="string">'k'</span>)
+hold <span class="string">off</span>;
+</pre><pre class="codeoutput">4 iterations, total sum of distances = 286.494.
+4 iterations, total sum of distances = 286.494.
+6 iterations, total sum of distances = 286.494.
+5 iterations, total sum of distances = 286.494.
+5 iterations, total sum of distances = 286.494.
+Iteration count = 1, obj. fcn = 9.852617
+Iteration count = 2, obj. fcn = 8.219597
+Iteration count = 3, obj. fcn = 8.216619
+Iteration count = 4, obj. fcn = 8.205398
+Iteration count = 5, obj. fcn = 8.165428
+Iteration count = 6, obj. fcn = 8.047099
+Iteration count = 7, obj. fcn = 7.809399
+Iteration count = 8, obj. fcn = 7.555721
+Iteration count = 9, obj. fcn = 7.428529
+Iteration count = 10, obj. fcn = 7.390721
+Iteration count = 11, obj. fcn = 7.376852
+Iteration count = 12, obj. fcn = 7.366987
+Iteration count = 13, obj. fcn = 7.357756
+Iteration count = 14, obj. fcn = 7.348738
+Iteration count = 15, obj. fcn = 7.339933
+Iteration count = 16, obj. fcn = 7.331397
+Iteration count = 17, obj. fcn = 7.323188
+Iteration count = 18, obj. fcn = 7.315355
+Iteration count = 19, obj. fcn = 7.307937
+Iteration count = 20, obj. fcn = 7.300961
+Iteration count = 21, obj. fcn = 7.294444
+Iteration count = 22, obj. fcn = 7.288392
+Iteration count = 23, obj. fcn = 7.282803
+Iteration count = 24, obj. fcn = 7.277671
+Iteration count = 25, obj. fcn = 7.272978
+Iteration count = 26, obj. fcn = 7.268708
+Iteration count = 27, obj. fcn = 7.264838
+Iteration count = 28, obj. fcn = 7.261343
+Iteration count = 29, obj. fcn = 7.258197
+Iteration count = 30, obj. fcn = 7.255375
+Iteration count = 31, obj. fcn = 7.252851
+Iteration count = 32, obj. fcn = 7.250598
+Iteration count = 33, obj. fcn = 7.248592
+Iteration count = 34, obj. fcn = 7.246811
+Iteration count = 35, obj. fcn = 7.245231
+Iteration count = 36, obj. fcn = 7.243832
+Iteration count = 37, obj. fcn = 7.242596
+Iteration count = 38, obj. fcn = 7.241505
+Iteration count = 39, obj. fcn = 7.240544
+Iteration count = 40, obj. fcn = 7.239697
+Iteration count = 41, obj. fcn = 7.238953
+Iteration count = 42, obj. fcn = 7.238298
+Iteration count = 43, obj. fcn = 7.237724
+Iteration count = 44, obj. fcn = 7.237220
+Iteration count = 45, obj. fcn = 7.236778
+Iteration count = 46, obj. fcn = 7.236391
+Iteration count = 47, obj. fcn = 7.236052
+Iteration count = 48, obj. fcn = 7.235755
+Iteration count = 49, obj. fcn = 7.235496
+Iteration count = 50, obj. fcn = 7.235269
+Iteration count = 51, obj. fcn = 7.235070
+Iteration count = 52, obj. fcn = 7.234897
+Iteration count = 53, obj. fcn = 7.234745
+Iteration count = 54, obj. fcn = 7.234613
+Iteration count = 55, obj. fcn = 7.234498
+Iteration count = 56, obj. fcn = 7.234397
+Iteration count = 57, obj. fcn = 7.234309
+Iteration count = 58, obj. fcn = 7.234232
+Iteration count = 59, obj. fcn = 7.234165
+Iteration count = 60, obj. fcn = 7.234106
+Iteration count = 61, obj. fcn = 7.234055
+Iteration count = 62, obj. fcn = 7.234011
+Iteration count = 63, obj. fcn = 7.233972
+Iteration count = 64, obj. fcn = 7.233938
+Iteration count = 65, obj. fcn = 7.233909
+Iteration count = 66, obj. fcn = 7.233883
+Iteration count = 67, obj. fcn = 7.233861
+Iteration count = 68, obj. fcn = 7.233841
+Iteration count = 69, obj. fcn = 7.233824
+Iteration count = 70, obj. fcn = 7.233809
+Iteration count = 71, obj. fcn = 7.233796
+Iteration count = 72, obj. fcn = 7.233785
+Iteration count = 73, obj. fcn = 7.233775
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_13.png" alt=""> <img vspace="5" hspace="5" src="LearnMatlabUsingNmin_14.png" alt=""> <h2>&#22914;&#20309;&#21033;&#29992;MATLAB&#33719;&#21462;&#20813;&#36153;&#30340;&#37329;&#34701;&#25968;&#25454;&#65311;<a name="42"></a></h2><pre class="codeinput">conn = yahoo;
+test = fetch(conn,{<span class="string">'600409.SS'</span>},{<span class="string">'Close'</span>},<span class="string">'08/01/13'</span>,<span class="string">'08/08/13'</span>,<span class="string">'d'</span>);
+
+d = fints(test(:,1), test(:,2), <span class="string">'Close'</span>, <span class="string">'D'</span>, <span class="string">'600409.SS_Close'</span>)
+
+close(yahoo)
+</pre><pre class="codeoutput"> 
+d = 
+ 
+    desc:  600409.SS_Close
+    freq:  Daily (1)
+
+    'dates:  (6)'    'Close:  (6)'
+    '01-Aug-2013'    [     4.2100]
+    '02-Aug-2013'    [     4.2100]
+    '05-Aug-2013'    [     4.3200]
+    '06-Aug-2013'    [     4.3900]
+    '07-Aug-2013'    [     4.3500]
+    '08-Aug-2013'    [     4.3600]
+</pre><h2>&#22312;MATLAB&#20013;&#22914;&#20309;&#22788;&#29702;&#22320;&#22270;&#25968;&#25454;&#65311;<a name="43"></a></h2><pre class="codeinput"><span class="comment">% &#19990;&#30028;&#22320;&#22270;</span>
+figure;
+ax = worldmap(<span class="string">'World'</span>);
+<span class="comment">% setm(ax, 'Origin', [0 180 0])</span>
+land = shaperead(<span class="string">'landareas'</span>, <span class="string">'UseGeoCoords'</span>, true);
+geoshow(ax, land, <span class="string">'FaceColor'</span>, [0.5 0.7 0.5])
+lakes = shaperead(<span class="string">'worldlakes'</span>, <span class="string">'UseGeoCoords'</span>, true);
+geoshow(lakes, <span class="string">'FaceColor'</span>, <span class="string">'blue'</span>)
+rivers = shaperead(<span class="string">'worldrivers'</span>, <span class="string">'UseGeoCoords'</span>, true);
+geoshow(rivers, <span class="string">'Color'</span>, <span class="string">'blue'</span>)
+cities = shaperead(<span class="string">'worldcities'</span>, <span class="string">'UseGeoCoords'</span>, true);
+geoshow(cities, <span class="string">'Marker'</span>, <span class="string">'.'</span>, <span class="string">'Color'</span>, <span class="string">'red'</span>)
+title(<span class="string">'&#19990;&#30028;&#22320;&#22270;'</span>,<span class="string">'FontSize'</span>,14,<span class="string">'FontWeight'</span>,<span class="string">'Bold'</span>);
+
+<span class="comment">% &#20013;&#22269;&#22320;&#22270;</span>
+figure;
+worldmap([15 55],[70 140])<span class="comment">%&#32428;&#24230;&#32463;&#24230;&#33539;&#22260;&#26174;&#31034;</span>
+<span class="comment">%&#26174;&#31034;&#30690;&#37327;&#25968;&#25454;</span>
+sh1 = shaperead(<span class="string">'bou2_4p'</span>, <span class="string">'UseGeoCoords'</span>, true);
+geoshow(sh1, <span class="string">'FaceColor'</span>, [0.5 1.0 0.5]);
+
+setm(gca,<span class="string">'MLineLocation'</span>,5)<span class="comment">%&#35774;&#32622;&#32463;&#24230;&#38388;&#38548;&#20026;5</span>
+setm(gca,<span class="string">'PLineLocation'</span>,10)<span class="comment">%&#35774;&#32622;&#32463;&#24230;&#38388;&#38548;&#20026;10</span>
+setm(gca,<span class="string">'MLabelLocation'</span>,5)<span class="comment">%&#35774;&#32622;&#32463;&#24230;&#26631;&#31614;&#20026;&#27599;&#38548;5&#24230;</span>
+setm(gca,<span class="string">'PLabelLocation'</span>,10)<span class="comment">%&#35774;&#32622;&#32428;&#24230;&#26631;&#31614;&#20026;&#27599;&#38548;10&#24230;</span>
+title(<span class="string">'&#20013;&#22269;&#22320;&#22270;'</span>,<span class="string">'FontSize'</span>,14,<span class="string">'FontWeight'</span>,<span class="string">'Bold'</span>);
+
+<span class="comment">% &#32654;&#22269;&#22320;&#22270;</span>
+figure;
+ax = worldmap(<span class="string">'USA'</span>);
+load <span class="string">coast</span>
+geoshow(ax, lat, long,<span class="keyword">...</span>
+<span class="string">'DisplayType'</span>, <span class="string">'polygon'</span>, <span class="string">'FaceColor'</span>, [.45 .60 .30])
+states = shaperead(<span class="string">'usastatelo'</span>, <span class="string">'UseGeoCoords'</span>, true);
+faceColors = makesymbolspec(<span class="string">'Polygon'</span>,<span class="keyword">...</span>
+    {<span class="string">'INDEX'</span>, [1 numel(states)], <span class="string">'FaceColor'</span>, <span class="keyword">...</span>
+    polcmap(numel(states))}); <span class="comment">% NOTE - colors are random</span>
+geoshow(ax, states, <span class="string">'DisplayType'</span>, <span class="string">'polygon'</span>, <span class="keyword">...</span>
+  <span class="string">'SymbolSpec'</span>, faceColors)
+title(<span class="string">'&#32654;&#22269;&#22320;&#22270;'</span>,<span class="string">'FontSize'</span>,14,<span class="string">'FontWeight'</span>,<span class="string">'Bold'</span>);
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_15.png" alt=""> <img vspace="5" hspace="5" src="LearnMatlabUsingNmin_16.png" alt=""> <img vspace="5" hspace="5" src="LearnMatlabUsingNmin_17.png" alt=""> <h2>&#22914;&#20309;&#35745;&#31639;&#19968;&#20010;&#36164;&#37329;&#27969;&#30340;&#26368;&#22823;&#22238;&#25764;&#65311;<a name="44"></a></h2><pre class="codeinput">load <span class="string">FundMarketCash</span>
+fund = TestData(:,1);
+
+[DrawDownPercent,DrawDownAbs] = RetraceRatio(fund);
+
+figure;
+subplot(3,1,1:2);
+plot(fund);
+xlim([1 length(fund)]);
+title(<span class="string">'Fund'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+
+subplot(313);
+plot( DrawDownPercent );
+xlim([1 length(fund)]);
+title(<span class="string">'&#26368;&#22823;&#22238;&#25764;&#27604;&#20363;'</span>, <span class="string">'FontWeight'</span>, <span class="string">'Bold'</span>);
+</pre><img vspace="5" hspace="5" src="LearnMatlabUsingNmin_18.png" alt=""> <h2>Test<a name="45"></a></h2><h2>Record Time<a name="46"></a></h2><pre class="codeinput">toc;
+</pre><pre class="codeoutput">Elapsed time is 117.730494 seconds.
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.14<br></p></div><!--
+##### SOURCE BEGIN #####
+%% 《量化投资：以MATLAB为工具》-基础篇-N分钟学会MATLAB(60<N<180)
+% Learn Matlab Using N minutes(60<N<180)
+%
+% by LiYang
+% 
+% Email:farutoliyang@gmail.com
+% 
+% Last Updated 2013/08
+%% A Little Clean Work
+tic;
+clear;
+clc;
+close all;
+format compact;
+%% 能否简单举一个MATLAB的例子？
+
+Mean_Value = 0;
+STD_Value = 1;
+Data_Num = 100;
+
+x = random('Normal', Mean_Value, STD_Value, Data_Num, 1);
+x_dataset = dataset(x);
+
+whos
+mean_x = mean(x)
+std_x = std(x)
+summary(x_dataset)
+%% 如何查看函数的代码？
+
+edit mean;
+
+%% MATLAB里面可以使用科学计数法么？
+
+format longG
+1e10
+1.2e-4
+
+format short
+
+%% 如何恢复MATLAB的文件关联？
+
+cwd=pwd;
+cd([matlabroot '\toolbox\matlab\winfun\private']);
+fileassoc('add',{'.m','.mat','.fig','.p','.mdl',['.' mexext]});%重点
+cd(cwd);
+disp('Changed Windows file associations. FIG, M, MAT, MDL, MEX, andP files are now associated with MATLAB.') 
+
+%% MATLAB可以读Excel的数据？
+
+values = {1, 2, 3 ; 4, 5, 'x' ; 7, 8, 9};
+headers = {'First', 'Second', 'Third'};
+xlswrite('eg_Mat2Excel.xlsx', [headers; values]);
+
+A = xlsread('eg_Mat2Excel.xlsx')
+
+%% 如何删掉缺失值？
+
+A = [1 NaN 3]
+
+A( isnan(A) ) = []
+
+%% 如何将字符串转变为命令执行？
+A = 3;
+B = 5;
+
+string = [num2str(A),'+',num2str(B)]
+
+eval(string);
+
+%% 如何向一个向量追加元素？
+
+A = [1 2 3 4]
+
+A(end+1) = 5
+
+
+%% 如何移除矩阵的某行（列）数据？
+
+A = magic(5)
+B = A;
+C = A;
+
+B(5,:) = []
+C(:,5) = []
+
+%% 如何比较两个矩阵是否相同呢？
+
+A = magic(5)
+B = A;
+
+B(1) = 888
+
+whetherAequalsB = all( all( A == B ) )
+%% 如何去掉数据中的重复元素？
+
+A = [1 1 2 2 3 4 5 6 6]
+
+A_unique = unique(A)
+%% 如何求数据的极值？
+
+A = 1:10
+
+A_min = min(A)
+
+A_max = max(A)
+
+%% 如何求矩阵最大(小)值并返回其行列号？
+
+% 方法1
+disp('方法1');
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+[C,I]=max(A(:))
+[m,n]=ind2sub(size(A),I)
+% 方法2
+disp('方法2');
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+[M,I]=max(A)
+[N,J]=max(M)
+[I(J),J]
+% 方法3
+disp('方法3');
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+N=max(max(A))    %或者N=max(A(:))
+[r,c]=find(N==A)
+% 方法4
+disp('方法4');
+A=[0 17 50;-12 40 3;5 -10 2;30 4 3]
+[Y_col,Ind_row]=max(A)   %每列的最大值及行号
+[Y_row,Ind_col]=max(A')    %每行的最大值及列号
+
+%% 如何从一组数据中随机抽取数据？
+
+out = randsrc(5,5,[-3 -1 1 3; .2 .3 .3 .2])
+
+%% 如何将数据标准化？
+
+x = [1 1 2 3 5 8 11]
+
+Z = zscore(x)
+
+Ztemp = ( x-mean(x) )./std(x)
+
+%% 如何计算积分？
+
+syms x
+int(sin(x))
+
+integral(@sin, 0,pi)
+
+%% MATLAB如何进行复数计算？
+
+Z = complex(3,4) 
+
+% 实部
+Z_real = real( Z )
+% 虚部
+Z_imag = imag( Z )
+% 模
+Z_abs = abs( Z )
+% 辐角
+Z_angle = angle( Z )
+% 共轭
+ZC = conj( Z )
+
+%% 如何生成对角矩阵？
+
+X = diag([1 1 2 3 5 8])
+
+x = magic(5)
+
+x_diag = diag(x)
+
+%% 如何构造上（下）三角矩阵？
+
+tl = tril(ones(4,4),-1)
+
+tu = triu(ones(4,4),-1)
+
+%% MATLAB常用的运算符号有哪些？
+
+a=magic(3)
+b=pascal(3)
+
+disp('a/b')
+a/b
+disp('a*inv(b)')
+a*inv(b)
+
+disp('a\b')
+a\b
+disp('inv(a)*b')
+inv(a)*b
+
+a/b-(b'\a')'
+
+disp('a^3')
+a^3
+disp('a*a*a')
+a*a*a
+
+disp('a.*b')
+a.*b
+disp('a.\b')
+a.\b
+disp('a./b')
+a./b
+disp('a.^b')
+a.^b
+
+%% 如何求矩阵各行（列）的均值？
+
+a = magic(4)
+% 各行均值
+a_rowmean = mean(a , 2)
+% 各列均值
+a_colmean = mean(a , 1)
+
+%% 如何计算组合数或得到所有组合？
+
+combnum = nchoosek(4, 2)
+
+comb = nchoosek([1 2 3 4], 2)
+
+fac = factorial(4)
+
+%%  如何在MATLAB里面求（偏）导数？
+
+syms x
+dy_dx = diff( sin(x)/x )
+
+%% 如何求一元方程的根？
+
+syms x
+
+s1 = solve( x^2-1 )
+
+s2 = solve(x^2 + 4*x + 1 == 0)
+
+s3 = solve(x^4 + 1 == 2*x^2 - 1)
+
+%% 如何在字符串中选取特定位置的字符？
+
+str = 'abcdef'
+
+substr1 = str( [2 4] )
+
+substr2 = str( 1:3 )
+
+%% 如何返回字符个数？
+
+str = 'abcdef'
+strlen = length(str)
+
+%%  日期可以做算术运算么？
+
+n1 = datenum( '01/08/2013', 'dd/mm/yyyy' )
+
+n2 = datenum( '08/08/2013', 'dd/mm/yyyy' )
+
+n3 = n1 + 2
+
+d1 = datestr( n1, 'dd/mm/yyyy' )
+
+d2 = datestr( n2, 'dd/mm/yyyy' )
+
+d3 = datestr( n3, 'dd/mm/yyyy' )
+
+%% 如何将日期表示为“07-Aug- 2013”这种格式？
+
+d = datestr( datenum( '07/08/2013', 'dd/mm/yyyy' ), 'dd-mmm-yyyy' )
+
+%% 如何在同一画面画出多张图？
+
+figure;
+income = [3.2,4.1,5.0,5.6];
+outgo = [2.5,4.0,3.35,4.9];
+
+subplot(2,1,1); 
+plot(income);
+title('Income');
+
+subplot(2,1,2); 
+plot(outgo);
+title('Outgo');
+
+%% 怎么做饼图？
+
+x = [1 3 0.5 2.5 2];
+explode = [0 1 0 0 0];
+
+figure;
+subplot(2,1,1); 
+pie(x,explode);
+title('二维饼图');
+colormap jet
+
+subplot(2,1,2); 
+pie3(x,explode);
+title('三维饼图');
+colormap hsv
+
+%% MATLAB如何做双坐标？
+
+figure
+x = 0:0.01:20;
+y1 = 200*exp(-0.05*x).*sin(x);
+y2 = 0.8*exp(-0.5*x).*sin(10*x);
+[AX,H1,H2] = plotyy(x,y1,x,y2,'plot');
+
+set(get(AX(1),'Ylabel'),'String','Slow Decay') 
+set(get(AX(2),'Ylabel'),'String','Fast Decay') 
+xlabel('Time (\musec)') 
+title('Multiple Decay Rates') 
+set(H1,'LineStyle','REPLACE_WITH_DASH_DASH')
+set(H2,'LineStyle',':')
+%% 如果绘图时标题太长，如何换行？
+
+figure
+subplot(2,1,1);
+ezplot( @sin );
+title('First line+Second line');
+
+subplot(2,1,2); 
+ezplot( @sin );
+str = {'First line';'Second line'};
+title( str );
+
+%% 如何用不同的颜色来代表数据？
+
+figure;
+x = -pi:.1:pi;
+y = sin(x);
+z = cos(x);
+RGB = [1 0 0];
+plot( y, 'Color', RGB )
+hold on;
+RGB = [0 0.5 0.5];
+plot( z, 'Color', RGB )
+legend('sinx', 'cosx');
+
+%% 如何调整所绘图形的大小？
+
+left = 100;
+bottom = 100;
+width = 500;
+height = 500;
+figure( 'Position', [left, bottom, width, height]);
+ezplot(@sin)
+
+%% 如何绘制椭圆或双曲线？
+
+t = 0:0.01:2*pi;
+a = 1;
+b = 2;
+x = a*sin(t);
+y = b*cos(t);
+figure;
+plot(x,y);
+xlim( [-pi/2, pi/2] );
+ylim( [-3, 3] );
+
+%%  在MATLAB中如何绘制K线图？
+
+load disney;
+candle(dis_HIGH(end-20:end), dis_LOW(end-20:end), dis_CLOSE(end-20:end),...
+        dis_OPEN(end-20:end), 'b');
+
+%%  如何做线性回归模型？
+
+x1 = [.2 .5 .6 .8 1.0 1.1]'; 
+x2 = [.1 .3 .4 .9 1.1 1.4]'; 
+
+A = [ones(size(x1)) x1 x2]
+b = [.17 .26 .28 .23 .27 .34]'
+
+a1 = A\b
+
+a2 = lscov(A, b) 
+
+%% 如何做主成分分析？
+
+% 载入数据
+load cities;
+
+whos
+%   Name             Size         Bytes  Class
+%   categories    9x14          252  char array
+%   names          329x43       28294  char array
+%   ratings         329x9         23688  double array
+
+% % ratings数据的box图
+figure;
+boxplot(ratings,'orientation','horizontal','labels',categories);
+grid on;
+
+% % 标准化预处理
+stdr = std(ratings);
+sr = ratings./repmat(stdr,329,1);
+% % 使用princomp函数进行主成分分析 
+[coef,score,latent,t2] = princomp(sr);
+
+% % 输出参数讲解
+
+% coef:9*9矩阵
+% 主成分系数:即原始数据线性组合生成主成分数据中每一维数据前面的系数.
+% coef的每一列代表一个新生成的主成分的系数.
+% 比如你想取出前三个主成分的系数, 如下可实现: pca3 = coef(:,1:3);
+
+% score:329*9矩阵
+% 字面理解:主成分得分
+% 即原始数据在新生成的主成分空间里的坐标值.
+
+% latent:9*1矩阵
+% 一个列向量,由sr的协方差矩阵的特征值组成.
+% 即 latent = sort(eig(cov(sr)),'descend');
+% 测试如下:
+% sort(eig(cov(sr)),'descend') =
+%     3.4083
+%     1.2140
+%     1.1415
+%     0.9209
+%     0.7533
+%     0.6306
+%     0.4930
+%     0.3180
+%     0.1204
+% latent =
+%     3.4083
+%     1.2140
+%     1.1415
+%     0.9209
+%     0.7533
+%     0.6306
+%     0.4930
+%     0.3180
+%     0.1204
+
+% t2:329*1
+% 一中多元统计距离,记录的是每一个观察量到中心的距离
+
+% % 如何提取主成分,达到降维的目的
+% 通过latent,可以知道提取前几个主成分就可以了.
+figure;
+percent_explained = 100*latent/sum(latent);
+pareto(percent_explained);
+xlabel('Principal Component');
+ylabel('Variance Explained (%)');
+
+% 图中的线表示的累积变量解释程度.
+% 通过看图可以看出前七个主成分可以表示出原始数据的90%.
+% 所以在90%的意义下只需提取前七个主成分即可,进而达到主成分提取的目的.
+
+% % 结果的可视化
+figure;
+biplot(coef(:,1:2), 'scores',score(:,1:2),... 
+'varlabels',categories);
+axis([-.26 1 -.51 .51]);
+% 横坐标和纵坐标分别表示第一主成分和第二主成分
+% 红色的点代表329个观察量,其坐标就是score
+% 蓝色的向量的方向和长度表示了每个原始变量对新的主成分的贡献,其坐标就是coef.
+
+%% 多项式回归应该用什么函数？
+
+x = (-pi: 0.1: pi)';
+y = sin(x);
+
+p = polyfit(x,y,3)
+
+f = polyval(p,x);
+
+figure;
+plot(x,y,'-', x,f,'ro');
+legend('原始数据', '多项式拟合数据');
+
+%% 如何做聚类分析？
+
+% kmeans
+figure;
+X = [randn(100,2)+ones(100,2);...
+     randn(100,2)-ones(100,2)];
+opts = statset('Display','final');
+
+[idx,ctrs] = kmeans(X,2,...
+                    'Distance','city',...
+                    'Replicates',5,...
+                    'Options',opts);
+
+plot(X(idx==1,1),X(idx==1,2),'r.','MarkerSize',12)
+hold on
+plot(X(idx==2,1),X(idx==2,2),'b.','MarkerSize',12)
+plot(ctrs(:,1),ctrs(:,2),'kx',...
+     'MarkerSize',12,'LineWidth',2)
+plot(ctrs(:,1),ctrs(:,2),'ko',...
+     'MarkerSize',12,'LineWidth',2)
+legend('Cluster 1','Cluster 2','Centroids',...
+       'Location','NW')
+
+% FCM
+data = rand(100,2); 
+options = [2;100;1e-5;1]; 
+[center,U,obj_fcn] = fcm(data,2,options); 
+figure; 
+plot(data(:,1), data(:,2),'o'); 
+title('DemoTest of FCM Cluster'); 
+xlabel('1st Dimension'); 
+ylabel('2nd Dimension'); 
+grid on; 
+hold on; 
+maxU = max(U); 
+index1 = find(U(1,:) == maxU); 
+index2 = find(U(2,:) == maxU); 
+line(data(index1,1),data(index1,2),'marker','*','color','g'); 
+line(data(index2,1),data(index2,2),'marker','*','color','r'); 
+plot([center([1 2],1)],[center([1 2],2)],'*','color','k') 
+hold off;
+
+%% 如何利用MATLAB获取免费的金融数据？
+
+conn = yahoo;
+test = fetch(conn,{'600409.SS'},{'Close'},'08/01/13','08/08/13','d');
+
+d = fints(test(:,1), test(:,2), 'Close', 'D', '600409.SS_Close')
+
+close(yahoo)
+%%  在MATLAB中如何处理地图数据？
+
+% 世界地图
+figure;
+ax = worldmap('World');
+% setm(ax, 'Origin', [0 180 0])
+land = shaperead('landareas', 'UseGeoCoords', true);
+geoshow(ax, land, 'FaceColor', [0.5 0.7 0.5])
+lakes = shaperead('worldlakes', 'UseGeoCoords', true);
+geoshow(lakes, 'FaceColor', 'blue')
+rivers = shaperead('worldrivers', 'UseGeoCoords', true);
+geoshow(rivers, 'Color', 'blue')
+cities = shaperead('worldcities', 'UseGeoCoords', true);
+geoshow(cities, 'Marker', '.', 'Color', 'red')
+title('世界地图','FontSize',14,'FontWeight','Bold');
+
+% 中国地图
+figure;
+worldmap([15 55],[70 140])%纬度经度范围显示
+%显示矢量数据
+sh1 = shaperead('bou2_4p', 'UseGeoCoords', true);
+geoshow(sh1, 'FaceColor', [0.5 1.0 0.5]);
+
+setm(gca,'MLineLocation',5)%设置经度间隔为5
+setm(gca,'PLineLocation',10)%设置经度间隔为10
+setm(gca,'MLabelLocation',5)%设置经度标签为每隔5度
+setm(gca,'PLabelLocation',10)%设置纬度标签为每隔10度
+title('中国地图','FontSize',14,'FontWeight','Bold');
+
+% 美国地图
+figure;
+ax = worldmap('USA');
+load coast
+geoshow(ax, lat, long,...
+'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+states = shaperead('usastatelo', 'UseGeoCoords', true);
+faceColors = makesymbolspec('Polygon',...
+    {'INDEX', [1 numel(states)], 'FaceColor', ...
+    polcmap(numel(states))}); % NOTE - colors are random
+geoshow(ax, states, 'DisplayType', 'polygon', ...
+  'SymbolSpec', faceColors)
+title('美国地图','FontSize',14,'FontWeight','Bold');
+
+%% 如何计算一个资金流的最大回撤？
+
+load FundMarketCash
+fund = TestData(:,1);
+
+[DrawDownPercent,DrawDownAbs] = RetraceRatio(fund);
+
+figure;
+subplot(3,1,1:2);
+plot(fund);
+xlim([1 length(fund)]);
+title('Fund', 'FontWeight', 'Bold');
+
+subplot(313);
+plot( DrawDownPercent );
+xlim([1 length(fund)]);
+title('最大回撤比例', 'FontWeight', 'Bold');
+
+%% Test 
+
+
+%% Record Time
+toc;
+##### SOURCE END #####
+--></body></html>
