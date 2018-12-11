@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>AMain_demo_Tushare_STK_A</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-12-11"><meta name="DC.source" content="AMain_demo_Tushare_STK_A.m"><style type="text/css">
+      --><title>AMain_demo_Tushare_STK_A</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-12-11"><meta name="DC.source" content="AMain_demo_Tushare_STK_A.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,16 +66,16 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>AMain_demo_Tushare_STK_A</h1><!--introduction--><p>by LiYang_faruto</p><p>Email:farutoliyang@foxmail.com</p><p>2019/01/01</p><p>&#36890;&#36807;Tushare Pro&#33719;&#21462;&#26399;&#36135;&#30456;&#20851;&#25968;&#25454;&#65288;&#20351;&#29992; Tushare_MATLAB_FSDK&#65289;</p><p>Tushare_MATLAB_FSDK see</p><p><a href="https://github.com/faruto/Tushare_MATLAB_FSDK">Tushare_MATLAB_FSDK</a></p><p><a href="https://faruto.github.io/html/index.html">faruto_github_io</a></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">A Little Clean Work</a></li><li><a href="#2">&#20840;&#23616;&#21442;&#25968;</a></li><li><a href="#3">tushare api connect</a></li><li><a href="#4">&#22522;&#30784;&#25968;&#25454;</a></li><li><a href="#5">&#32929;&#31080;&#21015;&#34920;</a></li><li><a href="#6">&#20132;&#26131;&#26085;&#21382;</a></li><li><a href="#7">&#34892;&#24773;&#25968;&#25454;</a></li><li><a href="#8">&#26085;&#32447;&#34892;&#24773;</a></li><li><a href="#10">ETC</a></li><li><a href="#11">Record Time</a></li></ul></div><h2>A Little Clean Work<a name="1"></a></h2><pre class="codeinput">tic;
+  </style></head><body><div class="content"><h1>AMain_demo_Tushare_STK_A</h1><!--introduction--><p>by LiYang_faruto</p><p>Email:farutoliyang@foxmail.com</p><p>2019/01/01</p><p>&#36890;&#36807;Tushare Pro&#33719;&#21462;&#25968;&#25454;&#26679;&#20363;&#65288;&#20351;&#29992; Tushare_MATLAB_FSDK&#65289;</p><p>Tushare_MATLAB_FSDK see</p><p><a href="https://github.com/faruto/Tushare_MATLAB_FSDK">Tushare_MATLAB_FSDK</a></p><p><a href="https://faruto.github.io/html/index.html">faruto_github_io</a></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">A Little Clean Work</a></li><li><a href="#2">&#20840;&#23616;&#21442;&#25968;</a></li><li><a href="#3">tushare api connect</a></li><li><a href="#4">&#22522;&#30784;&#25968;&#25454;</a></li><li><a href="#5">&#32929;&#31080;&#21015;&#34920;</a></li><li><a href="#6">&#20132;&#26131;&#26085;&#21382;</a></li><li><a href="#7">&#34892;&#24773;&#25968;&#25454;</a></li><li><a href="#8">&#26085;&#32447;&#34892;&#24773;</a></li><li><a href="#10">ETC</a></li><li><a href="#11">Record Time</a></li></ul></div><h2 id="1">A Little Clean Work</h2><pre class="codeinput">tic;
 <span class="comment">% clear;</span>
 <span class="comment">% clc;</span>
 <span class="comment">% close all;</span>
 format <span class="string">compact</span>;
-</pre><h2>&#20840;&#23616;&#21442;&#25968;<a name="2"></a></h2><pre class="codeinput">gPara.len_demo = 8;
-</pre><h2>tushare api connect<a name="3"></a></h2><p>&#36755;&#20837;&#24744;&#33258;&#24049;&#30340;Token,&#26597;&#30475;&#20301;&#32622; https://tushare.pro/user/token</p><pre class="codeinput">YourTushareToken_char = TushareToken;
+</pre><h2 id="2">&#20840;&#23616;&#21442;&#25968;</h2><pre class="codeinput">gPara.len_demo = 8;
+</pre><h2 id="3">tushare api connect</h2><p>&#36755;&#20837;&#24744;&#33258;&#24049;&#30340;Token,&#26597;&#30475;&#20301;&#32622; https://tushare.pro/user/token</p><pre class="codeinput">YourTushareToken_char = TushareToken;
 token = YourTushareToken_char;
 api = pro_api(token);
-</pre><h2>&#22522;&#30784;&#25968;&#25454;<a name="4"></a></h2><pre class="codeinput"><span class="comment">%{
+</pre><h2 id="4">&#22522;&#30784;&#25968;&#25454;</h2><pre class="codeinput"><span class="comment">%{
 </span><span class="comment">&#32929;&#31080;&#21015;&#34920;
 </span><span class="comment">&#21508;&#20132;&#26131;&#25152;&#20132;&#26131;&#26085;&#21382;
 </span><span class="comment">&#27818;&#28145;&#32929;&#36890;&#25104;&#20221;&#32929;
@@ -83,39 +83,41 @@ api = pro_api(token);
 </span><span class="comment">&#19978;&#24066;&#20844;&#21496;&#22522;&#26412;&#20449;&#24687;
 </span><span class="comment">IPO&#26032;&#32929;&#21015;&#34920;
 </span><span class="comment">%}</span>
-</pre><h2>&#32929;&#31080;&#21015;&#34920;<a name="5"></a></h2><pre class="codeinput">tic;
+</pre><h2 id="5">&#32929;&#31080;&#21015;&#34920;</h2><pre class="codeinput">tic;
 tData = api.query(<span class="string">'stock_basic'</span>,<span class="string">'list_status'</span>,<span class="string">'L'</span>);
 tData(1:gPara.len_demo,:)
 toc;
-</pre><pre class="codeoutput">ans = 
-      ts_code       symbol      name     area    industry    market    list_date 
-    ___________    ________    ______    ____    ________    ______    __________
-    '000001.SZ'    '000001'    '&#24179;&#23433;&#38134;&#34892;'    '&#28145;&#22323;'    '&#38134;&#34892;'        '&#20027;&#26495;'      '19910403'
-    '000002.SZ'    '000002'    '&#19975;&#31185;A'     '&#28145;&#22323;'    '&#20840;&#22269;&#22320;&#20135;'      '&#20027;&#26495;'      '19910129'
-    '000004.SZ'    '000004'    '&#22269;&#20892;&#31185;&#25216;'    '&#28145;&#22323;'    '&#29983;&#29289;&#21046;&#33647;'      '&#20027;&#26495;'      '19910114'
-    '000005.SZ'    '000005'    '&#19990;&#32426;&#26143;&#28304;'    '&#28145;&#22323;'    '&#25151;&#20135;&#26381;&#21153;'      '&#20027;&#26495;'      '19901210'
-    '000006.SZ'    '000006'    '&#28145;&#25391;&#19994;A'    '&#28145;&#22323;'    '&#21306;&#22495;&#22320;&#20135;'      '&#20027;&#26495;'      '19920427'
-    '000007.SZ'    '000007'    '&#20840;&#26032;&#22909;'     '&#28145;&#22323;'    '&#37202;&#24215;&#39184;&#39278;'      '&#20027;&#26495;'      '19920413'
-    '000008.SZ'    '000008'    '&#31070;&#24030;&#39640;&#38081;'    '&#21271;&#20140;'    '&#36816;&#36755;&#35774;&#22791;'      '&#20027;&#26495;'      '19920507'
-    '000009.SZ'    '000009'    '&#20013;&#22269;&#23453;&#23433;'    '&#28145;&#22323;'    '&#32508;&#21512;&#31867;'       '&#20027;&#26495;'      '19910625'
-&#26102;&#38388;&#24050;&#36807; 16.415254 &#31186;&#12290;
-</pre><h2>&#20132;&#26131;&#26085;&#21382;<a name="6"></a></h2><pre class="codeinput">tic;
+</pre><pre class="codeoutput">ans =
+  8&times;7 table
+      ts_code       symbol       name        area     industry     market    list_date 
+    ___________    ________    _________    ______    _________    ______    __________
+    '000001.SZ'    '000001'    '&#24179;&#23433;&#38134;&#34892;'    '&#28145;&#22323;'     '&#38134;&#34892;'        '&#20027;&#26495;'    '19910403'
+    '000002.SZ'    '000002'    '&#19975;&#31185;A'      '&#28145;&#22323;'     '&#20840;&#22269;&#22320;&#20135;'     '&#20027;&#26495;'    '19910129'
+    '000004.SZ'    '000004'    '&#22269;&#20892;&#31185;&#25216;'    '&#28145;&#22323;'     '&#29983;&#29289;&#21046;&#33647;'    '&#20027;&#26495;'     '19910114'
+    '000005.SZ'    '000005'    '&#19990;&#32426;&#26143;&#28304;'    '&#28145;&#22323;'     '&#25151;&#20135;&#26381;&#21153;'    '&#20027;&#26495;'     '19901210'
+    '000006.SZ'    '000006'    '&#28145;&#25391;&#19994;A'     '&#28145;&#22323;'    '&#21306;&#22495;&#22320;&#20135;'     '&#20027;&#26495;'     '19920427'
+    '000007.SZ'    '000007'    '&#20840;&#26032;&#22909;'      '&#28145;&#22323;'    '&#37202;&#24215;&#39184;&#39278;'     '&#20027;&#26495;'     '19920413'
+    '000008.SZ'    '000008'    '&#31070;&#24030;&#39640;&#38081;'    '&#21271;&#20140;'     '&#36816;&#36755;&#35774;&#22791;'    '&#20027;&#26495;'     '19920507'
+    '000009.SZ'    '000009'    '&#20013;&#22269;&#23453;&#23433;'    '&#28145;&#22323;'     '&#32508;&#21512;&#31867;'      '&#20027;&#26495;'     '19910625'
+&#26102;&#38388;&#24050;&#36807; 0.798320 &#31186;&#12290;
+</pre><h2 id="6">&#20132;&#26131;&#26085;&#21382;</h2><pre class="codeinput">tic;
 tData = api.query(<span class="string">'trade_cal'</span>,<span class="string">'start_date'</span>,<span class="string">'20180101'</span>, <span class="string">'end_date'</span>,<span class="string">'20181231'</span>);
 tData(1:gPara.len_demo,:)
 toc;
-</pre><pre class="codeoutput">ans = 
+</pre><pre class="codeoutput">ans =
+  8&times;3 table
     exchange     cal_date     is_open
     ________    __________    _______
-    'SSE'       '20180101'    0      
-    'SSE'       '20180102'    1      
-    'SSE'       '20180103'    1      
-    'SSE'       '20180104'    1      
-    'SSE'       '20180105'    1      
-    'SSE'       '20180106'    0      
-    'SSE'       '20180107'    0      
-    'SSE'       '20180108'    1      
-&#26102;&#38388;&#24050;&#36807; 0.701574 &#31186;&#12290;
-</pre><h2>&#34892;&#24773;&#25968;&#25454;<a name="7"></a></h2><pre class="codeinput"><span class="comment">%{
+     'SSE'      '20180101'       0   
+     'SSE'      '20180102'       1   
+     'SSE'      '20180103'       1   
+     'SSE'      '20180104'       1   
+     'SSE'      '20180105'       1   
+     'SSE'      '20180106'       0   
+     'SSE'      '20180107'       0   
+     'SSE'      '20180108'       1   
+&#26102;&#38388;&#24050;&#36807; 0.074392 &#31186;&#12290;
+</pre><h2 id="7">&#34892;&#24773;&#25968;&#25454;</h2><pre class="codeinput"><span class="comment">%{
 </span><span class="comment">&#26085;&#32447;&#34892;&#24773;
 </span><span class="comment">&#21608;&#32447;&#34892;&#24773;
 </span><span class="comment">&#26376;&#32447;&#34892;&#24773;
@@ -125,27 +127,28 @@ toc;
 </span><span class="comment">&#27599;&#26085;&#34892;&#24773;&#25351;&#26631;
 </span><span class="comment">&#36890;&#29992;&#34892;&#24773;&#25509;&#21475;
 </span><span class="comment">%}</span>
-</pre><h2>&#26085;&#32447;&#34892;&#24773;<a name="8"></a></h2><pre class="codeinput">tic;
+</pre><h2 id="8">&#26085;&#32447;&#34892;&#24773;</h2><pre class="codeinput">tic;
 tData = api.query(<span class="string">'daily'</span>,<span class="string">'ts_code'</span>,<span class="string">'000001.SZ'</span>,<span class="string">'start_date'</span>,<span class="string">'20180101'</span>,<span class="string">'end_date'</span>,<span class="string">'20181231'</span>);
 tData(1:gPara.len_demo,:)
 toc;
-</pre><pre class="codeoutput">ans = 
+</pre><pre class="codeoutput">ans =
+  8&times;11 table
       ts_code      trade_date    open     high      low     close    pre_close    change    pct_chg       vol          amount  
     ___________    __________    _____    _____    _____    _____    _________    ______    _______    __________    __________
-    '000001.SZ'    '20180102'    13.35    13.93    13.32     13.7     13.3          0.4      3.01      2.0816e+06    2.8565e+06
-    '000001.SZ'    '20180103'    13.73    13.86     13.2    13.33     13.7        -0.37      -2.7      2.9625e+06    4.0062e+06
-    '000001.SZ'    '20180104'    13.32    13.37    13.13    13.25    13.33        -0.08      -0.6      1.8545e+06    2.4545e+06
-    '000001.SZ'    '20180105'    13.21    13.35    13.15     13.3    13.25         0.05      0.38      1.2103e+06    1.6033e+06
-    '000001.SZ'    '20180108'    13.25    13.29    12.86    12.96     13.3        -0.34     -2.56      2.1586e+06    2.8061e+06
-    '000001.SZ'    '20180109'    12.96     13.2    12.92    13.08    12.96         0.12      0.93      1.3443e+06    1.7543e+06
-    '000001.SZ'    '20180110'    13.04    13.49    12.92    13.47    13.08         0.39      2.98      2.4033e+06    3.1961e+06
-    '000001.SZ'    '20180111'    13.41    13.59    13.27     13.4    13.47        -0.07     -0.52      1.4439e+06    1.9375e+06
-&#26102;&#38388;&#24050;&#36807; 0.690459 &#31186;&#12290;
-</pre><h2>ETC<a name="10"></a></h2><pre class="codeinput">over = 1;
-</pre><h2>Record Time<a name="11"></a></h2><pre class="codeinput">toc;
+    '000001.SZ'    '20180102'    13.35    13.93    13.32     13.7       13.3        0.4       3.01     2.0816e+06    2.8565e+06
+    '000001.SZ'    '20180103'    13.73    13.86     13.2    13.33       13.7      -0.37       -2.7     2.9625e+06    4.0062e+06
+    '000001.SZ'    '20180104'    13.32    13.37    13.13    13.25      13.33      -0.08       -0.6     1.8545e+06    2.4545e+06
+    '000001.SZ'    '20180105'    13.21    13.35    13.15     13.3      13.25       0.05       0.38     1.2103e+06    1.6033e+06
+    '000001.SZ'    '20180108'    13.25    13.29    12.86    12.96       13.3      -0.34      -2.56     2.1586e+06    2.8061e+06
+    '000001.SZ'    '20180109'    12.96     13.2    12.92    13.08      12.96       0.12       0.93     1.3443e+06    1.7543e+06
+    '000001.SZ'    '20180110'    13.04    13.49    12.92    13.47      13.08       0.39       2.98     2.4033e+06    3.1961e+06
+    '000001.SZ'    '20180111'    13.41    13.59    13.27     13.4      13.47      -0.07      -0.52     1.4439e+06    1.9375e+06
+&#26102;&#38388;&#24050;&#36807; 0.090403 &#31186;&#12290;
+</pre><h2 id="10">ETC</h2><pre class="codeinput">over = 1;
+</pre><h2 id="11">Record Time</h2><pre class="codeinput">toc;
 displayEndOfDemoMessage(mfilename);
-</pre><pre class="codeoutput">&#26102;&#38388;&#24050;&#36807; 0.705955 &#31186;&#12290;
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+</pre><pre class="codeoutput">&#26102;&#38388;&#24050;&#36807; 0.098434 &#31186;&#12290;
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% AMain_demo_Tushare_STK_A
 % by LiYang_faruto
@@ -154,7 +157,7 @@ displayEndOfDemoMessage(mfilename);
 % 
 % 2019/01/01
 % 
-% 通过Tushare Pro获取期货相关数据（使用 Tushare_MATLAB_FSDK）
+% 通过Tushare Pro获取数据样例（使用 Tushare_MATLAB_FSDK）
 % 
 % Tushare_MATLAB_FSDK see 
 % 

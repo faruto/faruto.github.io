@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>AMain_demo_Tushare_FUT</h1><!--introduction--><p>by LiYang_faruto</p><p>Email:farutoliyang@foxmail.com</p><p>2019/01/01</p><p>&#36890;&#36807;Tushare Pro&#33719;&#21462;&#26399;&#36135;&#30456;&#20851;&#25968;&#25454;&#65288;&#20351;&#29992; Tushare_MATLAB_FSDK&#65289;</p><p>Tushare_MATLAB_FSDK see</p><p><a href="https://github.com/faruto/Tushare_MATLAB_FSDK">Tushare_MATLAB_FSDK</a></p><p><a href="https://faruto.github.io/html/index.html">faruto_github_io</a></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">A Little Clean Work</a></li><li><a href="#2">&#20840;&#23616;&#21442;&#25968;</a></li><li><a href="#3">tushare api connect</a></li><li><a href="#4">&#26399;&#36135;&#21512;&#32422;&#20449;&#24687;&#34920;</a></li><li><a href="#5">&#20132;&#26131;&#26085;&#21382;</a></li><li><a href="#6">&#26399;&#36135;&#26085;&#32447;&#34892;&#24773;</a></li><li><a href="#7">&#27599;&#26085;&#25104;&#20132;&#25345;&#20179;&#25490;&#21517;</a></li><li><a href="#8">&#20179;&#21333;&#26085;&#25253;</a></li><li><a href="#9">&#32467;&#31639;&#21442;&#25968;</a></li><li><a href="#10">ETC</a></li><li><a href="#11">Record Time</a></li></ul></div><h2 id="1">A Little Clean Work</h2><pre class="codeinput">tic;
+  </style></head><body><div class="content"><h1>AMain_demo_Tushare_FUT</h1><!--introduction--><p>by LiYang_faruto</p><p>Email:farutoliyang@foxmail.com</p><p>2019/01/01</p><p>&#36890;&#36807;Tushare Pro&#33719;&#21462;&#25968;&#25454;&#26679;&#20363;&#65288;&#20351;&#29992; Tushare_MATLAB_FSDK&#65289;</p><p>Tushare_MATLAB_FSDK see</p><p><a href="https://github.com/faruto/Tushare_MATLAB_FSDK">Tushare_MATLAB_FSDK</a></p><p><a href="https://faruto.github.io/html/index.html">faruto_github_io</a></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">A Little Clean Work</a></li><li><a href="#2">&#20840;&#23616;&#21442;&#25968;</a></li><li><a href="#3">tushare api connect</a></li><li><a href="#4">&#26399;&#36135;&#21512;&#32422;&#20449;&#24687;&#34920;</a></li><li><a href="#5">&#20132;&#26131;&#26085;&#21382;</a></li><li><a href="#6">&#26399;&#36135;&#26085;&#32447;&#34892;&#24773;</a></li><li><a href="#7">&#27599;&#26085;&#25104;&#20132;&#25345;&#20179;&#25490;&#21517;</a></li><li><a href="#8">&#20179;&#21333;&#26085;&#25253;</a></li><li><a href="#9">&#32467;&#31639;&#21442;&#25968;</a></li><li><a href="#10">ETC</a></li><li><a href="#11">Record Time</a></li></ul></div><h2 id="1">A Little Clean Work</h2><pre class="codeinput">tic;
 <span class="comment">% clear;</span>
 <span class="comment">% clc;</span>
 <span class="comment">% close all;</span>
@@ -75,8 +75,10 @@ format <span class="string">compact</span>;
 </pre><h2 id="3">tushare api connect</h2><p>&#36755;&#20837;&#24744;&#33258;&#24049;&#30340;Token,&#26597;&#30475;&#20301;&#32622;https://tushare.pro/user/token</p><pre class="codeinput">YourTushareToken_char = TushareToken;
 token = YourTushareToken_char;
 api = pro_api(token);
-</pre><h2 id="4">&#26399;&#36135;&#21512;&#32422;&#20449;&#24687;&#34920;</h2><pre class="codeinput">tData = api.query(<span class="string">'fut_basic'</span>,<span class="string">'exchange'</span>,<span class="string">'DCE'</span>);
+</pre><h2 id="4">&#26399;&#36135;&#21512;&#32422;&#20449;&#24687;&#34920;</h2><pre class="codeinput">tic;
+tData = api.query(<span class="string">'fut_basic'</span>,<span class="string">'exchange'</span>,<span class="string">'DCE'</span>);
 tData(1:gPara.len_demo,:)
+toc;
 </pre><pre class="codeoutput">ans =
   8&times;14 table
       ts_code      symbol     exchange       name        fut_code    trade_unit    per_unit     quote_unit     quote_unit_desc    d_mode_desc    list_date     delist_date    d_month     last_ddate
@@ -89,8 +91,11 @@ tData(1:gPara.len_demo,:)
     'P0812.DCE'    'P0812'     'DCE'      '&#26837;&#27016;&#27833;0812'      'P'          '&#21544;'         [10]      '&#20154;&#27665;&#24065;&#20803;/&#21544;'      '2&#20154;&#27665;&#24065;&#20803;/&#21544;'       '&#23454;&#29289;&#20132;&#21106;'     '20071217'    '20081212'     '200812'    '20081216'
     'P0901.DCE'    'P0901'     'DCE'      '&#26837;&#27016;&#27833;0901'      'P'          '&#21544;'         [10]      '&#20154;&#27665;&#24065;&#20803;/&#21544;'      '2&#20154;&#27665;&#24065;&#20803;/&#21544;'       '&#23454;&#29289;&#20132;&#21106;'     '20080116'    '20090116'     '200901'    '20090120'
     'P0903.DCE'    'P0903'     'DCE'      '&#26837;&#27016;&#27833;0903'      'P'          '&#21544;'         [10]      '&#20154;&#27665;&#24065;&#20803;/&#21544;'      '2&#20154;&#27665;&#24065;&#20803;/&#21544;'       '&#23454;&#29289;&#20132;&#21106;'     '20080317'    '20090313'     '200903'    '20090317'
-</pre><h2 id="5">&#20132;&#26131;&#26085;&#21382;</h2><pre class="codeinput">tData = api.query(<span class="string">'trade_cal'</span>,<span class="string">'exchange'</span>,<span class="string">'DCE'</span>);
+&#26102;&#38388;&#24050;&#36807; 0.268573 &#31186;&#12290;
+</pre><h2 id="5">&#20132;&#26131;&#26085;&#21382;</h2><pre class="codeinput">tic;
+tData = api.query(<span class="string">'trade_cal'</span>,<span class="string">'exchange'</span>,<span class="string">'DCE'</span>);
 tData(1:gPara.len_demo,:)
+toc;
 </pre><pre class="codeoutput">ans =
   8&times;3 table
     exchange     cal_date     is_open
@@ -103,8 +108,11 @@ tData(1:gPara.len_demo,:)
      'DCE'      '19930306'       0   
      'DCE'      '19930307'       0   
      'DCE'      '19930308'       1   
-</pre><h2 id="6">&#26399;&#36135;&#26085;&#32447;&#34892;&#24773;</h2><pre class="codeinput">tData = api.query(<span class="string">'fut_daily'</span>,<span class="string">'ts_code'</span>,<span class="string">'CU1811.SHF'</span>);
+&#26102;&#38388;&#24050;&#36807; 0.294407 &#31186;&#12290;
+</pre><h2 id="6">&#26399;&#36135;&#26085;&#32447;&#34892;&#24773;</h2><pre class="codeinput">tic;
+tData = api.query(<span class="string">'fut_daily'</span>,<span class="string">'ts_code'</span>,<span class="string">'CU1811.SHF'</span>);
 tData(1:gPara.len_demo,:)
+toc;
 </pre><pre class="codeoutput">ans =
   8&times;15 table
       ts_code       trade_date    pre_close    pre_settle    open     high      low     close    settle    change1    change2    vol    amount    oi     oi_chg
@@ -117,8 +125,11 @@ tData(1:gPara.len_demo,:)
     'CU1811.SHF'    '20171123'     [55950]       55670       56170    56170    55650    55650    55850       -20        180       44    1228.8    102      -20 
     'CU1811.SHF'    '20171124'     [55650]       55850       55580    56110    55580    56030    55850       180          0      122    3406.9    176      180 
     'CU1811.SHF'    '20171127'     [56030]       55850       56230    56310    55480    55480    55840      -370        -10      192    5360.9    166     -370 
-</pre><h2 id="7">&#27599;&#26085;&#25104;&#20132;&#25345;&#20179;&#25490;&#21517;</h2><pre class="codeinput">tData = api.query(<span class="string">'fut_holding'</span>,<span class="string">'symbol'</span>,<span class="string">'C'</span>,<span class="string">'exchange'</span>,<span class="string">'DCE'</span>,<span class="string">'trade_date'</span>,<span class="string">'20181113'</span>);
+&#26102;&#38388;&#24050;&#36807; 0.095353 &#31186;&#12290;
+</pre><h2 id="7">&#27599;&#26085;&#25104;&#20132;&#25345;&#20179;&#25490;&#21517;</h2><pre class="codeinput">tic;
+tData = api.query(<span class="string">'fut_holding'</span>,<span class="string">'symbol'</span>,<span class="string">'C'</span>,<span class="string">'exchange'</span>,<span class="string">'DCE'</span>,<span class="string">'trade_date'</span>,<span class="string">'20181113'</span>);
 tData(1:gPara.len_demo,:)
+toc;
 </pre><pre class="codeoutput">ans =
   8&times;9 table
     trade_date    symbol     broker        vol      vol_chg    long_hld    long_chg    short_hld    short_chg
@@ -131,8 +142,11 @@ tData(1:gPara.len_demo,:)
     '20181113'     'C'      '&#20013;&#37329;&#26399;&#36135;'    []         []         [18321]      [1491]      []           []      
     '20181113'     'C'      '&#20116;&#30719;&#32463;&#26131;'    []         []         [17828]      [1729]      []           []      
     '20181113'     'C'      '&#20493;&#29305;&#26399;&#36135;'    []         []         [15271]      [ 123]      []           []      
-</pre><h2 id="8">&#20179;&#21333;&#26085;&#25253;</h2><pre class="codeinput">tData = api.query(<span class="string">'fut_wsr'</span>,<span class="string">'symbol'</span>,<span class="string">'ZN'</span>,<span class="string">'trade_date'</span>,<span class="string">'20181113'</span>);
+&#26102;&#38388;&#24050;&#36807; 0.095985 &#31186;&#12290;
+</pre><h2 id="8">&#20179;&#21333;&#26085;&#25253;</h2><pre class="codeinput">tic;
+tData = api.query(<span class="string">'fut_wsr'</span>,<span class="string">'symbol'</span>,<span class="string">'ZN'</span>,<span class="string">'trade_date'</span>,<span class="string">'20181113'</span>);
 tData(1:gPara.len_demo,:)
+toc;
 </pre><pre class="codeoutput">ans =
   8&times;8 table
     trade_date    symbol    fut_name     warehouse      pre_vol    vol     vol_chg    unit
@@ -145,8 +159,11 @@ tData(1:gPara.len_demo,:)
     '20181113'     'ZN'       '&#38156;'      '&#20013;&#20648;&#26207;&#19990;'           0         0        0      '&#21544;' 
     '20181113'     'ZN'       '&#38156;'      '&#20013;&#37329;&#22307;&#28304;'         428       353      -75      '&#21544;' 
     '20181113'     'ZN'       '&#38156;'      '&#20840;&#32988;&#29289;&#27969;'        2882      2882        0      '&#21544;' 
-</pre><h2 id="9">&#32467;&#31639;&#21442;&#25968;</h2><pre class="codeinput">tData = api.query(<span class="string">'fut_settle'</span>,<span class="string">'symbol'</span>,<span class="string">'DCE'</span>,<span class="string">'trade_date'</span>,<span class="string">'20181113'</span>);
+&#26102;&#38388;&#24050;&#36807; 0.054395 &#31186;&#12290;
+</pre><h2 id="9">&#32467;&#31639;&#21442;&#25968;</h2><pre class="codeinput">tic;
+tData = api.query(<span class="string">'fut_settle'</span>,<span class="string">'symbol'</span>,<span class="string">'DCE'</span>,<span class="string">'trade_date'</span>,<span class="string">'20181113'</span>);
 tData(1:gPara.len_demo,:)
+toc;
 </pre><pre class="codeoutput">ans =
   8&times;10 table
       ts_code       trade_date    settle    trading_fee_rate    trading_fee    delivery_fee    b_hedging_margin_rate    s_hedging_margin_rate    long_margin_rate    short_margin_rate
@@ -159,10 +176,11 @@ tData(1:gPara.len_demo,:)
     'CU1904.SHF'    '20181113'    49030         [0.0500]             0              2                [0.0700]                 [0.0700]                 0.07                0.07       
     'CU1905.SHF'    '20181113'    49080         [0.0500]             0              2                [0.0700]                 [0.0700]                 0.07                0.07       
     'CU1906.SHF'    '20181113'    49120         [0.0500]             0              2                [0.0700]                 [0.0700]                 0.07                0.07       
+&#26102;&#38388;&#24050;&#36807; 0.099547 &#31186;&#12290;
 </pre><h2 id="10">ETC</h2><pre class="codeinput">over = 1;
 </pre><h2 id="11">Record Time</h2><pre class="codeinput">toc;
 displayEndOfDemoMessage(mfilename);
-</pre><pre class="codeoutput">&#26102;&#38388;&#24050;&#36807; 3.259725 &#31186;&#12290;
+</pre><pre class="codeoutput">&#26102;&#38388;&#24050;&#36807; 0.106242 &#31186;&#12290;
 </pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% AMain_demo_Tushare_FUT
@@ -172,7 +190,7 @@ displayEndOfDemoMessage(mfilename);
 % 
 % 2019/01/01
 % 
-% 通过Tushare Pro获取期货相关数据（使用 Tushare_MATLAB_FSDK）
+% 通过Tushare Pro获取数据样例（使用 Tushare_MATLAB_FSDK）
 % 
 % Tushare_MATLAB_FSDK see 
 % 
@@ -197,30 +215,35 @@ token = YourTushareToken_char;
 api = pro_api(token);
 
 %% 期货合约信息表
-
+tic;
 tData = api.query('fut_basic','exchange','DCE');
 tData(1:gPara.len_demo,:)
+toc;
 %% 交易日历
-
+tic;
 tData = api.query('trade_cal','exchange','DCE');
 tData(1:gPara.len_demo,:)
+toc;
 %% 期货日线行情
-
+tic;
 tData = api.query('fut_daily','ts_code','CU1811.SHF');
 tData(1:gPara.len_demo,:)
+toc;
 %% 每日成交持仓排名
-
+tic;
 tData = api.query('fut_holding','symbol','C','exchange','DCE','trade_date','20181113');
 tData(1:gPara.len_demo,:)
+toc;
 %% 仓单日报
-
+tic;
 tData = api.query('fut_wsr','symbol','ZN','trade_date','20181113');
 tData(1:gPara.len_demo,:)
+toc;
 %% 结算参数
-
+tic;
 tData = api.query('fut_settle','symbol','DCE','trade_date','20181113');
 tData(1:gPara.len_demo,:)
-
+toc;
 %% ETC
 over = 1;
 
