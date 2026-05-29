@@ -398,6 +398,58 @@ h1 {
   flex-direction: column;
 }
 
+.report-list {
+  display: grid;
+  gap: 28px;
+}
+
+.report-entry {
+  display: grid;
+  gap: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 240, .7);
+  padding: 22px;
+  box-shadow: 0 16px 40px rgba(20, 39, 55, .1);
+}
+
+.report-entry-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: end;
+}
+
+.report-entry h2 {
+  margin-bottom: 8px;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.05;
+}
+
+.report-entry p {
+  margin-bottom: 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.report-preview {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(20, 39, 55, .18);
+  background: var(--paper-2);
+}
+
+.report-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform .22s ease, filter .22s ease;
+}
+
+.report-preview:hover img {
+  transform: scale(1.012);
+  filter: saturate(1.03) contrast(1.02);
+}
+
 .book-marquee {
   overflow: hidden;
   border: 1px solid var(--line);
@@ -595,6 +647,11 @@ h1 {
   .grid.three,
   .grid.two {
     grid-template-columns: 1fr;
+  }
+
+  .report-entry-head {
+    grid-template-columns: 1fr;
+    align-items: start;
   }
 }
 
