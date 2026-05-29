@@ -25,39 +25,55 @@
     <section class="page-hero">
       <p class="eyebrow">FQuantStudio Market Watch</p>
       <h1>市场观察系列</h1>
-      <p>把本地生成的市场复盘页面整理成稳定的静态入口。股票版本已经接入，ETF 与期货页面先预留，后续可直接替换为对应生成产物。</p>
+      <p>把本地生成的市场复盘页面整理成稳定的静态入口。股票和 ETF 报告已接入，后续期货页面也会按同样结构替换为最新产物。</p>
     </section>
 
     <section class="section">
-      <div class="feature">
-        <div class="feature-copy">
-          <div>
-            <span class="status">LIVE</span>
-            <h2>股票市场观察</h2>
-            <p>A 股全市场涨跌分布、主要指数表现、跑赢基准占比、日内与隔夜拆分等复盘视图。</p>
-          </div>
-          <div class="hero-actions">
+      <div class="report-list">
+        <article class="report-entry">
+          <div class="report-entry-head">
+            <div>
+              <span class="status">LIVE</span>
+              <h2>股票市场观察</h2>
+              <p>A 股全市场涨跌分布、主要指数表现、跑赢基准占比、日内与隔夜拆分等复盘视图。</p>
+            </div>
             <a class="button" href="/market-watch/stocks/" target="_blank" rel="noopener noreferrer">打开股票页</a>
           </div>
-        </div>
-        <img src="/assets/market-watch-stock.png" alt="股票市场观察页面截图">
+          <a class="report-preview" href="/market-watch/stocks/" target="_blank" rel="noopener noreferrer" aria-label="打开股票市场观察报告">
+            <img src="/assets/market-watch-stocks-latest.png" alt="股票市场观察页面截图">
+          </a>
+        </article>
+
+        <article class="report-entry">
+          <div class="report-entry-head">
+            <div>
+              <span class="status">LIVE</span>
+              <h2>ETF市场观察</h2>
+              <p>ETF 维度的涨跌幅、主题热度、宽基与行业分布，以及当日、周度、月度和 YTD 观察视图。</p>
+            </div>
+            <a class="button" href="/market-watch/etf/" target="_blank" rel="noopener noreferrer">打开ETF页</a>
+          </div>
+          <a class="report-preview" href="/market-watch/etf/" target="_blank" rel="noopener noreferrer" aria-label="打开ETF市场观察报告">
+            <img src="/assets/market-watch-etf-latest.png" alt="ETF市场观察页面截图">
+          </a>
+        </article>
       </div>
     </section>
 
     <section class="section">
       <div class="grid two">
-        <a class="card" href="/market-watch/etf/" target="_blank" rel="noopener noreferrer">
-          <span class="tag">Reserved</span>
-          <h3>ETF市场观察</h3>
-          <p>预留给 ETF 维度的涨跌幅、资金、成交、主题和宽基观察页面。</p>
-          <div class="meta"><span>ETF</span><span>Coming</span></div>
-        </a>
         <a class="card" href="/market-watch/futures/" target="_blank" rel="noopener noreferrer">
           <span class="tag">Reserved</span>
           <h3>期货市场观察</h3>
           <p>预留给商品、股指、国债期货和跨品种结构观察页面。</p>
           <div class="meta"><span>Futures</span><span>Coming</span></div>
         </a>
+        <div class="card">
+          <span class="tag">Update Rule</span>
+          <h3>静态报告自动替换</h3>
+          <p>股票、ETF、期货会分别指向各自最新生成的 HTML 报告，入口页只负责导航和预览。</p>
+          <div class="meta"><span>Stocks</span><span>ETF</span><span>Futures</span></div>
+        </div>
       </div>
     </section>
   </main>
