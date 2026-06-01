@@ -1,0 +1,282 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A股宏观环境简报 - Tushare优先版</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #17202a;
+      --muted: #5d6875;
+      --line: #d9dee7;
+      --accent: #176b87;
+      --good: #1d7f55;
+      --warn: #a15c00;
+      --bad: #b42318;
+      --soft: #eef5f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+      line-height: 1.65;
+    }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 56px;
+    }
+    header {
+      padding: 22px 0 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 24px;
+    }
+    .metric, section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+    .metric {
+      padding: 14px 16px;
+      min-height: 104px;
+    }
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .metric .value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .metric .note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    section {
+      padding: 20px 22px;
+      margin: 14px 0;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 16px;
+    }
+    .callout {
+      background: var(--soft);
+      border-left: 4px solid var(--accent);
+      padding: 12px 14px;
+      border-radius: 6px;
+      margin: 12px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 4px;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: right;
+      vertical-align: top;
+    }
+    th:first-child, td:first-child,
+    th:nth-child(2), td:nth-child(2) {
+      text-align: left;
+    }
+    th {
+      color: #344054;
+      background: #f9fafb;
+      font-weight: 600;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #eef5f7;
+      color: var(--accent);
+      margin-right: 6px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .bad { color: var(--bad); }
+    ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+    }
+    li { margin: 5px 0; }
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      h1 { font-size: 25px; }
+      table { font-size: 13px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 20px 12px 42px; }
+      .grid { grid-template-columns: 1fr; }
+      section { padding: 16px 14px; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>A股当前宏观环境简报</h1>
+      <div class="subtitle">F市场简报框架，Tushare 优先数据口径；生成日期：2026-06-01</div>
+    </header>
+
+    <div class="grid">
+      <div class="metric">
+        <div class="label">宏观状态</div>
+        <div class="value">弱复苏</div>
+        <div class="note">PMI 接近荣枯线，信用扩张温和</div>
+      </div>
+      <div class="metric">
+        <div class="label">价格环境</div>
+        <div class="value">再通胀</div>
+        <div class="note">CPI 温和修复，PPI 明显转正</div>
+      </div>
+      <div class="metric">
+        <div class="label">流动性</div>
+        <div class="value">偏宽</div>
+        <div class="note">M2 8.6%，隔夜 SHIBOR 1.317%</div>
+      </div>
+      <div class="metric">
+        <div class="label">市场结构</div>
+        <div class="value">分化</div>
+        <div class="note">成长中期强，短线波动加大</div>
+      </div>
+    </div>
+
+    <section>
+      <h2>1. Macro Regime</h2>
+      <div class="callout">
+        当前 A股宏观组合更像：<strong>弱复苏 + 通胀修复 + 流动性尚宽 + 科技成长拥挤波动加大</strong>。
+      </div>
+      <ul>
+        <li>增长：2026-05 综合 PMI 为 50.0，经济动能中性偏弱。</li>
+        <li>通胀：2026-04 CPI 同比 1.2%，PPI 同比 2.8%，价格环境比 2025 年改善。</li>
+        <li>流动性：2026-04 M2 同比 8.6%，M1 同比 5.0%，社融当月增量 6245 亿元。</li>
+        <li>利率：2026-06-01 SHIBOR O/N 为 1.317%，1Y 为 1.4645%；2026-03-20 LPR 1Y 为 3.0%，5Y 为 3.5%。</li>
+        <li>外部：2026-05-29 美国 10Y 为 4.45%，2026-05-31 USDCNH 为 6.764，外部折现率仍偏高。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Indicator Dashboard</h2>
+      <table>
+        <thead>
+          <tr><th>模块</th><th>最新数据</th><th>判断</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PMI</td><td>2026-05 综合 PMI 50.0</td><td>经济动能中性偏弱</td></tr>
+          <tr><td>CPI</td><td>2026-04 CPI 同比 1.2%</td><td>温和再通胀</td></tr>
+          <tr><td>PPI</td><td>2026-04 PPI 同比 2.8%</td><td>工业品价格修复明显</td></tr>
+          <tr><td>M2</td><td>2026-04 M2 同比 8.6%</td><td>总量流动性不紧</td></tr>
+          <tr><td>M1</td><td>2026-04 M1 同比 5.0%</td><td>企业活化资金改善但不强</td></tr>
+          <tr><td>社融</td><td>2026-04 当月增量 6245 亿元</td><td>信用扩张偏温和</td></tr>
+          <tr><td>LPR</td><td>2026-03-20：1Y 3.0%，5Y 3.5%</td><td>政策利率稳定</td></tr>
+          <tr><td>SHIBOR</td><td>2026-06-01：O/N 1.317%</td><td>银行间资金宽松</td></tr>
+          <tr><td>汇率</td><td>2026-05-31：USDCNH 6.764</td><td>汇率压力可控</td></tr>
+          <tr><td>美债</td><td>2026-05-29：10Y 4.45%</td><td>外部折现率仍偏高</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>3. Cross-Asset Confirmation</h2>
+      <h3>主要 A股指数</h3>
+      <table>
+        <thead>
+          <tr><th>指数</th><th>日期</th><th>收盘</th><th>当日涨跌</th><th>近20日</th><th>近60日</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>上证指数</td><td>2026-06-01</td><td>4057.74</td><td class="bad">-0.27%</td><td class="bad">-1.21%</td><td class="bad">-1.58%</td></tr>
+          <tr><td>沪深300</td><td>2026-06-01</td><td>4844.26</td><td class="bad">-0.98%</td><td class="good">+0.70%</td><td class="good">+4.05%</td></tr>
+          <tr><td>中证500</td><td>2026-06-01</td><td>8274.21</td><td class="bad">-1.02%</td><td class="bad">-0.82%</td><td class="bad">-0.09%</td></tr>
+          <tr><td>中证1000</td><td>2026-06-01</td><td>8345.13</td><td class="bad">-0.76%</td><td class="good">+0.02%</td><td class="good">+2.49%</td></tr>
+          <tr><td>科创50</td><td>2026-06-01</td><td>1663.69</td><td class="bad">-5.00%</td><td class="good">+11.40%</td><td class="good">+19.83%</td></tr>
+          <tr><td>创业板指</td><td>2026-06-01</td><td>3950.94</td><td class="bad">-2.15%</td><td class="good">+7.15%</td><td class="good">+23.10%</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        市场信号：宏观不是强周期牛市，行情主要由结构性风险偏好和产业主题驱动。科创50、创业板近 60 日涨幅较大，但 2026-06-01 回撤明显，说明成长方向拥挤度上升。
+      </div>
+
+      <h3>行业强弱</h3>
+      <p><span class="tag">强势</span>管材、火力发电、通信线缆及配套、商业地产、超市、白酒、啤酒。</p>
+      <p><span class="tag">弱势</span>面板、电子化学品、半导体材料、光学光电子、模拟芯片设计、集成电路封测、航天装备。</p>
+    </section>
+
+    <section>
+      <h2>4. Regime Risks</h2>
+      <ul>
+        <li>科技成长交易过热：科创50 近 60 日 +19.8%，创业板指 +23.1%，短期回撤已经出现。</li>
+        <li>PPI 继续上行时，可能从利润修复变成成本压力，中游制造利润会分化。</li>
+        <li>社融不强，说明实体信用扩张尚未明显加速，全面牛市的宏观基础不足。</li>
+        <li>美国 10Y 仍在 4.4% 附近，对高估值成长资产仍有折现率压力。</li>
+        <li>全市场估值中位数不低：本地 daily_basic 显示 PE_TTM 中位数约 47.5，PB 中位数约 3.0。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Next Releases</h2>
+      <ul>
+        <li>2026-05 CPI/PPI：确认再通胀是温和修复还是成本压力。</li>
+        <li>2026-05 社融/M2/M1：看信用是否从宽货币走向宽信用。</li>
+        <li>2026-06 PMI：确认经济是否重新站稳扩张区间。</li>
+        <li>人民币汇率和美国 10Y：决定外资和成长估值压力。</li>
+        <li>A股成交额和行业轮动：看科技回撤是短线降温，还是风险偏好切换。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>6. Conclusion</h2>
+      <p>
+        当前 A股环境不是典型强复苏，而是<strong>流动性支撑下的结构性行情</strong>。宏观层面对权益不差，但也没有强到支持所有板块普涨；更适合用景气、估值、拥挤度筛选方向。
+      </p>
+      <p>
+        短期应警惕科技成长高波动，关注价格修复受益、现金流稳定，以及政策/产业催化仍在但估值未过度透支的方向。
+      </p>
+    </section>
+
+    <footer>
+      数据来源：本地 Tushare 仓库 `D:\FPython_workspace\FDataBase_tushare`；本地缺失的宏观项使用在线 Tushare 接口补齐。报告为研究整理，不构成投资建议。
+    </footer>
+  </main>
+</body>
+</html>

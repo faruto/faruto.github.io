@@ -1,0 +1,134 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大宗商品市场简报 - 2026-06-01</title>
+  <style>
+    :root {
+      --bg:#f4f6f8; --panel:#fff; --ink:#102033; --muted:#607089; --line:#d8e0ea;
+      --blue:#245b8f; --teal:#1f7a78; --gold:#b7791f; --red:#b42318; --green:#147a4d;
+      --slate:#334155; --soft-blue:#eaf2fb; --soft-teal:#e8f5f3; --soft-gold:#fff5df; --soft-red:#fff0ed;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","Segoe UI",Arial,sans-serif;line-height:1.62}
+    .wrap{max-width:1240px;margin:0 auto;padding:30px 24px 60px}
+    header{padding:18px 0 22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+    h1{margin:0 0 8px;font-size:34px;letter-spacing:0}
+    .subtitle{color:var(--muted);font-size:15px}
+    .bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .pill{padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--soft-blue);color:var(--blue)}
+    .pill.teal{background:var(--soft-teal);color:var(--teal)} .pill.gold{background:var(--soft-gold);color:var(--gold)}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0 24px}
+    .metric,section{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+    .metric{padding:16px 18px;min-height:118px;border-top:4px solid var(--blue)}
+    .metric:nth-child(2){border-top-color:var(--gold)} .metric:nth-child(3){border-top-color:var(--teal)} .metric:nth-child(4){border-top-color:var(--red)}
+    .label{color:var(--muted);font-size:13px;margin-bottom:7px}.value{font-size:26px;font-weight:800}.note{font-size:13px;color:var(--muted);margin-top:6px}
+    section{padding:22px 24px;margin:16px 0} h2{margin:0 0 14px;font-size:22px} h3{margin:18px 0 8px;font-size:16px}
+    .callout{border-left:5px solid var(--teal);background:linear-gradient(90deg,var(--soft-teal),#fff);padding:13px 16px;border-radius:7px;margin:12px 0}
+    table{width:100%;border-collapse:collapse;margin:12px 0 6px;font-size:14px} th,td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:right;vertical-align:top}
+    th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left} th{background:#f8fafc;color:#344054;font-weight:700}
+    .pos{color:var(--green);font-weight:700}.neg{color:var(--red);font-weight:700}.warn{color:var(--gold);font-weight:700}
+    .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;margin-right:6px;background:var(--soft-blue);color:var(--blue)}
+    .tag.gold{background:var(--soft-gold);color:var(--gold)} .tag.teal{background:var(--soft-teal);color:var(--teal)} .tag.red{background:var(--soft-red);color:var(--red)}
+    ul{margin:8px 0 0 20px;padding:0} li{margin:5px 0} footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:20px;padding-top:14px}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}table{font-size:13px}} @media(max-width:560px){.wrap{padding:20px 12px}.grid{grid-template-columns:1fr}table{display:block;overflow-x:auto;white-space:nowrap}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>大宗商品市场简报</h1>
+    <div class="subtitle">F市场简报框架；本地 Tushare 只读 + 在线 Tushare 临时补齐 2026-06-01 缺口；生成日期：2026-06-01</div>
+    <div class="bar"><span class="pill">价格趋势</span><span class="pill teal">期限结构</span><span class="pill gold">宏观联动</span><span class="pill">数据不写回本地库</span></div>
+  </header>
+
+  <div class="grid">
+    <div class="metric"><div class="label">商品主线</div><div class="value">结构分化</div><div class="note">生猪、焦煤焦炭、玻璃偏强；原油、燃油偏弱</div></div>
+    <div class="metric"><div class="label">价格环境</div><div class="value">PPI修复</div><div class="note">2026-04 PPI 同比 2.8%，工业品价格环境改善</div></div>
+    <div class="metric"><div class="label">曲线信号</div><div class="value">多数升水</div><div class="note">螺纹、豆粕、棕榈油升水明显；铁矿、沥青、玻璃贴水</div></div>
+    <div class="metric"><div class="label">数据状态</div><div class="value">已补 6.1</div><div class="note">郑商所缺口用在线 Tushare 当期临时补齐</div></div>
+  </div>
+
+  <section>
+    <h2>1. Commodity View</h2>
+    <div class="callout"><strong>当前商品不是单边同涨行情，而是“价格修复 + 品种分化 + 曲线验证不足”的结构行情。</strong></div>
+    <ul>
+      <li><strong>强势端：</strong>生猪近20日约 +13.88%，焦炭约 +10.58%，玻璃约 +4.21%，焦煤约 +3.61%，铜约 +3.61%。</li>
+      <li><strong>弱势端：</strong>原油近20日约 -12.98%，燃油约 -9.44%，丁二烯橡胶约 -6.95%，铁矿石约 -5.06%，PTA约 -5.13%。</li>
+      <li><strong>宏观背景：</strong>CPI 温和、PPI 转正、资金利率低位，支持“名义价格修复”叙事，但社融温和，需求强度仍需验证。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Price And Curve</h2>
+    <h3>主力连续合约表现</h3>
+    <table>
+      <thead><tr><th>品种</th><th>主力映射</th><th>日期</th><th>收盘</th><th>当日</th><th>近20日</th><th>近60日</th><th>持仓量</th></tr></thead>
+      <tbody>
+        <tr><td>生猪</td><td>LH2607.DCE</td><td>2026-06-01</td><td>10705.00</td><td class="pos">+0.05%</td><td class="pos">+13.88%</td><td class="pos">+5.94%</td><td>111,859</td></tr>
+        <tr><td>焦炭</td><td>J2606.DCE</td><td>2026-06-01</td><td>1876.00</td><td class="pos">+7.97%</td><td class="pos">+10.58%</td><td class="pos">+32.58%</td><td>11</td></tr>
+        <tr><td>玻璃</td><td>FG2606.ZCE</td><td>2026-06-01</td><td>965.00</td><td class="pos">+0.94%</td><td class="pos">+4.21%</td><td class="neg">-0.62%</td><td>786</td></tr>
+        <tr><td>焦煤</td><td>JM2606.DCE</td><td>2026-06-01</td><td>1190.50</td><td class="pos">+7.20%</td><td class="pos">+3.61%</td><td class="pos">+20.56%</td><td>234</td></tr>
+        <tr><td>铜</td><td>CU2606.SHF</td><td>2026-06-01</td><td>104610.00</td><td class="neg">-0.18%</td><td class="pos">+3.61%</td><td class="pos">+3.16%</td><td>49,970</td></tr>
+        <tr><td>橡胶</td><td>RU2606.SHF</td><td>2026-06-01</td><td>17870.00</td><td class="pos">+1.02%</td><td class="pos">+2.64%</td><td class="pos">+7.42%</td><td>226</td></tr>
+        <tr><td>黄金</td><td>AU2606.SHF</td><td>2026-06-01</td><td>981.00</td><td class="neg">-0.43%</td><td class="neg">-1.86%</td><td class="neg">-7.45%</td><td>8,757</td></tr>
+        <tr><td>螺纹钢</td><td>RB2606.SHF</td><td>2026-06-01</td><td>3073.00</td><td class="pos">+0.20%</td><td class="neg">-2.60%</td><td class="neg">-0.77%</td><td>750</td></tr>
+        <tr><td>铁矿石</td><td>I2606.DCE</td><td>2026-06-01</td><td>797.00</td><td class="pos">+0.57%</td><td class="neg">-5.06%</td><td class="neg">-1.42%</td><td>439</td></tr>
+        <tr><td>PTA</td><td>TA2606.ZCE</td><td>2026-06-01</td><td>6288.00</td><td class="pos">+1.39%</td><td class="neg">-5.13%</td><td class="neg">-4.35%</td><td>33,132</td></tr>
+        <tr><td>丁二烯橡胶</td><td>BR2606.SHF</td><td>2026-06-01</td><td>14660.00</td><td class="pos">+1.84%</td><td class="neg">-6.95%</td><td class="neg">-9.76%</td><td>1,732</td></tr>
+        <tr><td>燃油</td><td>FU2607.SHF</td><td>2026-06-01</td><td>4200.00</td><td class="pos">+3.32%</td><td class="neg">-9.44%</td><td class="pos">+4.30%</td><td>31,162</td></tr>
+        <tr><td>原油</td><td>SC2607.INE</td><td>2026-06-01</td><td>595.90</td><td class="pos">+2.56%</td><td class="neg">-12.98%</td><td class="neg">-6.31%</td><td>36,206</td></tr>
+      </tbody>
+    </table>
+
+    <h3>期限结构</h3>
+    <table>
+      <thead><tr><th>品种</th><th>近月</th><th>近月价</th><th>次近月</th><th>次近月价</th><th>价差</th><th>曲线状态</th></tr></thead>
+      <tbody>
+        <tr><td>螺纹钢</td><td>RB2606.SHF</td><td>3073</td><td>RB2607.SHF</td><td>3195</td><td class="pos">+3.97%</td><td>明显升水</td></tr>
+        <tr><td>豆粕</td><td>M2607.DCE</td><td>2820</td><td>M2608.DCE</td><td>2977</td><td class="pos">+5.57%</td><td>明显升水</td></tr>
+        <tr><td>棉花</td><td>CF2607.ZCE</td><td>16145</td><td>CF2609.ZCE</td><td>16335</td><td class="pos">+1.18%</td><td>升水</td></tr>
+        <tr><td>纯碱</td><td>SA2606.ZCE</td><td>1164</td><td>SA2607.ZCE</td><td>1176</td><td class="pos">+1.03%</td><td>升水</td></tr>
+        <tr><td>铁矿石</td><td>I2606.DCE</td><td>797</td><td>I2607.DCE</td><td>794</td><td class="neg">-0.38%</td><td>贴水</td></tr>
+        <tr><td>沥青</td><td>BU2606.SHF</td><td>4497</td><td>BU2607.SHF</td><td>4464</td><td class="neg">-0.73%</td><td>贴水</td></tr>
+        <tr><td>甲醇</td><td>MA2606.ZCE</td><td>3045</td><td>MA2607.ZCE</td><td>2988</td><td class="neg">-1.87%</td><td>贴水</td></tr>
+        <tr><td>玻璃</td><td>FG2606.ZCE</td><td>965</td><td>FG2607.ZCE</td><td>963</td><td class="neg">-0.21%</td><td>贴水</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3. Supply / Demand</h2>
+    <ul>
+      <li>本地 `fut_wsr/date=20260601` 仓单分区为空，本报告不对库存水平做强结论。</li>
+      <li>黑色链条内部并不完全一致：焦煤焦炭强、铁矿偏弱，说明不是完整需求共振。</li>
+      <li>能源链条短线反弹但中期弱，原油和燃油近20日仍承压。</li>
+      <li>玻璃/纯碱曲线和价格表现提示局部交易升温，但仍需现货、库存和开工率验证。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Macro Linkage</h2>
+    <p><span class="tag">增长</span>PMI 接近荣枯线，需求没有强扩张。</p>
+    <p><span class="tag gold">通胀</span>CPI 1.2%、PPI 2.8%，商品价格有名义修复基础。</p>
+    <p><span class="tag teal">流动性</span>SHIBOR 隔夜 1.317%，资金环境偏宽，对商品风险偏好有支撑。</p>
+    <p><span class="tag red">外部</span>美国10年期国债收益率 4.45%，对贵金属和高估值风险资产仍有压制。</p>
+  </section>
+
+  <section>
+    <h2>5. Scenarios</h2>
+    <table>
+      <thead><tr><th>情景</th><th>触发条件</th><th>商品影响</th></tr></thead>
+      <tbody>
+        <tr><td>基准</td><td>弱复苏延续，PPI 温和修复</td><td>商品维持结构分化，黑色和农产品局部强</td></tr>
+        <tr><td>上行</td><td>社融/M1 进一步改善，地产或基建需求预期增强</td><td>黑色、有色、建材链条扩散上涨</td></tr>
+        <tr><td>下行</td><td>需求验证不及预期，美元/美债走强</td><td>能源化工和贵金属承压，工业品回撤</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>数据来源：本地 Tushare 仓库只读；本地缺失或未到 2026-06-01 的期货数据，用在线 Tushare 临时补齐并仅用于本报告计算；未写回本地数据库。</footer>
+</main>
+</body>
+</html>

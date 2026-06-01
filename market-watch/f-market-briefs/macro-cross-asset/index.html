@@ -1,0 +1,166 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A股股债商宏观环境简报 - 2026-06-01</title>
+  <style>
+    :root {
+      --bg:#f4f6f8; --panel:#fff; --ink:#102033; --muted:#607089; --line:#d8e0ea;
+      --equity:#245b8f; --bond:#1f7a78; --commodity:#b7791f; --risk:#b42318; --green:#147a4d;
+      --soft-equity:#eaf2fb; --soft-bond:#e8f5f3; --soft-commodity:#fff5df; --soft-risk:#fff0ed;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","Segoe UI",Arial,sans-serif;line-height:1.62}
+    .wrap{max-width:1260px;margin:0 auto;padding:30px 24px 60px}
+    header{border-bottom:1px solid var(--line);padding:18px 0 22px;margin-bottom:22px}
+    h1{margin:0 0 8px;font-size:34px;letter-spacing:0}.subtitle{font-size:15px;color:var(--muted)}
+    .bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.pill{padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700}
+    .pill.e{background:var(--soft-equity);color:var(--equity)}.pill.b{background:var(--soft-bond);color:var(--bond)}.pill.c{background:var(--soft-commodity);color:var(--commodity)}.pill.r{background:var(--soft-risk);color:var(--risk)}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0 24px}
+    .metric,section{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+    .metric{padding:16px 18px;min-height:118px;border-top:4px solid var(--equity)}.metric:nth-child(2){border-top-color:var(--bond)}.metric:nth-child(3){border-top-color:var(--commodity)}.metric:nth-child(4){border-top-color:var(--risk)}
+    .label{color:var(--muted);font-size:13px;margin-bottom:7px}.value{font-size:26px;font-weight:800}.note{font-size:13px;color:var(--muted);margin-top:6px}
+    section{padding:22px 24px;margin:16px 0}h2{margin:0 0 14px;font-size:22px}h3{margin:18px 0 8px;font-size:16px}
+    .callout{border-left:5px solid var(--equity);background:linear-gradient(90deg,var(--soft-equity),#fff);padding:13px 16px;border-radius:7px;margin:12px 0}.callout.b{border-color:var(--bond);background:linear-gradient(90deg,var(--soft-bond),#fff)}.callout.c{border-color:var(--commodity);background:linear-gradient(90deg,var(--soft-commodity),#fff)}
+    table{width:100%;border-collapse:collapse;margin:12px 0 6px;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:right;vertical-align:top}
+    th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}th{background:#f8fafc;color:#344054;font-weight:700}
+    .pos{color:var(--green);font-weight:700}.neg{color:var(--risk);font-weight:700}.warn{color:var(--commodity);font-weight:700}
+    .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;margin-right:6px}.tag.e{background:var(--soft-equity);color:var(--equity)}.tag.b{background:var(--soft-bond);color:var(--bond)}.tag.c{background:var(--soft-commodity);color:var(--commodity)}.tag.r{background:var(--soft-risk);color:var(--risk)}
+    ul{margin:8px 0 0 20px;padding:0}li{margin:5px 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:20px;padding-top:14px}
+    @media(max-width:940px){.grid,.two{grid-template-columns:repeat(2,minmax(0,1fr))}table{font-size:13px}}@media(max-width:620px){.wrap{padding:20px 12px}.grid,.two{grid-template-columns:1fr}table{display:block;overflow-x:auto;white-space:nowrap}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>A股股债商宏观环境简报</h1>
+    <div class="subtitle">F市场简报框架；本地 Tushare 只读 + 在线 Tushare 临时补齐最新宏观/缺口；生成日期：2026-06-01</div>
+    <div class="bar"><span class="pill e">权益</span><span class="pill b">债券</span><span class="pill c">商品</span><span class="pill r">风险监控</span></div>
+  </header>
+
+  <div class="grid">
+    <div class="metric"><div class="label">宏观状态</div><div class="value">弱复苏</div><div class="note">PMI 50.0，信用扩张温和</div></div>
+    <div class="metric"><div class="label">利率状态</div><div class="value">低位偏宽</div><div class="note">SHIBOR O/N 1.317%，债期偏强</div></div>
+    <div class="metric"><div class="label">价格状态</div><div class="value">再通胀</div><div class="note">CPI 1.2%，PPI 2.8%</div></div>
+    <div class="metric"><div class="label">市场风险</div><div class="value">结构拥挤</div><div class="note">科创/创业板强后回撤，商品分化</div></div>
+  </div>
+
+  <section>
+    <h2>1. Macro Regime</h2>
+    <div class="callout"><strong>当前环境是“弱复苏 + 温和再通胀 + 资金偏宽 + 资产结构分化”。</strong> 对权益不是逆风，但不支持全面普涨；对债券仍有低利率支撑；对商品更偏品种分化而非总量牛市。</div>
+    <ul>
+      <li>增长：2026-05 PMI 为 50.0，制造业和新订单分项不强，经济处在荣枯线附近。</li>
+      <li>通胀：2026-04 CPI 同比 1.2%，PPI 同比 2.8%，价格从低位修复。</li>
+      <li>信用：2026-04 社融当月 6245 亿元，M2 同比 8.6%，M1 同比 5.0%，总量不紧但信用脉冲不强。</li>
+      <li>外部：2026-05-29 美国 10Y 为 4.45%，2026-05-31 USDCNH 约 6.764，外部折现率约束仍在。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Indicator Dashboard</h2>
+    <table>
+      <thead><tr><th>模块</th><th>最新数据</th><th>频率/日期</th><th>解读</th></tr></thead>
+      <tbody>
+        <tr><td>PMI</td><td>50.0</td><td>2026-05，月度</td><td>荣枯线附近，增长中性偏弱</td></tr>
+        <tr><td>CPI</td><td>同比 1.2%</td><td>2026-04，月度</td><td>温和修复，暂无高通胀压力</td></tr>
+        <tr><td>PPI</td><td>同比 2.8%</td><td>2026-04，月度</td><td>工业品价格明显修复</td></tr>
+        <tr><td>M2 / M1</td><td>8.6% / 5.0%</td><td>2026-04，月度</td><td>宽货币存在，企业资金活化一般</td></tr>
+        <tr><td>社融</td><td>6245 亿元</td><td>2026-04，月度</td><td>信用扩张偏温和</td></tr>
+        <tr><td>LPR</td><td>1Y 3.0%，5Y 3.5%</td><td>2026-03-20</td><td>政策利率稳定</td></tr>
+        <tr><td>SHIBOR</td><td>O/N 1.317%，1Y 1.4645%</td><td>2026-06-01，日度</td><td>银行间资金偏宽</td></tr>
+        <tr><td>USDCNH</td><td>6.764</td><td>2026-05-31，日度</td><td>汇率压力可控</td></tr>
+        <tr><td>美国10Y</td><td>4.45%</td><td>2026-05-29，日度</td><td>高外部利率压制高估值资产</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3. Cross-Asset Confirmation</h2>
+    <h3>权益：结构性风险偏好强，短线波动上升</h3>
+    <table>
+      <thead><tr><th>指数</th><th>日期</th><th>收盘</th><th>当日</th><th>近20日</th><th>近60日</th></tr></thead>
+      <tbody>
+        <tr><td>上证指数</td><td>2026-06-01</td><td>4057.74</td><td class="neg">-0.27%</td><td class="neg">-1.21%</td><td class="neg">-1.58%</td></tr>
+        <tr><td>沪深300</td><td>2026-06-01</td><td>4844.26</td><td class="neg">-0.98%</td><td class="pos">+0.70%</td><td class="pos">+4.05%</td></tr>
+        <tr><td>中证500</td><td>2026-06-01</td><td>8274.21</td><td class="neg">-1.02%</td><td class="neg">-0.82%</td><td class="neg">-0.09%</td></tr>
+        <tr><td>中证1000</td><td>2026-06-01</td><td>8345.13</td><td class="neg">-0.76%</td><td class="pos">+0.02%</td><td class="pos">+2.49%</td></tr>
+        <tr><td>科创50</td><td>2026-06-01</td><td>1663.69</td><td class="neg">-5.00%</td><td class="pos">+11.40%</td><td class="pos">+19.83%</td></tr>
+        <tr><td>创业板指</td><td>2026-06-01</td><td>3950.94</td><td class="neg">-2.15%</td><td class="pos">+7.15%</td><td class="pos">+23.10%</td></tr>
+      </tbody>
+    </table>
+    <p><span class="tag e">权益结论</span>成长方向中期强，但 6月1日科创50和创业板大幅回撤，说明拥挤度和波动风险上升。</p>
+
+    <h3>债券：资金宽松 + 债期偏强</h3>
+    <table>
+      <thead><tr><th>品种</th><th>映射合约</th><th>日期</th><th>收盘</th><th>当日</th><th>近20日</th><th>近60日</th></tr></thead>
+      <tbody>
+        <tr><td>30年国债期货</td><td>TL2606.CFX</td><td>2026-06-01</td><td>114.49</td><td class="pos">+0.20%</td><td class="pos">+0.96%</td><td class="pos">+1.75%</td></tr>
+        <tr><td>10年国债期货</td><td>T2606.CFX</td><td>2026-06-01</td><td>109.38</td><td class="pos">+0.06%</td><td class="pos">+0.64%</td><td class="pos">+0.82%</td></tr>
+        <tr><td>5年国债期货</td><td>TF2606.CFX</td><td>2026-06-01</td><td>106.73</td><td class="pos">+0.01%</td><td class="pos">+0.46%</td><td class="pos">+0.72%</td></tr>
+        <tr><td>2年国债期货</td><td>TS2606.CFX</td><td>2026-06-01</td><td>102.66</td><td class="neg">-0.02%</td><td class="pos">+0.07%</td><td class="pos">+0.17%</td></tr>
+      </tbody>
+    </table>
+    <p><span class="tag b">债券结论</span>长端债期表现强于短端，市场仍在交易低增长、低资金利率和配置需求。</p>
+
+    <h3>商品：PPI 修复，但品种分化</h3>
+    <table>
+      <thead><tr><th>品种</th><th>映射合约</th><th>日期</th><th>收盘</th><th>当日</th><th>近20日</th><th>近60日</th></tr></thead>
+      <tbody>
+        <tr><td>生猪</td><td>LH2607.DCE</td><td>2026-06-01</td><td>10705</td><td class="pos">+0.05%</td><td class="pos">+13.88%</td><td class="pos">+5.94%</td></tr>
+        <tr><td>焦炭</td><td>J2606.DCE</td><td>2026-06-01</td><td>1876</td><td class="pos">+7.97%</td><td class="pos">+10.58%</td><td class="pos">+32.58%</td></tr>
+        <tr><td>铜</td><td>CU2606.SHF</td><td>2026-06-01</td><td>104610</td><td class="neg">-0.18%</td><td class="pos">+3.61%</td><td class="pos">+3.16%</td></tr>
+        <tr><td>黄金</td><td>AU2606.SHF</td><td>2026-06-01</td><td>981.0</td><td class="neg">-0.43%</td><td class="neg">-1.86%</td><td class="neg">-7.45%</td></tr>
+        <tr><td>原油</td><td>SC2607.INE</td><td>2026-06-01</td><td>595.9</td><td class="pos">+2.56%</td><td class="neg">-12.98%</td><td class="neg">-6.31%</td></tr>
+      </tbody>
+    </table>
+    <p><span class="tag c">商品结论</span>PPI 修复支持商品名义价格，但需求强度不够一致，商品内部更适合做结构而非总量判断。</p>
+  </section>
+
+  <section>
+    <h2>4. Regime Risks</h2>
+    <div class="two">
+      <div class="callout c"><strong>上行风险：</strong>社融/M1改善，PPI继续修复，黑色和有色扩散上涨，顺周期权益补涨。</div>
+      <div class="callout b"><strong>下行风险：</strong>PMI回落或社融走弱，债券继续强，商品和小盘成长承压。</div>
+    </div>
+    <ul>
+      <li>权益风险：全市场 PE_TTM 中位数约 47.5，PB 中位数约 3.0，成长方向波动风险高。</li>
+      <li>债券风险：如果 PPI 上行传导到通胀预期，长债可能面临止盈压力。</li>
+      <li>商品风险：库存/仓单数据覆盖不足，部分商品上涨可能更多是预期和资金驱动。</li>
+      <li>外部风险：美国10Y维持高位会压制贵金属、成长股和人民币资产风险偏好。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Asset Allocation Read</h2>
+    <p><span class="tag e">权益</span>适合结构选择：低估值现金流、PPI修复受益、政策产业催化；谨慎追高短期拥挤的科技成长。</p>
+    <p><span class="tag b">债券</span>低资金利率和弱复苏仍支持债券，但长端涨幅已经更明显，后续看社融和PPI是否改变利率预期。</p>
+    <p><span class="tag c">商品</span>以品种结构为主：黑色链条需验证需求，能源中期偏弱，贵金属受美债高位压制。</p>
+  </section>
+
+  <section>
+    <h2>6. Next Releases</h2>
+    <ul>
+      <li>2026-05 CPI/PPI：判断价格修复是否继续。</li>
+      <li>2026-05 社融/M2/M1：判断宽货币是否转向宽信用。</li>
+      <li>2026-06 PMI：确认弱复苏能否站稳扩张区间。</li>
+      <li>美国10Y和USDCNH：跟踪外部折现率和汇率压力。</li>
+      <li>商品仓单/库存/开工率：验证黑色和化工链条上涨质量。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Data Used</h2>
+    <ul>
+      <li>本地 Tushare 只读：A股指数、股票估值、申万行业、期货日线、期货映射。</li>
+      <li>在线 Tushare 临时补齐：CPI、PPI、PMI、M2/M1、社融、GDP、SHIBOR、LPR、USDCNH、美国国债收益率。</li>
+      <li>在线 Tushare 临时补齐商品缺口：本地未到 2026-06-01 的部分郑商所商品数据。</li>
+      <li>微盘股指数：本地 mootdx 缓存，2026-06-01 收盘 7104.53，当日 +3.43%。</li>
+    </ul>
+  </section>
+
+  <footer>本报告为研究整理，不构成投资建议。在线 Tushare 数据仅用于本次报告计算，未写回本地 Tushare 数据库。</footer>
+</main>
+</body>
+</html>
