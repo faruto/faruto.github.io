@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GESP C++ STL 算法可视化演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航 */
+        .header {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        /* 算法选择标签 */
+        .algo-tabs {
+            display: flex;
+            background: white;
+            padding: 0 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .algo-tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .algo-tab:hover {
+            color: #2E7D32;
+            background: #f0f7f0;
+        }
+
+        .algo-tab.active {
+            color: #2E7D32;
+            border-bottom-color: #2E7D32;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            display: flex;
+            padding: 20px 40px;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 左侧控制面板 */
+        .control-panel {
+            width: 280px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f5e9;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .control-input:focus {
+            border-color: #4CAF50;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 速度滑块 */
+        .speed-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4);
+        }
+
+        .speed-value {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* 中间可视化区域 */
+        .visual-area {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            min-height: 500px;
+        }
+
+        .visual-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .visual-desc {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+            background: #fafbfc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        /* 柱状图样式 */
+        .bars-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 300px;
+            width: 100%;
+        }
+
+        .bar {
+            width: 30px;
+            background: linear-gradient(180deg, #81C784, #4CAF50);
+            border-radius: 4px 4px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding-top: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .bar.comparing {
+            background: linear-gradient(180deg, #FFD54F, #FFC107);
+        }
+
+        .bar.swapping {
+            background: linear-gradient(180deg, #EF5350, #E53935);
+        }
+
+        .bar.sorted {
+            background: linear-gradient(180deg, #64B5F6, #2196F3);
+        }
+
+        .bar.found {
+            background: linear-gradient(180deg, #BA68C8, #9C27B0);
+        }
+
+        .bar.mid {
+            background: linear-gradient(180deg, #FFB74D, #FF9800);
+        }
+
+        /* 栈和队列样式 */
+        .stack-container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 4px;
+            min-height: 300px;
+        }
+
+        .stack-item {
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(135deg, #81C784, #4CAF50);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .stack-item.pushing {
+            animation: pushIn 0.5s ease;
+        }
+
+        .stack-item.popping {
+            animation: popOut 0.5s ease forwards;
+        }
+
+        @keyframes pushIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes popOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        .queue-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 100px;
+            padding: 20px;
+        }
+
+        .queue-item {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #81C784, #4CAF50);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .queue-item.enqueuing {
+            animation: enqueueIn 0.5s ease;
+        }
+
+        .queue-item.dequeuing {
+            animation: dequeueOut 0.5s ease forwards;
+        }
+
+        @keyframes enqueueIn {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes dequeueOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+        }
+
+        /* 状态信息 */
+        .status-bar {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #f0f7f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #2E7D32;
+            min-height: 44px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* 右侧代码和说明区 */
+        .info-panel {
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .code-panel, .desc-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-function {
+            color: #dcdcaa;
+        }
+
+        .desc-panel h3 {
+            font-size: 15px;
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        .desc-panel p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .desc-panel ul {
+            padding-left: 20px;
+        }
+
+        .desc-panel li {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .control-panel, .info-panel {
+                width: 100%;
+            }
+            .info-panel {
+                flex-direction: row;
+            }
+            .code-panel, .desc-panel {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 GESP C++ STL 算法可视化演示</h1>
+        <p>交互式动画 · 直观理解算法原理 · 配套代码学习</p>
+    </div>
+
+    <div class="algo-tabs">
+        <div class="algo-tab active" data-algo="bubble">冒泡排序</div>
+        <div class="algo-tab" data-algo="binary">二分查找</div>
+        <div class="algo-tab" data-algo="stack">栈 Stack</div>
+        <div class="algo-tab" data-algo="queue">队列 Queue</div>
+        <div class="algo-tab" data-algo="selection">选择排序</div>
+        <div class="algo-tab" data-algo="insertion">插入排序</div>
+    </div>
+
+    <div class="main-content">
+        <!-- 左侧控制面板 -->
+        <div class="control-panel">
+            <div class="panel-title">⚙️ 控制面板</div>
+            
+            <div class="control-group">
+                <div class="control-label">数据（逗号分隔）</div>
+                <input type="text" class="control-input" id="dataInput" value="64, 34, 25, 12, 22, 11, 90, 45, 33, 77">
+            </div>
+
+            <div class="control-group">
+                <button class="btn btn-secondary" id="randomBtn">🎲 随机生成数据</button>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">动画速度</div>
+                <input type="range" class="speed-slider" id="speedSlider" min="1" max="10" value="5">
+                <div class="speed-value" id="speedValue">中等速度</div>
+            </div>
+
+            <div class="control-group">
+                <button class="btn btn-primary" id="startBtn">▶️ 开始演示</button>
+                <button class="btn btn-secondary" id="resetBtn">🔄 重置</button>
+            </div>
+
+            <!-- 二分查找专用 -->
+            <div class="control-group hidden" id="targetGroup">
+                <div class="control-label">查找目标值</div>
+                <input type="number" class="control-input" id="targetInput" value="25">
+            </div>
+
+            <!-- 栈/队列专用 -->
+            <div class="control-group hidden" id="pushGroup">
+                <div class="control-label">入栈/入队元素</div>
+                <input type="text" class="control-input" id="pushInput" value="42">
+                <button class="btn btn-primary" id="pushBtn" style="margin-top: 8px;">📥 入栈/入队</button>
+                <button class="btn btn-secondary" id="popBtn">📤 出栈/出队</button>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value" id="countValue">0</div>
+                    <div class="stat-label" id="countLabel">比较次数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="swapValue">0</div>
+                    <div class="stat-label" id="swapLabel">交换次数</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中间可视化区域 -->
+        <div class="visual-area">
+            <div class="visual-title" id="visualTitle">冒泡排序 Bubble Sort</div>
+            <div class="visual-desc" id="visualDesc">通过相邻元素比较和交换，每轮将最大元素"冒泡"到末尾</div>
+            
+            <div class="canvas-container">
+                <!-- 排序算法柱状图 -->
+                <div class="bars-container" id="barsContainer"></div>
+                
+                <!-- 栈演示 -->
+                <div class="stack-container hidden" id="stackContainer">
+                    <div style="color: #aaa; font-size: 14px;">栈底（空栈）</div>
+                </div>
+                
+                <!-- 队列演示 -->
+                <div class="queue-container hidden" id="queueContainer">
+                    <div style="color: #aaa; font-size: 14px;">队头 ← 队尾</div>
+                </div>
+            </div>
+
+            <div class="status-bar" id="statusBar">
+                点击「开始演示」按钮开始动画
+            </div>
+        </div>
+
+        <!-- 右侧信息面板 -->
+        <div class="info-panel">
+            <div class="code-panel">
+                <div class="panel-title">💻 C++ 代码示例</div>
+                <div class="code-block" id="codeBlock">
+<span class="code-comment">// 冒泡排序</span>
+<span class="code-keyword">void</span> <span class="code-function">bubbleSort</span>(<span class="code-keyword">int</span> arr[], <span class="code-keyword">int</span> n) {
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-string">0</span>; i < n - <span class="code-string">1</span>; i++) {
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = <span class="code-string">0</span>; j < n - i - <span class="code-string">1</span>; j++) {
+            <span class="code-keyword">if</span> (arr[j] > arr[j + <span class="code-string">1</span>]) {
+                swap(arr[j], arr[j + <span class="code-string">1</span>]);
+            }
+        }
+    }
+}
+                </div>
+            </div>
+
+            <div class="desc-panel">
+                <h3>📖 算法说明</h3>
+                <div id="algoDesc">
+                    <p><strong>时间复杂度：</strong>O(n²)</p>
+                    <p><strong>空间复杂度：</strong>O(1)</p>
+                    <p><strong>稳定性：</strong>稳定排序</p>
+                    <ul>
+                        <li>每轮比较相邻元素，大的往后移</li>
+                        <li>每轮结束，最大元素到末尾</li>
+                        <li>共需 n-1 轮完成排序</li>
+                        <li>GESP 4级考点</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局状态
+        let currentAlgo = 'bubble';
+        let isRunning = false;
+        let animationId = null;
+        let data = [];
+        let speed = 5;
+        let compareCount = 0;
+        let swapCount = 0;
+
+        // 算法配置
+        const algoConfig = {
+            bubble: {
+                title: '冒泡排序 Bubble Sort',
+                desc: '通过相邻元素比较和交换，每轮将最大元素"冒泡"到末尾',
+                countLabel: '比较次数',
+                swapLabel: '交换次数',
+                showTarget: false,
+                showPush: false,
+                code: `<span class="code-comment">// 冒泡排序</span>
+<span class="code-keyword">void</span> <span class="code-function">bubbleSort</span>(<span class="code-keyword">int</span> arr[], <span class="code-keyword">int</span> n) {
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-string">0</span>; i < n - <span class="code-string">1</span>; i++) {
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = <span class="code-string">0</span>; j < n - i - <span class="code-string">1</span>; j++) {
+            <span class="code-keyword">if</span> (arr[j] > arr[j + <span class="code-string">1</span>]) {
+                swap(arr[j], arr[j + <span class="code-string">1</span>]);
+            }
+        }
+    }
+}`,
+                descHtml: `<p><strong>时间复杂度：</strong>O(n²)</p>
+                    <p><strong>空间复杂度：</strong>O(1)</p>
+                    <p><strong>稳定性：</strong>稳定排序</p>
+                    <ul>
+                        <li>每轮比较相邻元素，大的往后移</li>
+                        <li>每轮结束，最大元素到末尾</li>
+                        <li>共需 n-1 轮完成排序</li>
+                        <li>GESP 4级考点</li>
+                    </ul>`
+            },
+            selection: {
+                title: '选择排序 Selection Sort',
+                desc: '每轮选择最小元素，放到已排序序列末尾',
+                countLabel: '比较次数',
+                swapLabel: '交换次数',
+                showTarget: false,
+                showPush: false,
+                code: `<span class="code-comment">// 选择排序</span>
+<span class="code-keyword">void</span> <span class="code-function">selectionSort</span>(<span class="code-keyword">int</span> arr[], <span class="code-keyword">int</span> n) {
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-string">0</span>; i < n - <span class="code-string">1</span>; i++) {
+        <span class="code-keyword">int</span> minIdx = i;
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = i + <span class="code-string">1</span>; j < n; j++) {
+            <span class="code-keyword">if</span> (arr[j] < arr[minIdx]) {
+                minIdx = j;
+            }
+        }
+        swap(arr[i], arr[minIdx]);
+    }
+}`,
+                descHtml: `<p><strong>时间复杂度：</strong>O(n²)</p>
+                    <p><strong>空间复杂度：</strong>O(1)</p>
+                    <p><strong>稳定性：</strong>不稳定</p>
+                    <ul>
+                        <li>每轮找最小元素的下标</li>
+                        <li>和当前位置交换</li>
+                        <li>交换次数少，n-1次</li>
+                        <li>GESP 4级考点</li>
+                    </ul>`
+            },
+            insertion: {
+                title: '插入排序 Insertion Sort',
+                desc: '将元素插入到已排序序列的正确位置',
+                countLabel: '比较次数',
+                swapLabel: '移动次数',
+                showTarget: false,
+                showPush: false,
+                code: `<span class="code-comment">// 插入排序</span>
+<span class="code-keyword">void</span> <span class="code-function">insertionSort</span>(<span class="code-keyword">int</span> arr[], <span class="code-keyword">int</span> n) {
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-string">1</span>; i < n; i++) {
+        <span class="code-keyword">int</span> key = arr[i];
+        <span class="code-keyword">int</span> j = i - <span class="code-string">1</span>;
+        <span class="code-keyword">while</span> (j >= <span class="code-string">0</span> && arr[j] > key) {
+            arr[j + <span class="code-string">1</span>] = arr[j];
+            j--;
+        }
+        arr[j + <span class="code-string">1</span>] = key;
+    }
+}`,
+                descHtml: `<p><strong>时间复杂度：</strong>O(n²)</p>
+                    <p><strong>空间复杂度：</strong>O(1)</p>
+                    <p><strong>稳定性：</strong>稳定排序</p>
+                    <ul>
+                        <li>像打扑克牌一样整理牌</li>
+                        <li>左边是已排序，右边未排序</li>
+                        <li>对近乎有序的数据效率高</li>
+                        <li>GESP 4级考点</li>
+                    </ul>`
+            },
+            binary: {
+                title: '二分查找 Binary Search',
+                desc: '在有序数组中，每次排除一半元素，快速定位目标',
+                countLabel: '查找次数',
+                swapLabel: '范围大小',
+                showTarget: true,
+                showPush: false,
+                code: `<span class="code-comment">// 二分查找（返回下标，找不到返回-1）</span>
+<span class="code-keyword">int</span> <span class="code-function">binarySearch</span>(<span class="code-keyword">int</span> arr[], <span class="code-keyword">int</span> n, <span class="code-keyword">int</span> target) {
+    <span class="code-keyword">int</span> left = <span class="code-string">0</span>, right = n - <span class="code-string">1</span>;
+    <span class="code-keyword">while</span> (left <= right) {
+        <span class="code-keyword">int</span> mid = left + (right - left) / <span class="code-string">2</span>;
+        <span class="code-keyword">if</span> (arr[mid] == target)
+            <span class="code-keyword">return</span> mid;
+        <span class="code-keyword">else if</span> (arr[mid] < target)
+            left = mid + <span class="code-string">1</span>;
+        <span class="code-keyword">else</span>
+            right = mid - <span class="code-string">1</span>;
+    }
+    <span class="code-keyword">return</span> -<span class="code-string">1</span>;
+}`,
+                descHtml: `<p><strong>时间复杂度：</strong>O(log n)</p>
+                    <p><strong>空间复杂度：</strong>O(1)</p>
+                    <p><strong>前提：</strong>数组必须有序</p>
+                    <ul>
+                        <li>每次取中间元素比较</li>
+                        <li>排除一半的搜索范围</li>
+                        <li>1000个数据只需10次</li>
+                        <li>GESP 6级考点（binary_search）</li>
+                        <li>GESP 7级考点（lower_bound）</li>
+                    </ul>`
+            },
+            stack: {
+                title: '栈 Stack',
+                desc: '后进先出（LIFO）的数据结构，只能在栈顶操作',
+                countLabel: '元素个数',
+                swapLabel: '操作次数',
+                showTarget: false,
+                showPush: true,
+                code: `<span class="code-comment">// STL stack 常用操作</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;stack&gt;</span>
+
+stack&lt;<span class="code-keyword">int</span>&gt; st;     <span class="code-comment">// 声明栈</span>
+
+st.push(<span class="code-string">10</span>);      <span class="code-comment">// 入栈</span>
+st.push(<span class="code-string">20</span>);
+
+st.top();        <span class="code-comment">// 获取栈顶元素 20</span>
+st.pop();        <span class="code-comment">// 弹出栈顶</span>
+
+st.size();       <span class="code-comment">// 元素个数</span>
+st.empty();      <span class="code-comment">// 是否为空</span>`,
+                descHtml: `<p><strong>特点：</strong>后进先出 LIFO</p>
+                    <p><strong>头文件：</strong>#include &lt;stack&gt;</p>
+                    <ul>
+                        <li>push()：入栈（栈顶添加）</li>
+                        <li>pop()：出栈（栈顶删除）</li>
+                        <li>top()：获取栈顶元素</li>
+                        <li>size()：栈的大小</li>
+                        <li>empty()：是否为空</li>
+                        <li>GESP 5级原理，6级STL</li>
+                    </ul>`
+            },
+            queue: {
+                title: '队列 Queue',
+                desc: '先进先出（FIFO）的数据结构，队尾入队，队头出队',
+                countLabel: '元素个数',
+                swapLabel: '操作次数',
+                showTarget: false,
+                showPush: true,
+                code: `<span class="code-comment">// STL queue 常用操作</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;queue&gt;</span>
+
+queue&lt;<span class="code-keyword">int</span>&gt; q;     <span class="code-comment">// 声明队列</span>
+
+q.push(<span class="code-string">10</span>);      <span class="code-comment">// 入队（队尾）</span>
+q.push(<span class="code-string">20</span>);
+
+q.front();      <span class="code-comment">// 获取队头 10</span>
+q.back();       <span class="code-comment">// 获取队尾 20</span>
+q.pop();        <span class="code-comment">// 出队（队头）</span>
+
+q.size();       <span class="code-comment">// 元素个数</span>
+q.empty();      <span class="code-comment">// 是否为空</span>`,
+                descHtml: `<p><strong>特点：</strong>先进先出 FIFO</p>
+                    <p><strong>头文件：</strong>#include &lt;queue&gt;</p>
+                    <ul>
+                        <li>push()：入队（队尾添加）</li>
+                        <li>pop()：出队（队头删除）</li>
+                        <li>front()：获取队头元素</li>
+                        <li>back()：获取队尾元素</li>
+                        <li>常用于BFS广度优先搜索</li>
+                        <li>GESP 5级原理，6级STL</li>
+                    </ul>`
+            }
+        };
+
+        // DOM元素
+        const barsContainer = document.getElementById('barsContainer');
+        const stackContainer = document.getElementById('stackContainer');
+        const queueContainer = document.getElementById('queueContainer');
+        const dataInput = document.getElementById('dataInput');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const randomBtn = document.getElementById('randomBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        const statusBar = document.getElementById('statusBar');
+        const countValue = document.getElementById('countValue');
+        const swapValue = document.getElementById('swapValue');
+        const countLabel = document.getElementById('countLabel');
+        const swapLabel = document.getElementById('swapLabel');
+        const targetGroup = document.getElementById('targetGroup');
+        const targetInput = document.getElementById('targetInput');
+        const pushGroup = document.getElementById('pushGroup');
+        const pushInput = document.getElementById('pushInput');
+        const pushBtn = document.getElementById('pushBtn');
+        const popBtn = document.getElementById('popBtn');
+        const codeBlock = document.getElementById('codeBlock');
+        const algoDesc = document.getElementById('algoDesc');
+        const visualTitle = document.getElementById('visualTitle');
+        const visualDesc = document.getElementById('visualDesc');
+
+        // 初始化
+        function init() {
+            parseData();
+            renderBars();
+            setupTabs();
+            setupControls();
+        }
+
+        // 解析数据
+        function parseData() {
+            const input = dataInput.value;
+            data = input.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+            compareCount = 0;
+            swapCount = 0;
+            updateStats();
+        }
+
+        // 渲染柱状图
+        function renderBars(highlights = {}) {
+            const maxVal = Math.max(...data, 1);
+            barsContainer.innerHTML = '';
+            
+            data.forEach((val, idx) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = (val / maxVal * 250 + 20) + 'px';
+                bar.textContent = val;
+                
+                if (highlights.comparing && highlights.comparing.includes(idx)) {
+                    bar.classList.add('comparing');
+                }
+                if (highlights.swapping && highlights.swapping.includes(idx)) {
+                    bar.classList.add('swapping');
+                }
+                if (highlights.sorted && highlights.sorted.includes(idx)) {
+                    bar.classList.add('sorted');
+                }
+                if (highlights.found && highlights.found === idx) {
+                    bar.classList.add('found');
+                }
+                if (highlights.mid === idx) {
+                    bar.classList.add('mid');
+                }
+                if (highlights.range) {
+                    if (idx < highlights.range[0] || idx > highlights.range[1]) {
+                        bar.style.opacity = '0.3';
+                    }
+                }
+                
+                barsContainer.appendChild(bar);
+            });
+        }
+
+        // 更新统计
+        function updateStats() {
+            countValue.textContent = compareCount;
+            swapValue.textContent = swapCount;
+        }
+
+        // 设置标签切换
+        function setupTabs() {
+            document.querySelectorAll('.algo-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    if (isRunning) return;
+                    
+                    document.querySelectorAll('.algo-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    currentAlgo = tab.dataset.algo;
+                    updateAlgoUI();
+                    resetVisual();
+                });
+            });
+        }
+
+        // 更新算法UI
+        function updateAlgoUI() {
+            const config = algoConfig[currentAlgo];
+            
+            visualTitle.textContent = config.title;
+            visualDesc.textContent = config.desc;
+            countLabel.textContent = config.countLabel;
+            swapLabel.textContent = config.swapLabel;
+            codeBlock.innerHTML = config.code;
+            algoDesc.innerHTML = config.descHtml;
+            
+            // 显示/隐藏特定控件
+            targetGroup.classList.toggle('hidden', !config.showTarget);
+            pushGroup.classList.toggle('hidden', !config.showPush);
+            
+            // 显示/隐藏可视化容器
+            barsContainer.classList.toggle('hidden', currentAlgo === 'stack' || currentAlgo === 'queue');
+            stackContainer.classList.toggle('hidden', currentAlgo !== 'stack');
+            queueContainer.classList.toggle('hidden', currentAlgo !== 'queue');
+            
+            // 更新按钮文字
+            if (currentAlgo === 'stack') {
+                pushBtn.textContent = '📥 入栈';
+                popBtn.textContent = '📤 出栈';
+            } else if (currentAlgo === 'queue') {
+                pushBtn.textContent = '📥 入队';
+                popBtn.textContent = '📤 出队';
+            }
+        }
+
+        // 设置控件
+        function setupControls() {
+            startBtn.addEventListener('click', startAnimation);
+            resetBtn.addEventListener('click', resetVisual);
+            randomBtn.addEventListener('click', generateRandom);
+            
+            speedSlider.addEventListener('input', (e) => {
+                speed = parseInt(e.target.value);
+                const labels = ['极慢', '很慢', '慢', '较慢', '中等', '较快', '快', '很快', '极快', '瞬间'];
+                speedValue.textContent = labels[speed - 1];
+            });
+            
+            pushBtn.addEventListener('click', pushOperation);
+            popBtn.addEventListener('click', popOperation);
+        }
+
+        // 随机生成数据
+        function generateRandom() {
+            if (isRunning) return;
+            const count = Math.floor(Math.random() * 6) + 8; // 8-13个
+            const arr = [];
+            for (let i = 0; i < count; i++) {
+                arr.push(Math.floor(Math.random() * 90) + 10); // 10-99
+            }
+            dataInput.value = arr.join(', ');
+            parseData();
+            renderBars();
+            statusBar.textContent = '已生成随机数据，点击开始演示';
+        }
+
+        // 重置可视化
+        function resetVisual() {
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+            isRunning = false;
+            startBtn.disabled = false;
+            startBtn.textContent = '▶️ 开始演示';
+            
+            parseData();
+            
+            if (currentAlgo === 'stack') {
+                renderStack();
+            } else if (currentAlgo === 'queue') {
+                renderQueue();
+            } else {
+                renderBars();
+            }
+            
+            statusBar.textContent = '点击「开始演示」按钮开始动画';
+        }
+
+        // 获取延迟时间
+        function getDelay() {
+            return 1100 - speed * 100;
+        }
+
+        // 开始动画
+        function startAnimation() {
+            if (isRunning) return;
+            parseData();
+            
+            if (currentAlgo === 'bubble') {
+                startBubbleSort();
+            } else if (currentAlgo === 'selection') {
+                startSelectionSort();
+            } else if (currentAlgo === 'insertion') {
+                startInsertionSort();
+            } else if (currentAlgo === 'binary') {
+                startBinarySearch();
+            }
+        }
+
+        // 冒泡排序动画
+        function startBubbleSort() {
+            isRunning = true;
+            startBtn.disabled = true;
+            compareCount = 0;
+            swapCount = 0;
+            updateStats();
+            
+            const n = data.length;
+            let i = 0;
+            let j = 0;
+            const sortedIndices = [];
+            
+            function step() {
+                if (i >= n - 1) {
+                    // 完成
+                    renderBars({ sorted: Array.from({length: n}, (_, i) => i) });
+                    statusBar.textContent = `✅ 排序完成！共比较 ${compareCount} 次，交换 ${swapCount} 次`;
+                    isRunning = false;
+                    startBtn.disabled = false;
+                    return;
+                }
+                
+                if (j < n - i - 1) {
+                    compareCount++;
+                    updateStats();
+                    statusBar.textContent = `第 ${i + 1} 轮：比较 arr[${j}]=${data[j]} 和 arr[${j+1}]=${data[j+1]}`;
+                    renderBars({ 
+                        comparing: [j, j + 1],
+                        sorted: sortedIndices 
+                    });
+                    
+                    if (data[j] > data[j + 1]) {
+                        // 交换
+                        animationId = setTimeout(() => {
+                            [data[j], data[j + 1]] = [data[j + 1], data[j]];
+                            swapCount++;
+                            updateStats();
+                            statusBar.textContent = `交换 arr[${j}] 和 arr[${j+1}]`;
+                            renderBars({ 
+                                swapping: [j, j + 1],
+                                sorted: sortedIndices 
+                            });
+                            
+                            animationId = setTimeout(() => {
+                                j++;
+                                step();
+                            }, getDelay());
+                        }, getDelay());
+                    } else {
+                        animationId = setTimeout(() => {
+                            j++;
+                            step();
+                        }, getDelay() / 2);
+                    }
+                } else {
+                    // 一轮结束
+                    sortedIndices.push(n - 1 - i);
+                    statusBar.textContent = `第 ${i + 1} 轮完成，最大元素 ${data[n-1-i]} 已到位`;
+                    i++;
+                    j = 0;
+                    animationId = setTimeout(step, getDelay());
+                }
+            }
+            
+            step();
+        }
+
+        // 选择排序动画
+        function startSelectionSort() {
+            isRunning = true;
+            startBtn.disabled = true;
+            compareCount = 0;
+            swapCount = 0;
+            updateStats();
+            
+            const n = data.length;
+            let i = 0;
+            let j = 1;
+            let minIdx = 0;
+            const sortedIndices = [];
+            
+            function step() {
+                if (i >= n - 1) {
+                    renderBars({ sorted: Array.from({length: n}, (_, i) => i) });
+                    statusBar.textContent = `✅ 排序完成！共比较 ${compareCount} 次，交换 ${swapCount} 次`;
+                    isRunning = false;
+                    startBtn.disabled = false;
+                    return;
+                }
+                
+                if (j < n) {
+                    compareCount++;
+                    updateStats();
+                    statusBar.textContent = `第 ${i + 1} 轮：比较 arr[${j}]=${data[j]} 和当前最小值 arr[${minIdx}]=${data[minIdx]}`;
+                    renderBars({ 
+                        comparing: [j, minIdx],
+                        sorted: sortedIndices 
+                    });
+                    
+                    if (data[j] < data[minIdx]) {
+                        minIdx = j;
+                        statusBar.textContent = `找到更小的元素 ${data[j]}，更新最小值下标为 ${j}`;
+                    }
+                    
+                    animationId = setTimeout(() => {
+                        j++;
+                        step();
+                    }, getDelay() / 2);
+                } else {
+                    // 交换
+                    if (minIdx !== i) {
+                        statusBar.textContent = `交换 arr[${i}]=${data[i]} 和 arr[${minIdx}]=${data[minIdx]}`;
+                        renderBars({ swapping: [i, minIdx], sorted: sortedIndices });
+                        
+                        animationId = setTimeout(() => {
+                            [data[i], data[minIdx]] = [data[minIdx], data[i]];
+                            swapCount++;
+                            updateStats();
+                            sortedIndices.push(i);
+                            i++;
+                            j = i + 1;
+                            minIdx = i;
+                            step();
+                        }, getDelay());
+                    } else {
+                        sortedIndices.push(i);
+                        statusBar.textContent = `第 ${i + 1} 轮完成，${data[i]} 已在正确位置`;
+                        i++;
+                        j = i + 1;
+                        minIdx = i;
+                        animationId = setTimeout(step, getDelay() / 2);
+                    }
+                }
+            }
+            
+            step();
+        }
+
+        // 插入排序动画
+        function startInsertionSort() {
+            isRunning = true;
+            startBtn.disabled = true;
+            compareCount = 0;
+            swapCount = 0;
+            updateStats();
+            
+            const n = data.length;
+            let i = 1;
+            const sortedIndices = [0];
+            
+            function step() {
+                if (i >= n) {
+                    renderBars({ sorted: Array.from({length: n}, (_, i) => i) });
+                    statusBar.textContent = `✅ 排序完成！共比较 ${compareCount} 次，移动 ${swapCount} 次`;
+                    isRunning = false;
+                    startBtn.disabled = false;
+                    return;
+                }
+                
+                const key = data[i];
+                let j = i - 1;
+                
+                function insertStep() {
+                    if (j >= 0 && data[j] > key) {
+                        compareCount++;
+                        swapCount++;
+                        updateStats();
+                        statusBar.textContent = `将 ${data[j]} 右移，为 ${key} 腾出位置`;
+                        data[j + 1] = data[j];
+                        renderBars({ 
+                            swapping: [j, j + 1],
+                            sorted: sortedIndices.filter(idx => idx !== j + 1)
+                        });
+                        j--;
+                        animationId = setTimeout(insertStep, getDelay());
+                    } else {
+                        data[j + 1] = key;
+                        sortedIndices.push(i);
+                        statusBar.textContent = `将 ${key} 插入到位置 ${j + 1}`;
+                        renderBars({ sorted: sortedIndices });
+                        i++;
+                        animationId = setTimeout(step, getDelay());
+                    }
+                }
+                
+                statusBar.textContent = `取出元素 ${key}，准备插入到已排序部分`;
+                renderBars({ comparing: [i], sorted: sortedIndices });
+                animationId = setTimeout(insertStep, getDelay());
+            }
+            
+            step();
+        }
+
+        // 二分查找动画
+        function startBinarySearch() {
+            isRunning = true;
+            startBtn.disabled = true;
+            compareCount = 0;
+            swapCount = data.length;
+            updateStats();
+            
+            // 先排序
+            data.sort((a, b) => a - b);
+            const target = parseInt(targetInput.value);
+            let left = 0;
+            let right = data.length - 1;
+            
+            statusBar.textContent = `先将数组排序，然后查找目标值 ${target}`;
+            renderBars({ sorted: Array.from({length: data.length}, (_, i) => i) });
+            
+            function step() {
+                if (left > right) {
+                    statusBar.textContent = `❌ 未找到 ${target}，共查找 ${compareCount} 次`;
+                    renderBars({ range: [-1, -1] });
+                    isRunning = false;
+                    startBtn.disabled = false;
+                    return;
+                }
+                
+                compareCount++;
+                const mid = Math.floor((left + right) / 2);
+                swapCount = right - left + 1;
+                updateStats();
+                
+                statusBar.textContent = `第 ${compareCount} 次：left=${left}, right=${right}, mid=${mid}, arr[mid]=${data[mid]}`;
+                renderBars({ 
+                    mid: mid,
+                    range: [left, right],
+                    sorted: Array.from({length: data.length}, (_, i) => i)
+                });
+                
+                if (data[mid] === target) {
+                    animationId = setTimeout(() => {
+                        statusBar.textContent = `🎉 找到 ${target}！下标为 ${mid}，共查找 ${compareCount} 次`;
+                        renderBars({ 
+                            found: mid,
+                            sorted: Array.from({length: data.length}, (_, i) => i)
+                        });
+                        isRunning = false;
+                        startBtn.disabled = false;
+                    }, getDelay());
+                } else if (data[mid] < target) {
+                    animationId = setTimeout(() => {
+                        statusBar.textContent = `${data[mid]} < ${target}，在右半部分继续查找`;
+                        left = mid + 1;
+                        step();
+                    }, getDelay() * 1.5);
+                } else {
+                    animationId = setTimeout(() => {
+                        statusBar.textContent = `${data[mid]} > ${target}，在左半部分继续查找`;
+                        right = mid - 1;
+                        step();
+                    }, getDelay() * 1.5);
+                }
+            }
+            
+            animationId = setTimeout(step, 1000);
+        }
+
+        // 栈操作
+        let stackData = [];
+        
+        function renderStack() {
+            stackContainer.innerHTML = '';
+            
+            if (stackData.length === 0) {
+                const empty = document.createElement('div');
+                empty.style.cssText = 'color: #aaa; font-size: 14px; padding: 20px;';
+                empty.textContent = '栈底（空栈）';
+                stackContainer.appendChild(empty);
+            } else {
+                stackData.forEach((val, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'stack-item';
+                    item.textContent = val;
+                    if (idx === stackData.length - 1) {
+                        item.style.border = '3px solid #FF9800';
+                    }
+                    stackContainer.appendChild(item);
+                });
+            }
+            
+            compareCount = stackData.length;
+            updateStats();
+        }
+        
+        function pushOperation() {
+            const val = pushInput.value.trim();
+            if (!val) return;
+            
+            swapCount++;
+            stackData.push(val);
+            statusBar.textContent = `📥 元素 ${val} 入栈`;
+            renderStack();
+            
+            // 添加动画
+            const items = stackContainer.querySelectorAll('.stack-item');
+            if (items.length > 0) {
+                items[items.length - 1].classList.add('pushing');
+            }
+        }
+        
+        function popOperation() {
+            if (stackData.length === 0) {
+                statusBar.textContent = '⚠️ 栈为空，无法出栈';
+                return;
+            }
+            
+            const val = stackData[stackData.length - 1];
+            swapCount++;
+            
+            // 动画
+            const items = stackContainer.querySelectorAll('.stack-item');
+            if (items.length > 0) {
+                items[items.length - 1].classList.add('popping');
+            }
+            
+            setTimeout(() => {
+                stackData.pop();
+                statusBar.textContent = `📤 元素 ${val} 出栈`;
+                renderStack();
+            }, 500);
+        }
+
+        // 队列操作
+        let queueData = [];
+        
+        function renderQueue() {
+            queueContainer.innerHTML = '';
+            
+            if (queueData.length === 0) {
+                const empty = document.createElement('div');
+                empty.style.cssText = 'color: #aaa; font-size: 14px; padding: 20px;';
+                empty.textContent = '空队列';
+                queueContainer.appendChild(empty);
+            } else {
+                queueData.forEach((val, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'queue-item';
+                    item.textContent = val;
+                    if (idx === 0) {
+                        item.style.border = '3px solid #FF9800';
+                    }
+                    queueContainer.appendChild(item);
+                });
+            }
+            
+            compareCount = queueData.length;
+            updateStats();
+        }
+        
+        // 覆盖push/pop为队列版本
+        const originalPush = pushOperation;
+        const originalPop = popOperation;
+        
+        function updateQueueOps() {
+            if (currentAlgo === 'queue') {
+                pushBtn.onclick = queuePush;
+                popBtn.onclick = queuePop;
+            } else if (currentAlgo === 'stack') {
+                pushBtn.onclick = originalPush;
+                popBtn.onclick = originalPop;
+            }
+        }
+        
+        function queuePush() {
+            const val = pushInput.value.trim();
+            if (!val) return;
+            
+            swapCount++;
+            queueData.push(val);
+            statusBar.textContent = `📥 元素 ${val} 入队（队尾）`;
+            renderQueue();
+            
+            const items = queueContainer.querySelectorAll('.queue-item');
+            if (items.length > 0) {
+                items[items.length - 1].classList.add('enqueuing');
+            }
+        }
+        
+        function queuePop() {
+            if (queueData.length === 0) {
+                statusBar.textContent = '⚠️ 队列为空，无法出队';
+                return;
+            }
+            
+            const val = queueData[0];
+            swapCount++;
+            
+            const items = queueContainer.querySelectorAll('.queue-item');
+            if (items.length > 0) {
+                items[0].classList.add('dequeuing');
+            }
+            
+            setTimeout(() => {
+                queueData.shift();
+                statusBar.textContent = `📤 元素 ${val} 出队（队头）`;
+                renderQueue();
+            }, 500);
+        }
+
+        // 修改标签切换逻辑，加入队列操作更新
+        const originalSetupTabs = setupTabs;
+        setupTabs = function() {
+            document.querySelectorAll('.algo-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    if (isRunning) return;
+                    
+                    document.querySelectorAll('.algo-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    currentAlgo = tab.dataset.algo;
+                    updateAlgoUI();
+                    updateQueueOps();
+                    resetVisual();
+                    
+                    // 初始化栈/队列数据
+                    if (currentAlgo === 'stack') {
+                        stackData = [10, 20, 30];
+                        renderStack();
+                        statusBar.textContent = '栈已初始化，点击按钮进行入栈/出栈操作';
+                    } else if (currentAlgo === 'queue') {
+                        queueData = [10, 20, 30];
+                        renderQueue();
+                        statusBar.textContent = '队列已初始化，点击按钮进行入队/出队操作';
+                    }
+                });
+            });
+        };
+
+        // 重新初始化
+        setupTabs();
+        setupControls();
+        parseData();
+        renderBars();
+    </script>
+</body>
+</html>
