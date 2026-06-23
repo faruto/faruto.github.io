@@ -25,7 +25,7 @@
     <section class="page-hero">
       <p class="eyebrow">FQuantStudio Market Watch</p>
       <h1>市场观察系列</h1>
-      <p>把本地生成的市场复盘页面整理成稳定的静态入口。股票和 ETF 报告已接入，后续期货页面也会按同样结构替换为最新产物。</p>
+      <p>把本地生成的市场复盘页面整理成稳定的静态入口。股票、ETF 和 ETF-FOF 持仓观察已接入，后续期货页面也会按同样结构替换为最新产物。</p>
     </section>
 
     <section class="section">
@@ -55,6 +55,20 @@
           </div>
           <a class="report-preview" href="/market-watch/etf/" target="_blank" rel="noopener noreferrer" aria-label="打开ETF市场观察报告">
             <img src="/assets/market-watch-etf-latest.png" alt="ETF市场观察页面截图">
+          </a>
+        </article>
+
+        <article class="report-entry">
+          <div class="report-entry-head">
+            <div>
+              <span class="status">LIVE</span>
+              <h2>ETF-FOF持仓观察</h2>
+              <p>整理 FOF 持仓中权益类 ETF 的分布、类型、规模和机构配置线索，作为 ETF 观察下的专题入口。</p>
+            </div>
+            <a class="button" href="/market-watch/etf-fof-holdings/" target="_blank" rel="noopener noreferrer">打开ETF-FOF页</a>
+          </div>
+          <a class="report-preview" href="/market-watch/etf-fof-holdings/" target="_blank" rel="noopener noreferrer" aria-label="打开ETF-FOF持仓观察">
+            <img src="/assets/etf-fof-holdings-latest.png" alt="ETF-FOF持仓观察页面截图">
           </a>
         </article>
       </div>
@@ -111,8 +125,8 @@
         <div class="card">
           <span class="tag">Update Rule</span>
           <h3>静态报告自动替换</h3>
-          <p>股票、ETF、期货会分别指向各自最新生成的 HTML 报告，入口页只负责导航和预览。</p>
-          <div class="meta"><span>Stocks</span><span>ETF</span><span>Futures</span></div>
+          <p>股票、ETF、ETF-FOF 持仓和期货会分别指向各自最新生成的 HTML 报告，入口页只负责导航和预览。</p>
+          <div class="meta"><span>Stocks</span><span>ETF</span><span>FOF</span><span>Futures</span></div>
         </div>
       </div>
     </section>
