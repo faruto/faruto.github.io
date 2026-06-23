@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETF-FOF持仓权益类ETF统计分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#60a5fa',
+                        dark: '#0f172a',
+                        light: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .table-header-sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+        .table-header-sortable:hover {
+            background-color: #e2e8f0;
+        }
+        .sort-icon {
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+        .sort-icon.active {
+            opacity: 1;
+        }
+        .category-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .category-wide {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .category-narrow {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .stat-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .tab-active {
+            border-bottom: 3px solid #1e40af;
+            color: #1e40af;
+            font-weight: 600;
+        }
+        .data-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .highlight-row {
+            background-color: #fef9c3 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-primary to-secondary text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">
+                        <i class="fa fa-line-chart mr-3"></i>
+                        ETF-FOF持仓权益类ETF统计分析
+                    </h1>
+                    <p class="text-blue-100 text-lg">从机构ETF-FOF持仓角度筛选优质权益ETF标的</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-blue-200">数据更新时间</div>
+                    <div class="text-xl font-semibold">2026年6月23日</div>
+                    <div class="text-sm text-blue-200">数据截至：2026年一季报</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- 数据说明 -->
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-8 rounded-r-lg">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fa fa-info-circle text-amber-500 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-amber-700">
+                        <strong>数据说明：</strong>
+                        本统计基于全市场16只名称含"ETF-FOF"的公募基金，其中8只已披露2026年一季报前十大持仓数据。
+                        仅纳入A股权益类ETF，排除债券ETF、货币ETF、商品ETF、QDII海外ETF及REITs ETF。
+                        持有金额基于各FOF基金规模与持仓占比估算，仅供参考。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计概览 -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fa fa-bar-chart text-primary mr-3"></i>
+                统计概览
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-t-4 border-primary">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">全市场ETF-FOF总数</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">16<span class="text-lg font-normal text-gray-500"> 只</span></p>
+                            <p class="text-xs text-gray-400 mt-1">其中有季报数据：8只</p>
+                        </div>
+                        <div class="text-4xl text-primary opacity-20">
+                            <i class="fa fa-university"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-t-4 border-green-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">权益ETF总数</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">25<span class="text-lg font-normal text-gray-500"> 只</span></p>
+                            <p class="text-xs text-gray-400 mt-1">宽基18只 / 窄基7只</p>
+                        </div>
+                        <div class="text-4xl text-green-500 opacity-20">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-t-4 border-purple-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">合计持有金额</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">约2.37<span class="text-lg font-normal text-gray-500"> 亿元</span></p>
+                            <p class="text-xs text-gray-400 mt-1">基于6只FOF前十大持仓估算</p>
+                        </div>
+                        <div class="text-4xl text-purple-500 opacity-20">
+                            <i class="fa fa-money"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-t-4 border-orange-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">最热门ETF被持有数</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">3<span class="text-lg font-normal text-gray-500"> 只FOF</span></p>
+                            <p class="text-xs text-gray-400 mt-1">华夏国证自由现金流ETF</p>
+                        </div>
+                        <div class="text-4xl text-orange-500 opacity-20">
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOP10热门ETF -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fa fa-trophy text-yellow-500 mr-3"></i>
+                TOP10 热门权益ETF（按持有基金数排序）
+            </h2>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">排名</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">ETF代码</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">ETF名称</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">分类</th>
+                                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700">持有基金数</th>
+                                <th class="px-6 py-4 text-right text-sm font-semibold text-gray-700">合计持有金额(万元)</th>
+                                <th class="px-6 py-4 text-right text-sm font-semibold text-gray-700">平均权重</th>
+                                <th class="px-6 py-4 text-right text-sm font-semibold text-gray-700">入选率</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top10Table" class="divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 完整数据表格 -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fa fa-table text-primary mr-3"></i>
+                权益ETF完整列表
+            </h2>
+            
+            <!-- 筛选控制区 -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <!-- 分类切换 -->
+                    <div class="flex space-x-1 border-b border-gray-200">
+                        <button onclick="filterByCategory('all')" id="tab-all" class="tab-active px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                            全部 (25)
+                        </button>
+                        <button onclick="filterByCategory('wide')" id="tab-wide" class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                            宽基ETF (18)
+                        </button>
+                        <button onclick="filterByCategory('narrow')" id="tab-narrow" class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                            窄基ETF (7)
+                        </button>
+                    </div>
+                    
+                    <!-- 搜索框 -->
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="搜索ETF代码或名称..." 
+                               class="w-full md:w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                               onkeyup="searchTable()">
+                        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据表格 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full data-table">
+                        <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                            <tr>
+                                <th class="table-header-sortable px-6 py-4 text-left text-sm font-semibold text-gray-700" onclick="sortTable(0)">
+                                    ETF代码 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-left text-sm font-semibold text-gray-700" onclick="sortTable(1)">
+                                    ETF名称 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-left text-sm font-semibold text-gray-700" onclick="sortTable(2)">
+                                    分类 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-center text-sm font-semibold text-gray-700" onclick="sortTable(3)">
+                                    持有基金数 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-right text-sm font-semibold text-gray-700" onclick="sortTable(4)">
+                                    合计持有金额(万元) <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-right text-sm font-semibold text-gray-700" onclick="sortTable(5)">
+                                    平均权重 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-center text-sm font-semibold text-gray-700" onclick="sortTable(6)">
+                                    持有次数 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                                <th class="table-header-sortable px-6 py-4 text-right text-sm font-semibold text-gray-700" onclick="sortTable(7)">
+                                    入选率 <span class="sort-icon ml-1"><i class="fa fa-sort"></i></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 分页信息 -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+                    <div class="text-sm text-gray-600">
+                        显示 <span id="showCount">0</span> 条记录，共 <span id="totalCount">0</span> 条
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        点击表头可排序 | 支持代码/名称搜索
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 持仓详情 -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fa fa-sitemap text-primary mr-3"></i>
+                各ETF-FOF持仓分布
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <span class="w-3 h-3 bg-primary rounded-full mr-2"></span>
+                        兴全盈丰多元配置ETF-FOF (023226)
+                    </h3>
+                    <div class="text-sm text-gray-500 mb-3">规模：约2.59亿元 | 权益ETF：7只</div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">中证800ETF易方达 (515810)</span>
+                            <span class="text-sm font-medium text-gray-800">5.07%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: 50.7%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">A50ETF华泰柏瑞 (563350)</span>
+                            <span class="text-sm font-medium text-gray-800">4.77%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: 47.7%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">中证A50ETF工银 (561230)</span>
+                            <span class="text-sm font-medium text-gray-800">4.69%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: 46.9%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">A500ETF易方达 (159361)</span>
+                            <span class="text-sm font-medium text-gray-800">4.64%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: 46.4%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">A500ETF工银 (159362)</span>
+                            <span class="text-sm font-medium text-gray-800">4.16%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: 41.6%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                        博时集益多元配置ETF-FOF (025834)
+                    </h3>
+                    <div class="text-sm text-gray-500 mb-3">规模：约6.22亿元 | 权益ETF：6只</div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">华夏国证自由现金流ETF (159201)</span>
+                            <span class="text-sm font-medium text-gray-800">7.43%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 74.3%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">博时中证红利低波100ETF (159307)</span>
+                            <span class="text-sm font-medium text-gray-800">4.19%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 41.9%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">国泰恒生A股电网设备ETF (561380)</span>
+                            <span class="text-sm font-medium text-gray-800">4.02%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 40.2%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">国泰中证煤炭ETF (515220)</span>
+                            <span class="text-sm font-medium text-gray-800">3.11%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 31.1%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">华夏中证电网设备主题ETF (159326)</span>
+                            <span class="text-sm font-medium text-gray-800">2.17%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 21.7%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 投资参考提示 -->
+        <section class="mb-10">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-lightbulb-o text-yellow-500 mr-2"></i>
+                    投资参考提示
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="font-medium text-gray-800 mb-2">宽基ETF为主流选择</div>
+                        <p class="text-gray-600">ETF-FOF配置以宽基ETF为核心，尤其是A500、A50、沪深300等代表性宽基指数，体现机构对核心资产的配置思路。</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="font-medium text-gray-800 mb-2">策略型ETF受青睐</div>
+                        <p class="text-gray-600">自由现金流、红利低波等策略型ETF被多只FOF共同持有，说明Smart Beta策略在机构配置中的认可度提升。</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="font-medium text-gray-800 mb-2">行业ETF聚焦周期</div>
+                        <p class="text-gray-600">窄基ETF主要集中在电力设备、煤炭、通信等周期板块，反映机构对当前市场风格的判断和行业轮动思路。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-8 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm">
+                数据来源：各基金公司2026年一季报、天天基金网、东方财富网等公开渠道
+            </p>
+            <p class="text-xs mt-2 text-gray-500">
+                本页面仅供研究参考，不构成任何投资建议。投资有风险，入市需谨慎。
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ETF数据
+        const etfData = [
+            // 宽基ETF
+            {code: '515810', name: '中证800ETF易方达', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 1313.13, avgWeight: 5.07, holdCount: 1, inclusionRate: 12.5},
+            {code: '563350', name: 'A50ETF华泰柏瑞', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 1235.43, avgWeight: 4.77, holdCount: 1, inclusionRate: 12.5},
+            {code: '561230', name: '中证A50ETF工银', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 1214.71, avgWeight: 4.69, holdCount: 1, inclusionRate: 12.5},
+            {code: '159361', name: 'A500ETF易方达', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 1201.76, avgWeight: 4.64, holdCount: 1, inclusionRate: 12.5},
+            {code: '159362', name: 'A500ETF工银', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 1077.44, avgWeight: 4.16, holdCount: 1, inclusionRate: 12.5},
+            {code: '159338', name: '中证A500ETF国泰', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 1038.59, avgWeight: 4.01, holdCount: 1, inclusionRate: 12.5},
+            {code: '159352', name: 'A500ETF南方', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 916.86, avgWeight: 3.54, holdCount: 1, inclusionRate: 12.5},
+            {code: '159201', name: '华夏国证自由现金流ETF', category: 'wide', subCategory: '宽基/策略', fundCount: 3, amount: 4970.78, avgWeight: 5.90, holdCount: 3, inclusionRate: 37.5},
+            {code: '159307', name: '博时中证红利低波100ETF', category: 'wide', subCategory: '宽基/策略', fundCount: 1, amount: 2606.18, avgWeight: 4.19, holdCount: 1, inclusionRate: 12.5},
+            {code: '159399', name: '国泰富时中国A股自由现金流聚焦ETF', category: 'wide', subCategory: '宽基/策略', fundCount: 1, amount: 0, avgWeight: 13.37, holdCount: 1, inclusionRate: 12.5},
+            {code: '159906', name: '大成深证成长40ETF', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 0, avgWeight: 4.39, holdCount: 1, inclusionRate: 12.5},
+            {code: '159525', name: '富国中证红利低波动ETF', category: 'wide', subCategory: '宽基/策略', fundCount: 1, amount: 475.80, avgWeight: 2.60, holdCount: 1, inclusionRate: 12.5},
+            {code: '159350', name: '富国深证50ETF', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 459.33, avgWeight: 2.51, holdCount: 1, inclusionRate: 12.5},
+            {code: '510300', name: '华泰柏瑞沪深300ETF', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 6.17, avgWeight: 6.17, holdCount: 1, inclusionRate: 12.5},
+            {code: '159949', name: '华安创业板50ETF', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 4.93, avgWeight: 4.93, holdCount: 1, inclusionRate: 12.5},
+            {code: '561550', name: '华泰柏瑞中证500增强策略ETF', category: 'wide', subCategory: '宽基/策略', fundCount: 1, amount: 4.80, avgWeight: 4.80, holdCount: 1, inclusionRate: 12.5},
+            {code: '588460', name: '科创50增强ETF', category: 'wide', subCategory: '宽基', fundCount: 1, amount: 4.38, avgWeight: 4.38, holdCount: 1, inclusionRate: 12.5},
+            {code: '159680', name: '招商中证1000增强策略ETF', category: 'wide', subCategory: '宽基/策略', fundCount: 1, amount: 4.25, avgWeight: 4.25, holdCount: 1, inclusionRate: 12.5},
+            
+            // 窄基ETF
+            {code: '561380', name: '国泰恒生A股电网设备ETF', category: 'narrow', subCategory: '窄基/电力设备', fundCount: 1, amount: 2500.44, avgWeight: 4.02, holdCount: 1, inclusionRate: 12.5},
+            {code: '515220', name: '国泰中证煤炭ETF', category: 'narrow', subCategory: '窄基/煤炭', fundCount: 1, amount: 1934.42, avgWeight: 3.11, holdCount: 1, inclusionRate: 12.5},
+            {code: '159326', name: '华夏中证电网设备主题ETF', category: 'narrow', subCategory: '窄基/电力设备', fundCount: 2, amount: 1353.09, avgWeight: 2.76, holdCount: 2, inclusionRate: 25.0},
+            {code: '515880', name: '国泰中证全指通信设备ETF', category: 'narrow', subCategory: '窄基/通信', fundCount: 1, amount: 1349.74, avgWeight: 2.17, holdCount: 1, inclusionRate: 12.5},
+            {code: '510410', name: '博时上证自然资源ETF', category: 'narrow', subCategory: '窄基/资源', fundCount: 1, amount: 0, avgWeight: 3.89, holdCount: 1, inclusionRate: 12.5},
+            {code: '159796', name: '汇添富中证电池主题ETF', category: 'narrow', subCategory: '窄基/新能源', fundCount: 1, amount: 0, avgWeight: 3.86, holdCount: 1, inclusionRate: 12.5},
+            {code: '560280', name: '广发中证工程机械ETF', category: 'narrow', subCategory: '窄基/工程机械', fundCount: 1, amount: 4.04, avgWeight: 4.04, holdCount: 1, inclusionRate: 12.5}
+        ];
+
+        let currentFilter = 'all';
+        let currentSortColumn = -1;
+        let currentSortDirection = 'desc';
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTable(etfData);
+            renderTop10();
+            updateCounts();
+        });
+
+        // 渲染数据表格
+        function renderTable(data) {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach((etf, index) => {
+                const row = document.createElement('tr');
+                row.className = 'transition-colors';
+                row.dataset.category = etf.category;
+                
+                const categoryClass = etf.category === 'wide' ? 'category-wide' : 'category-narrow';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 text-sm font-mono text-gray-800">${etf.code}</td>
+                    <td class="px-6 py-4 text-sm text-gray-800 font-medium">${etf.name}</td>
+                    <td class="px-6 py-4">
+                        <span class="category-badge ${categoryClass}">${etf.subCategory}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full ${etf.fundCount >= 2 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'} font-semibold text-sm">
+                            ${etf.fundCount}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right text-sm text-gray-800 font-medium">
+                        ${etf.amount > 0 ? etf.amount.toFixed(2) : '-'}
+                    </td>
+                    <td class="px-6 py-4 text-right text-sm text-gray-800">${etf.avgWeight.toFixed(2)}%</td>
+                    <td class="px-6 py-4 text-center text-sm text-gray-600">${etf.holdCount}</td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end">
+                            <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: ${etf.inclusionRate}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-700 font-medium">${etf.inclusionRate}%</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            applyFilter();
+        }
+
+        // 渲染TOP10
+        function renderTop10() {
+            const sorted = [...etfData].sort((a, b) => b.fundCount - a.fundCount || b.amount - a.amount);
+            const top10 = sorted.slice(0, 10);
+            
+            const tbody = document.getElementById('top10Table');
+            tbody.innerHTML = '';
+            
+            top10.forEach((etf, index) => {
+                const row = document.createElement('tr');
+                row.className = index < 3 ? 'highlight-row' : '';
+                
+                const categoryClass = etf.category === 'wide' ? 'category-wide' : 'category-narrow';
+                const rankClass = index === 0 ? 'bg-yellow-400 text-yellow-900' : 
+                                  index === 1 ? 'bg-gray-300 text-gray-700' : 
+                                  index === 2 ? 'bg-orange-300 text-orange-800' : 'bg-gray-100 text-gray-600';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full ${rankClass} font-bold text-sm">
+                            ${index + 1}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm font-mono text-gray-800">${etf.code}</td>
+                    <td class="px-6 py-4 text-sm text-gray-800 font-medium">${etf.name}</td>
+                    <td class="px-6 py-4">
+                        <span class="category-badge ${categoryClass}">${etf.subCategory}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-700 font-bold">
+                            ${etf.fundCount}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right text-sm text-gray-800 font-medium">
+                        ${etf.amount > 0 ? etf.amount.toFixed(2) : '-'}
+                    </td>
+                    <td class="px-6 py-4 text-right text-sm text-gray-800">${etf.avgWeight.toFixed(2)}%</td>
+                    <td class="px-6 py-4 text-right text-sm font-medium text-primary">${etf.inclusionRate}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 分类筛选
+        function filterByCategory(category) {
+            currentFilter = category;
+            
+            // 更新标签样式
+            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+                tab.classList.remove('tab-active');
+            });
+            document.getElementById(`tab-${category}`).classList.add('tab-active');
+            
+            applyFilter();
+        }
+
+        // 应用筛选
+        function applyFilter() {
+            const rows = document.querySelectorAll('#dataTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const category = row.dataset.category;
+                const searchText = row.textContent.toLowerCase();
+                const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                
+                const categoryMatch = currentFilter === 'all' || category === currentFilter;
+                const searchMatch = searchValue === '' || searchText.includes(searchValue);
+                
+                if (categoryMatch && searchMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('showCount').textContent = visibleCount;
+        }
+
+        // 搜索功能
+        function searchTable() {
+            applyFilter();
+        }
+
+        // 排序功能
+        function sortTable(columnIndex) {
+            const tbody = document.getElementById('dataTableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // 更新排序方向
+            if (currentSortColumn === columnIndex) {
+                currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortColumn = columnIndex;
+                currentSortDirection = 'desc';
+            }
+            
+            // 更新排序图标
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.classList.remove('active');
+                icon.innerHTML = '<i class="fa fa-sort"></i>';
+            });
+            
+            const headers = document.querySelectorAll('.table-header-sortable');
+            const activeIcon = headers[columnIndex].querySelector('.sort-icon');
+            activeIcon.classList.add('active');
+            activeIcon.innerHTML = currentSortDirection === 'asc' ? '<i class="fa fa-sort-asc"></i>' : '<i class="fa fa-sort-desc"></i>';
+            
+            // 排序数据
+            const sortedData = [...etfData].sort((a, b) => {
+                let valA, valB;
+                
+                switch(columnIndex) {
+                    case 0: valA = a.code; valB = b.code; break;
+                    case 1: valA = a.name; valB = b.name; break;
+                    case 2: valA = a.subCategory; valB = b.subCategory; break;
+                    case 3: valA = a.fundCount; valB = b.fundCount; break;
+                    case 4: valA = a.amount; valB = b.amount; break;
+                    case 5: valA = a.avgWeight; valB = b.avgWeight; break;
+                    case 6: valA = a.holdCount; valB = b.holdCount; break;
+                    case 7: valA = a.inclusionRate; valB = b.inclusionRate; break;
+                    default: return 0;
+                }
+                
+                if (typeof valA === 'string') {
+                    return currentSortDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                } else {
+                    return currentSortDirection === 'asc' ? valA - valB : valB - valA;
+                }
+            });
+            
+            renderTable(sortedData);
+        }
+
+        // 更新计数
+        function updateCounts() {
+            document.getElementById('totalCount').textContent = etfData.length;
+            document.getElementById('showCount').textContent = etfData.length;
+        }
+    </script>
+</body>
+</html>
