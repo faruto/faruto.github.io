@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>套利策略原理一页通 | FQuantStudio</title>
+  <meta name="description" content="用简单易懂的方式介绍 ETF申赎套利、跨期套利、跨品种套利、期权卖方策略、期权曲面套利、量化对冲、T0、基差、可转债等常见套利策略原理。">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f0e3;
+      --paper-2: #fffaf1;
+      --ink: #172532;
+      --muted: #536472;
+      --line: #d3c5ad;
+      --red: #b33a2f;
+      --teal: #237879;
+      --blue: #315f8f;
+      --gold: #a36d1f;
+      --green: #26704d;
+      --shadow: 0 20px 54px rgba(23, 37, 50, .13);
+      font-family: "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(23, 37, 50, .055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(23, 37, 50, .045) 1px, transparent 1px),
+        var(--paper);
+      background-size: 38px 38px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--red);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 14px max(20px, calc((100vw - 1200px) / 2));
+      border-bottom: 1px solid rgba(23, 37, 50, .16);
+      background: rgba(246, 240, 227, .92);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      min-width: 150px;
+    }
+
+    .brand strong {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .brand span,
+    .eyebrow,
+    .tag,
+    .pill,
+    .mini,
+    .footnote {
+      font-family: "Courier New", Consolas, monospace;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav a {
+      border: 1px solid rgba(23, 37, 50, .14);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: rgba(255, 250, 241, .54);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      border-color: rgba(179, 58, 47, .5);
+      color: var(--red);
+    }
+
+    .hero,
+    .section,
+    .footer-inner {
+      width: min(1200px, calc(100vw - 40px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(360px, .8fr);
+      gap: 42px;
+      align-items: stretch;
+      padding: 70px 0 44px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 22px;
+      font-size: 64px;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.9;
+    }
+
+    .hero-actions,
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      padding: 10px 15px;
+      background: var(--ink);
+      color: var(--paper-2);
+      font-weight: 700;
+    }
+
+    .button.secondary {
+      background: rgba(255, 250, 241, .62);
+      color: var(--ink);
+    }
+
+    .button:hover {
+      border-color: var(--red);
+      background: var(--red);
+      color: var(--paper-2);
+    }
+
+    .hero-board {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+      min-height: 530px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: rgba(255, 250, 241, .78);
+      box-shadow: var(--shadow);
+    }
+
+    .flow {
+      display: grid;
+      gap: 10px;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      min-height: 86px;
+      border: 1px solid rgba(23, 37, 50, .14);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fffdf7;
+    }
+
+    .num {
+      display: inline-flex;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: var(--ink);
+      color: var(--paper-2);
+      font-weight: 800;
+    }
+
+    .flow-step h3 {
+      margin-bottom: 5px;
+      font-size: 19px;
+    }
+
+    .flow-step p {
+      margin-bottom: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .section {
+      padding: 54px 0;
+      border-top: 1px solid rgba(23, 37, 50, .15);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) minmax(280px, .42fr);
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      margin-bottom: 0;
+      font-size: 40px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .strategy {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 12px;
+      min-height: 300px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      background: rgba(255, 250, 241, .76);
+      box-shadow: 0 12px 34px rgba(23, 37, 50, .08);
+    }
+
+    .strategy h3 {
+      margin-bottom: 0;
+      font-size: 25px;
+      line-height: 1.2;
+    }
+
+    .plain {
+      color: var(--muted);
+      line-height: 1.78;
+    }
+
+    .tag {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 8px;
+      padding: 5px 8px;
+      background: rgba(35, 120, 121, .12);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .tag.red {
+      background: rgba(179, 58, 47, .12);
+      color: var(--red);
+    }
+
+    .tag.blue {
+      background: rgba(49, 95, 143, .12);
+      color: var(--blue);
+    }
+
+    .tag.gold {
+      background: rgba(163, 109, 31, .13);
+      color: var(--gold);
+    }
+
+    .tag.green {
+      background: rgba(38, 112, 77, .12);
+      color: var(--green);
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .mini {
+      min-height: 78px;
+      border: 1px solid rgba(23, 37, 50, .13);
+      border-radius: 8px;
+      padding: 10px;
+      background: rgba(246, 240, 227, .56);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .mini strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-family: "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", Georgia, serif;
+      font-size: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid rgba(23, 37, 50, .16);
+      border-radius: 8px;
+      padding: 5px 8px;
+      background: rgba(255, 250, 241, .76);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .map {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .strategy-matrix {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255, 250, 241, .82);
+      box-shadow: var(--shadow);
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 72px 1.1fr 1.2fr 86px;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .matrix-row.head span {
+      background: var(--ink);
+      color: var(--paper-2);
+      font-weight: 800;
+    }
+
+    .matrix-row span {
+      min-height: 42px;
+      border: 1px solid rgba(23, 37, 50, .12);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #fffdf7;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .matrix-row span:first-child {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .simple-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 241, .8);
+      box-shadow: 0 12px 34px rgba(23, 37, 50, .08);
+    }
+
+    .simple-table th,
+    .simple-table td {
+      border-bottom: 1px solid rgba(23, 37, 50, .13);
+      padding: 12px 10px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.62;
+    }
+
+    .simple-table th {
+      background: #e9dfce;
+      font-size: 14px;
+    }
+
+    .simple-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .risk-low,
+    .risk-mid,
+    .risk-high {
+      display: inline-flex;
+      border-radius: 8px;
+      padding: 3px 7px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .risk-low {
+      background: rgba(38, 112, 77, .12);
+      color: var(--green);
+    }
+
+    .risk-mid {
+      background: rgba(163, 109, 31, .14);
+      color: var(--gold);
+    }
+
+    .risk-high {
+      background: rgba(179, 58, 47, .12);
+      color: var(--red);
+    }
+
+    .note-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .note {
+      min-height: 150px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fffdf7;
+    }
+
+    .note h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .note p {
+      margin-bottom: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 40px;
+      background: var(--ink);
+      color: var(--paper-2);
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: center;
+      padding: 34px 0;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 250, 241, .72);
+      line-height: 1.65;
+    }
+
+    .footnote {
+      color: rgba(255, 250, 241, .62);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero,
+      .section-head,
+      .map,
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      h1 {
+        font-size: 46px;
+      }
+
+      .section h2 {
+        font-size: 34px;
+      }
+
+      .grid.two,
+      .grid.three,
+      .note-band {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero,
+      .section,
+      .footer-inner {
+        width: min(100vw - 28px, 1200px);
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .hero-board {
+        min-height: 0;
+      }
+
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-row {
+        grid-template-columns: 1fr;
+      }
+
+      .simple-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/market-watch/" target="_blank" rel="noopener noreferrer">
+      <strong>FQuantStudio</strong>
+      <span>Market Brief</span>
+    </a>
+    <nav class="nav" aria-label="套利策略目录">
+      <a href="#core">三步框架</a>
+      <a href="#etf">ETF</a>
+      <a href="#futures">期货</a>
+      <a href="#options">期权</a>
+      <a href="#stock-cb">股票/可转债</a>
+      <a href="#checklist">速查表</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Arbitrage Strategies / Simple Guide</p>
+        <h1>套利策略原理一页通</h1>
+        <p class="hero-copy">
+          套利的朴素含义是：同一类价值在不同市场、不同期限、不同合约或不同风险形态里出现了价格差。交易者试图买便宜的、卖贵的，并用对冲把大方向风险降下来。它听起来像“捡钱”，但真正考验的是成本、速度、风控和错价能否回归。
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="#checklist">看策略速查表</a>
+          <a class="button secondary" href="/market-watch/" target="_blank" rel="noopener noreferrer">返回市场观察</a>
+        </div>
+      </div>
+
+      <aside class="hero-board" aria-label="套利三步框架">
+        <p class="eyebrow">One Mental Model</p>
+        <div class="flow">
+          <div class="flow-step">
+            <span class="num">1</span>
+            <div>
+              <h3>先找错价</h3>
+              <p>价格、净值、期限结构、波动率、基差、转换价值，只要两个东西本该相关却偏离了，就可能有机会。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="num">2</span>
+            <div>
+              <h3>再做对冲</h3>
+              <p>套利不是单边押涨跌，而是尽量把市场方向、行业暴露、Delta、Beta 等主要风险压低。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="num">3</span>
+            <div>
+              <h3>最后等回归</h3>
+              <p>盈利来自价差收敛、波动率回落、时间价值流逝、流动性补偿或规则带来的折溢价修复。</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="core">
+      <div class="section-head">
+        <h2>先把“套利”说成人话</h2>
+        <p>可以把套利理解成菜市场里的同一种苹果：A摊10元一斤，B摊11元一斤。如果搬运、损耗、时间都足够低，你买A卖B就有价差。金融市场只是把“苹果”换成了 ETF、期货、期权、股票篮子、可转债和波动率。</p>
+      </div>
+      <div class="note-band">
+        <div class="note">
+          <h3>价差</h3>
+          <p>两个价格出现偏离，比如 ETF 场内价格高于净值，或近月期货明显贵于远月。</p>
+        </div>
+        <div class="note">
+          <h3>对冲</h3>
+          <p>用反向头寸抵消主要风险，比如买股票篮子同时卖股指期货。</p>
+        </div>
+        <div class="note">
+          <h3>成本</h3>
+          <p>手续费、冲击成本、融券成本、滑点、税费和保证金占用，都会吃掉看起来很美的价差。</p>
+        </div>
+        <div class="note">
+          <h3>风险</h3>
+          <p>价差可能迟迟不回归，甚至扩大；对冲也可能不完美，所以套利不等于无风险。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="map">
+        <div>
+          <div class="section-head" style="display:block;margin-bottom:18px">
+            <h2>参考清单里的策略，我都覆盖了</h2>
+            <p style="margin-top:12px;color:var(--muted);line-height:1.75">你给的参考清单被重新整理成下面的资产-策略地图：股票、期货、期权、ETF、可转债五类都已拆开说明；另外补充了你特别点名的“期权曲面套利”。</p>
+          </div>
+          <div class="chip-row">
+            <span class="pill">股票量化对冲</span>
+            <span class="pill">股票T0套利</span>
+            <span class="pill">期货跨期</span>
+            <span class="pill">期货跨品种</span>
+            <span class="pill">内外盘套利</span>
+            <span class="pill">期货日内高频</span>
+            <span class="pill">期货基差</span>
+            <span class="pill">期权卖方</span>
+            <span class="pill">期权波动率</span>
+            <span class="pill">期权曲面</span>
+            <span class="pill">ETF申赎</span>
+            <span class="pill">ETF T0</span>
+            <span class="pill">ETF期现</span>
+            <span class="pill">可转债套利</span>
+          </div>
+        </div>
+        <div class="strategy-matrix" aria-label="套利策略资产分类矩阵">
+          <div class="matrix-row head">
+            <span>资产</span><span>策略覆盖</span><span>通俗利润来源</span><span>风险感受</span>
+          </div>
+          <div class="matrix-row">
+            <span>股票</span><span>量化对冲、T0套利</span><span>把大盘涨跌尽量对冲掉，留下选股和日内交易能力。</span><span>中低</span>
+          </div>
+          <div class="matrix-row">
+            <span>期货</span><span>跨期、跨品种、内外盘、基差、日内高频</span><span>交易期限、品种、市场和现货之间的价差回归。</span><span>中等</span>
+          </div>
+          <div class="matrix-row">
+            <span>期权</span><span>卖方、波动率、曲面套利</span><span>交易时间价值、波动率定价和不同执行价/到期日之间的相对错价。</span><span>中高</span>
+          </div>
+          <div class="matrix-row">
+            <span>ETF</span><span>申赎套利、T0、期现套利</span><span>交易场内价格、基金净值和股指期货之间的折溢价/基差。</span><span>低中</span>
+          </div>
+          <div class="matrix-row">
+            <span>可转债</span><span>转债套利</span><span>把转债拆成债券和看涨期权，等待低估部分修复。</span><span>中等</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="etf">
+      <div class="section-head">
+        <h2>ETF 类套利</h2>
+        <p>ETF 是最适合入门理解套利的品种：它既有场内交易价格，又有背后的一篮子股票净值，两个价格之间的折溢价就是观察入口。</p>
+      </div>
+      <div class="grid three">
+        <article class="strategy">
+          <span class="tag green">ETF</span>
+          <h3>ETF申赎套利</h3>
+          <p class="plain">ETF 场内价格和基金净值之间会有折价或溢价。溢价时，可以买入一篮子成份股申购 ETF，再在场内卖出 ETF；折价时，可以买入 ETF 赎回成份股，再卖出股票篮子。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>折溢价收敛</div>
+            <div class="mini"><strong>关键点</strong>申赎清单、IOPV、成份股流动性</div>
+            <div class="mini"><strong>主要风险</strong>停牌、滑点、冲击成本、额度限制</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag green">ETF</span>
+          <h3>ETF T0套利</h3>
+          <p class="plain">利用 ETF 场内可以快速买卖的特点，在日内围绕净值、成份股涨跌和盘口变化做高抛低吸。核心不是赌大趋势，而是赚日内微小价差和流动性补偿。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>日内价差</div>
+            <div class="mini"><strong>关键点</strong>盘口深度、成交速度、跟踪误差</div>
+            <div class="mini"><strong>主要风险</strong>追高杀低、滑点、行情突然单边</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag green">ETF</span>
+          <h3>ETF期现套利</h3>
+          <p class="plain">用 ETF 代表现货指数，再和股指期货做比较。期货明显贵，就买 ETF、卖期货；期货明显便宜，就卖 ETF 或用替代方式做空现货、买期货。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>基差收敛</div>
+            <div class="mini"><strong>关键点</strong>分红、资金利率、保证金</div>
+            <div class="mini"><strong>主要风险</strong>基差扩大、对冲误差、流动性不足</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="futures">
+      <div class="section-head">
+        <h2>期货类套利</h2>
+        <p>期货套利最常见的想法是“同一条产业链、同一个品种不同月份、境内外同类合约，本该有关系”。当关系走得太远，就观察是否会回到正常区间。</p>
+      </div>
+      <div class="grid three">
+        <article class="strategy">
+          <span class="tag gold">Futures</span>
+          <h3>跨期套利</h3>
+          <p class="plain">同一个品种有近月、远月合约。比如近月价格过高、远月相对便宜，可以卖近月买远月。它赚的是期限结构从异常回到合理。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>月差回归</div>
+            <div class="mini"><strong>关键点</strong>仓储、利息、库存、交割</div>
+            <div class="mini"><strong>主要风险</strong>逼仓、交割规则、移仓成本</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag gold">Futures</span>
+          <h3>跨品种套利</h3>
+          <p class="plain">两个品种有经济联系，比如豆粕和菜粕、螺纹和热卷、金银比。价差或比值偏离历史常态时，买便宜的一边、卖贵的一边。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>相关品种价差</div>
+            <div class="mini"><strong>关键点</strong>产业逻辑、替代关系、供需差异</div>
+            <div class="mini"><strong>主要风险</strong>相关性失效、政策扰动、季节性变化</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag gold">Futures</span>
+          <h3>内外盘套利</h3>
+          <p class="plain">同类商品在境内外市场都有价格，比如铜的国内合约和海外合约。把汇率、税费、运费和质量差异调整后，观察两边是否偏离。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>境内外价差</div>
+            <div class="mini"><strong>关键点</strong>汇率、关税、物流、时区</div>
+            <div class="mini"><strong>主要风险</strong>资本流动限制、交割差异、夜盘跳空</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag gold">Futures</span>
+          <h3>期货基差套利</h3>
+          <p class="plain">基差就是现货价格减期货价格。若期货相对现货太贵，可以卖期货买现货；若期货太便宜，则反过来。它本质上是赚“期货和现货最终靠近”的钱。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>期现回归</div>
+            <div class="mini"><strong>关键点</strong>现货渠道、仓单、交割成本</div>
+            <div class="mini"><strong>主要风险</strong>现货难买卖、仓储损耗、交割风险</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag gold">Futures</span>
+          <h3>期货日内高频</h3>
+          <p class="plain">用很短周期的价格、盘口和成交量变化来做交易，目标是赚微小价差、流动性补偿或短暂价格冲击后的回摆。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>流动性溢价</div>
+            <div class="mini"><strong>关键点</strong>速度、手续费、盘口质量</div>
+            <div class="mini"><strong>主要风险</strong>技术故障、滑点、短线拥挤</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag gold">Futures</span>
+          <h3>期限结构观察</h3>
+          <p class="plain">升水、贴水、Back结构、Contango结构都不是单独信号。它们要和库存、需求、资金成本、仓单压力放在一起看，才知道价差是否真的异常。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>结构修复</div>
+            <div class="mini"><strong>关键点</strong>库存周期、期限曲线、产业验证</div>
+            <div class="mini"><strong>主要风险</strong>旧规律被新供需打破</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="options">
+      <div class="section-head">
+        <h2>期权类套利</h2>
+        <p>期权的“价格”不只是一串报价，背后还有波动率、时间价值、Delta、Gamma、Vega 和曲面结构。期权套利常常是在交易这些隐藏变量。</p>
+      </div>
+      <div class="grid three">
+        <article class="strategy">
+          <span class="tag blue">Options</span>
+          <h3>期权卖方策略</h3>
+          <p class="plain">卖出看涨或看跌期权，收取权利金。只要标的没有大幅突破，时间流逝会让期权价值下降，卖方就可能赚到时间价值。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>Theta和波动率风险溢价</div>
+            <div class="mini"><strong>关键点</strong>保证金、止损、尾部风险</div>
+            <div class="mini"><strong>主要风险</strong>小赚多次，大亏一次</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag blue">Options</span>
+          <h3>期权波动率套利</h3>
+          <p class="plain">比较隐含波动率和未来实际波动率。若市场把波动率定得太高，可以卖期权并动态对冲方向；若定得太低，可以买期权，等待大波动。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>隐含波动率和实际波动率差</div>
+            <div class="mini"><strong>关键点</strong>Delta对冲、Vega暴露、波动预测</div>
+            <div class="mini"><strong>主要风险</strong>跳空、对冲成本、波动率继续错杀</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag blue">Options</span>
+          <h3>期权曲面套利</h3>
+          <p class="plain">同一标的、不同执行价和到期日的期权会形成“波动率曲面”。如果曲面不合理，比如中间执行价过贵、远月反而明显便宜，就可能构造组合做相对价值交易。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>曲面形态修复</div>
+            <div class="mini"><strong>关键点</strong>微笑、偏斜、日历、蝶式关系</div>
+            <div class="mini"><strong>主要风险</strong>模型误差、流动性差、组合腿失衡</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="stock-cb">
+      <div class="section-head">
+        <h2>股票与可转债类套利</h2>
+        <p>这类策略通常不追求完全“无风险”，而是把大盘 Beta、行业风险或正股方向风险压低，留下选股、短周期预测、转债估值或流动性带来的收益。</p>
+      </div>
+      <div class="grid three">
+        <article class="strategy">
+          <span class="tag red">Stock</span>
+          <h3>股票量化对冲</h3>
+          <p class="plain">买入一篮子看好的股票，同时卖出股指期货或用其他工具对冲市场风险。这样组合主要赚选股能力，而不是单纯靠大盘上涨。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>Alpha</div>
+            <div class="mini"><strong>关键点</strong>因子、风格暴露、Beta控制</div>
+            <div class="mini"><strong>主要风险</strong>因子失效、对冲不准、风格切换</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag red">Stock</span>
+          <h3>股票T0套利</h3>
+          <p class="plain">在已有底仓的前提下，日内低买高卖或高卖低买，保持收盘持仓大体不变。它赚的是极短周期价格波动和交易执行能力。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>短线反转和流动性溢价</div>
+            <div class="mini"><strong>关键点</strong>底仓、盘口、纪律</div>
+            <div class="mini"><strong>主要风险</strong>做反方向、成本累积、单边行情</div>
+          </div>
+        </article>
+
+        <article class="strategy">
+          <span class="tag red">Convertible</span>
+          <h3>可转债套利</h3>
+          <p class="plain">可转债可以理解为“债券 + 看涨期权”。当转债相对便宜时，买转债，同时用正股、股指期货或其他工具对冲权益风险，等待估值回归。</p>
+          <div class="mini-grid">
+            <div class="mini"><strong>赚什么</strong>转股价值和期权价值修复</div>
+            <div class="mini"><strong>关键点</strong>溢价率、债底、正股波动</div>
+            <div class="mini"><strong>主要风险</strong>流动性、赎回条款、信用风险</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="section-head">
+        <h2>截图策略速查表</h2>
+        <p>下面把截图里的每一行策略重新翻译成更通俗的说法。风险等级只是教学口径，真实风险取决于杠杆、仓位、流动性、交易成本和执行纪律。</p>
+      </div>
+      <table class="simple-table">
+        <thead>
+          <tr>
+            <th>资产</th>
+            <th>策略</th>
+            <th>一句话原理</th>
+            <th>主要赚什么</th>
+            <th>风险波动</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>股票</td>
+            <td>量化对冲</td>
+            <td>买一篮子有优势的股票，同时对冲大盘，留下选股收益。</td>
+            <td>Alpha / 因子收益</td>
+            <td><span class="risk-mid">中等</span></td>
+          </tr>
+          <tr>
+            <td>股票</td>
+            <td>T0套利</td>
+            <td>围绕底仓做日内高抛低吸，赚短周期波动。</td>
+            <td>流动性溢价</td>
+            <td><span class="risk-low">小</span></td>
+          </tr>
+          <tr>
+            <td>期货</td>
+            <td>期货套利</td>
+            <td>跨品种、跨期、内外盘之间做价差回归。</td>
+            <td>均值回归</td>
+            <td><span class="risk-mid">中等</span></td>
+          </tr>
+          <tr>
+            <td>期货</td>
+            <td>日内高频</td>
+            <td>用盘口和短线预测做日内交易，赚很小但频繁的价差。</td>
+            <td>流动性溢价</td>
+            <td><span class="risk-low">小</span></td>
+          </tr>
+          <tr>
+            <td>期货</td>
+            <td>基差套利</td>
+            <td>买现货卖期货或反过来，等待期货和现货价格靠近。</td>
+            <td>期现回归</td>
+            <td><span class="risk-low">小</span></td>
+          </tr>
+          <tr>
+            <td>期权</td>
+            <td>期权卖方</td>
+            <td>卖出期权收权利金，赚时间价值，但要防极端行情。</td>
+            <td>波动率保护费 / 权利金</td>
+            <td><span class="risk-mid">中等</span></td>
+          </tr>
+          <tr>
+            <td>期权</td>
+            <td>波动率套利</td>
+            <td>交易隐含波动率和实际波动率之间的差。</td>
+            <td>均值回归</td>
+            <td><span class="risk-low">小</span></td>
+          </tr>
+          <tr>
+            <td>期权</td>
+            <td>曲面套利</td>
+            <td>交易不同执行价、不同到期日之间的波动率相对错价。</td>
+            <td>曲面形态修复</td>
+            <td><span class="risk-mid">中等</span></td>
+          </tr>
+          <tr>
+            <td>ETF</td>
+            <td>ETF申赎套利</td>
+            <td>利用 ETF 场内价格和基金净值之间的折溢价。</td>
+            <td>折溢价收敛</td>
+            <td><span class="risk-low">小</span></td>
+          </tr>
+          <tr>
+            <td>ETF</td>
+            <td>ETF T0</td>
+            <td>通过 ETF 和篮子资产的日内差异做快速换手。</td>
+            <td>折溢价和日内价差</td>
+            <td><span class="risk-low">小</span></td>
+          </tr>
+          <tr>
+            <td>ETF</td>
+            <td>期现套利</td>
+            <td>用 ETF 代表现货指数，与股指期货做基差交易。</td>
+            <td>基差收敛</td>
+            <td><span class="risk-mid">中等</span></td>
+          </tr>
+          <tr>
+            <td>可转债</td>
+            <td>可转债套利</td>
+            <td>买入低估转债，并对冲正股或市场风险。</td>
+            <td>估值回归 / 期权价值</td>
+            <td><span class="risk-mid">中等</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>最后记住四句话</h2>
+        <p>套利研究最容易被名字迷惑。真正落地时，不要只问“是什么策略”，还要问“错价在哪里、谁会把它修复、我能否撑到修复、成本是否吃掉利润”。</p>
+      </div>
+      <div class="note-band">
+        <div class="note">
+          <h3>不是所有价差都能赚</h3>
+          <p>价差可能反映真实风险，也可能是市场给出的合理补偿。</p>
+        </div>
+        <div class="note">
+          <h3>对冲越多，成本也越多</h3>
+          <p>对冲能降低方向风险，但手续费、滑点和保证金会降低收益。</p>
+        </div>
+        <div class="note">
+          <h3>流动性很重要</h3>
+          <p>能看到价差，不代表能按看到的价格成交。</p>
+        </div>
+        <div class="note">
+          <h3>小波动不等于小风险</h3>
+          <p>卖期权、杠杆价差和高频策略常常平时很稳，极端时很凶。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p><strong>FQuantStudio 市场简报</strong></p>
+        <p class="footnote">本文为策略原理科普，不构成投资建议，也不代表任何收益保障。</p>
+      </div>
+      <a class="button secondary" href="/market-watch/" target="_blank" rel="noopener noreferrer">返回专题入口</a>
+    </div>
+  </footer>
+</body>
+</html>
