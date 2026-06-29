@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Faruto | GESP 编程学习</title>
-  <meta name="description" content="Faruto GESP 编程学习导航页，整理 GESP 考级、C++、STL 与编程学习资料。">
+  <meta name="description" content="Faruto GESP 编程学习导航页，整理 GESP 考级、C++ STL、算法专题与编程学习资料。">
   <link rel="canonical" href="https://www.faruto.com/gesp.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:url" content="https://www.faruto.com/gesp.html">
   <meta property="og:title" content="Faruto | GESP 编程学习">
-  <meta property="og:description" content="GESP 考级、C++ STL 与编程学习资料入口。">
+  <meta property="og:description" content="GESP 考级、C++ STL、算法专题与编程学习资料入口。">
   <style>
     :root {
       --ink: #172118;
@@ -293,7 +293,7 @@
 
     .resource-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
 
@@ -384,6 +384,43 @@
       margin-top: 18px;
     }
 
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .download-link {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: rgba(255, 253, 247, 0.72);
+      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .download-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(31, 122, 77, 0.38);
+      background: var(--chalk);
+    }
+
+    .download-link strong {
+      color: var(--ink);
+      font-family: "Palatino Linotype", "Book Antiqua", "Noto Serif SC", serif;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .download-link span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
     .future div {
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -420,6 +457,7 @@
       .hero,
       .section-head,
       .resource-grid,
+      .download-grid,
       .future {
         grid-template-columns: 1fr;
       }
@@ -487,24 +525,25 @@
       <nav class="nav" aria-label="页面导航">
         <a href="/test.html" target="_blank" rel="noopener noreferrer">Faruto Preview</a>
         <a href="/html/index.html" target="_blank" rel="noopener noreferrer">Archive</a>
-        <a href="#resources">STL 资料</a>
+        <a href="#resources">学习资料</a>
+        <a href="#documents">文档下载</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
         <div>
-          <p class="eyebrow">GESP / C++ / STL / Programming</p>
+          <p class="eyebrow">GESP / C++ / STL / Algorithms</p>
           <h1>把考级知识整理成可反复打开的编程书桌</h1>
-          <p class="lead">这里先收纳 GESP 考级相关的 C++ STL 学习资料，后续可以继续扩展算法专题、真题练习、代码模板和编程学习路线。</p>
+          <p class="lead">这里收纳 GESP 考级相关的 C++ STL、算法可视化和编程学习资料，后续可以继续扩展真题练习、代码模板和学习路线。</p>
           <div class="hero-actions">
-            <a class="button" href="#resources">查看 STL 资料</a>
+            <a class="button" href="#resources">查看学习资料</a>
             <a class="button secondary" href="/test.html" target="_blank" rel="noopener noreferrer">返回 Faruto 导航</a>
           </div>
         </div>
 
         <aside class="study-board" aria-label="GESP 学习看板">
-          <p class="board-note">C++ STL 是从“会写程序”到“写得更快更稳”的工具箱。</p>
+          <p class="board-note">C++ STL 和算法专题，是从“会写程序”到“写得更快更稳”的工具箱。</p>
           <div class="code-card" aria-hidden="true">
             <div class="code-line"><span>01</span><code><span class="token">vector</span>&lt;int&gt; score;</code></div>
             <div class="code-line"><span>02</span><code>sort(score.begin(), score.end());</code></div>
@@ -521,8 +560,8 @@
 
       <section id="resources" aria-labelledby="resources-title">
         <div class="section-head">
-          <h2 id="resources-title">首批资料</h2>
-          <p>两份页面都已放入网站的 `/gesp/` 目录：一份偏完整手册，一份偏 STL 动画与可视化演示。</p>
+          <h2 id="resources-title">学习资料</h2>
+          <p>所有页面都放入网站的 `/gesp/` 目录：包含 STL 手册、STL 动画演示，以及二分答案算法专题。</p>
         </div>
 
         <div class="resource-grid">
@@ -544,6 +583,37 @@
               <span>打开手册版</span>
               <span aria-hidden="true">→</span>
             </div>
+          </a>
+
+          <a class="resource-card" href="/gesp/binary-search-chocolate.html" target="_blank" rel="noopener noreferrer">
+            <span class="tag">Binary Search</span>
+            <h3>二分答案：分巧克力问题</h3>
+            <p>用互动可视化拆解“答案范围、检查函数、左右边界收缩”的完整过程，适合作为二分答案专题入门案例。</p>
+            <div class="card-footer">
+              <span>打开算法专题</span>
+              <span aria-hidden="true">→</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section id="documents" aria-labelledby="documents-title">
+        <div class="section-head">
+          <h2 id="documents-title">相关手册与文档</h2>
+          <p>保留网页阅读版，同时提供 Word 和 PPT 源文档，便于后续继续编辑、讲解或课堂展示。</p>
+        </div>
+        <div class="download-grid">
+          <a class="download-link" href="/gesp/stl-handbook.html" target="_blank" rel="noopener noreferrer">
+            <strong>STL 网页手册</strong>
+            <span>在线阅读版，适合快速查阅。</span>
+          </a>
+          <a class="download-link" href="/gesp/stl-handbook.docx" target="_blank" rel="noopener noreferrer">
+            <strong>STL Word 文档</strong>
+            <span>可编辑手册源文件。</span>
+          </a>
+          <a class="download-link" href="/gesp/stl-handbook.pptx" target="_blank" rel="noopener noreferrer">
+            <strong>STL PPT 文档</strong>
+            <span>可用于讲解和展示。</span>
           </a>
         </div>
       </section>

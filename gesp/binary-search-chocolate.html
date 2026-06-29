@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>二分答案 — 分巧克力问题</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f8f7f4; color: #1a1a18; line-height: 1.6; }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  h1 { font-size: 28px; font-weight: 500; margin-bottom: 0.3rem; }
+  .subtitle { font-size: 15px; color: #888780; margin-bottom: 2.5rem; }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-title { font-size: 17px; font-weight: 500; margin-bottom: 1rem; padding-left: 10px; border-left: 3px solid #378ADD; }
+
+  .problem-box { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .problem-box p { font-size: 14px; color: #5f5e5a; margin-bottom: 0.6rem; }
+  .problem-box p:last-child { margin-bottom: 0; }
+  .tag { display: inline-block; background: #e6f1fb; color: #185fa5; font-size: 12px; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+
+  .algo-box { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .algo-title { font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; color: #2c2c2a; }
+  .algo-text { font-size: 14px; color: #5f5e5a; }
+
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
+  .controls button { padding: 8px 18px; border-radius: 8px; border: 0.5px solid #b4b2a9; background: #fff; cursor: pointer; font-size: 14px; color: #2c2c2a; transition: background 0.15s; }
+  .controls button:hover { background: #f1efe8; }
+  .controls button.primary { background: #185fa5; color: #fff; border-color: #185fa5; }
+  .controls button.primary:hover { background: #0c447c; }
+  .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .speed-label { font-size: 13px; color: #888780; }
+  select { padding: 7px 10px; border-radius: 8px; border: 0.5px solid #b4b2a9; background: #fff; font-size: 14px; color: #2c2c2a; cursor: pointer; }
+
+  .vis-area { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; min-height: 300px; }
+
+  .step-info { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .info-chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+  .chip-lo { background: #eaf3de; color: #3b6d11; }
+  .chip-hi { background: #faece7; color: #993c1d; }
+  .chip-mid { background: #eeedfe; color: #3c3489; }
+  .chip-ans { background: #e1f5ee; color: #0f6e56; }
+  .chip-step { background: #f1efe8; color: #5f5e5a; }
+
+  .number-line { margin-bottom: 1.5rem; }
+  .nl-label { font-size: 12px; color: #888780; margin-bottom: 6px; }
+  .nl-track { position: relative; height: 48px; }
+  .nl-bar { position: absolute; top: 18px; left: 0; right: 0; height: 4px; background: #d3d1c7; border-radius: 2px; }
+  .nl-range { position: absolute; top: 18px; height: 4px; background: #b5d4f4; border-radius: 2px; transition: all 0.5s ease; }
+  .nl-marker { position: absolute; top: 0; transform: translateX(-50%); text-align: center; transition: left 0.5s ease; }
+  .nl-marker .dot { width: 16px; height: 16px; border-radius: 50%; margin: 0 auto 4px; }
+  .nl-marker .lbl { font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .dot-lo { background: #639922; }
+  .dot-hi { background: #D85A30; }
+  .dot-mid { background: #7F77DD; border: 2px solid #3C3489; }
+  .lbl-lo { color: #3b6d11; }
+  .lbl-hi { color: #993c1d; }
+  .lbl-mid { color: #3c3489; }
+
+  .check-section { margin-top: 1rem; }
+  .check-title { font-size: 13px; font-weight: 500; color: #5f5e5a; margin-bottom: 0.75rem; }
+  .choco-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+  .choco-card { border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 10px 14px; min-width: 120px; transition: all 0.4s; }
+  .choco-card.checking { border-color: #7F77DD; background: #eeedfe; }
+  .choco-card.pass { border-color: #639922; background: #eaf3de; }
+  .choco-card.fail { border-color: #D85A30; background: #faece7; }
+  .choco-rect { display: flex; gap: 2px; flex-wrap: wrap; margin-bottom: 6px; }
+  .choco-cell { width: 9px; height: 9px; border-radius: 1px; background: #c0dd97; }
+  .choco-cell.used { background: #185fa5; }
+  .choco-info { font-size: 11px; color: #5f5e5a; }
+  .choco-count { font-size: 13px; font-weight: 500; color: #2c2c2a; }
+
+  .verdict { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  .verdict.ok { background: #eaf3de; color: #3b6d11; }
+  .verdict.ng { background: #fcebeb; color: #a32d2d; }
+
+  .log { background: #f1efe8; border-radius: 8px; padding: 1rem; font-size: 13px; color: #5f5e5a; line-height: 1.8; max-height: 160px; overflow-y: auto; }
+  .log-entry { margin-bottom: 2px; }
+  .log-entry.highlight { color: #2c2c2a; font-weight: 500; }
+  .log-entry.success { color: #3b6d11; }
+  .log-entry.fail-entry { color: #993c1d; }
+
+  .code-block { background: #2c2c2a; border-radius: 10px; padding: 1.25rem 1.5rem; overflow-x: auto; }
+  .code-block pre { font-family: 'Fira Code', 'Consolas', monospace; font-size: 13px; line-height: 1.7; color: #d3d1c7; }
+  .kw { color: #9FE1CB; }
+  .fn { color: #85B7EB; }
+  .cm { color: #888780; font-style: italic; }
+  .nm { color: #FAC775; }
+  .hl-line { background: rgba(127,119,221,0.25); display: block; margin: 0 -1.5rem; padding: 0 1.5rem; border-left: 3px solid #7F77DD; }
+
+  .final-banner { display: none; background: #e1f5ee; border: 1px solid #5DCAA5; border-radius: 10px; padding: 1rem 1.5rem; margin-top: 1rem; font-size: 15px; color: #0f6e56; font-weight: 500; }
+  .final-banner.show { display: block; }
+
+  .example-input { font-family: monospace; background: #f1efe8; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #2c2c2a; display: inline-block; margin-bottom: 0.5rem; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>二分答案 <span style="font-size:18px;color:#888780;font-weight:400">— 分巧克力问题</span></h1>
+  <p class="subtitle">通过动画理解「二分答案」的核心思想：答案具有单调性，在可行/不可行的边界上进行二分搜索</p>
+
+  <div class="section">
+    <div class="section-title">题目回顾</div>
+    <div class="problem-box">
+      <p><span class="tag">输入</span>N 块巧克力（每块 H×W），K 位小朋友</p>
+      <p><span class="tag">约束</span>每人分到一块正方形巧克力，且大小相同</p>
+      <p><span class="tag">目标</span>正方形边长尽可能大，求最大边长</p>
+      <p style="margin-top:8px; font-size:13px; color:#888780;">样例：N=2，K=10，巧克力为 6×5 和 5×6</p>
+    </div>
+    <div class="algo-box">
+      <div class="algo-title">💡 为什么可以二分？</div>
+      <div class="algo-text">若边长为 <em>L</em> 时能切出 ≥K 块，则边长 <em>L-1</em> 一定也能切出 ≥K 块（单调性）。因此「能否切出」具有 <strong>单调性</strong>，可以二分答案。<br>
+      对于边长 L，每块 H×W 的巧克力可切出 <code>⌊H/L⌋ × ⌊W/L⌋</code> 块。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">二分过程动画</div>
+    <div class="example-input">输入：N=2, K=10 | 巧克力: 6×5, 5×6</div>
+    <div class="controls">
+      <button class="primary" id="btn-start" onclick="startAnim()">▶ 开始演示</button>
+      <button id="btn-next" onclick="nextStep()" disabled>下一步</button>
+      <button id="btn-reset" onclick="resetAnim()">重置</button>
+      <span class="speed-label">速度：</span>
+      <select id="speed-sel">
+        <option value="1200">慢速</option>
+        <option value="700" selected>正常</option>
+        <option value="300">快速</option>
+      </select>
+      <button id="btn-auto" onclick="toggleAuto()">自动播放</button>
+    </div>
+
+    <div class="vis-area">
+      <div class="step-info" id="step-info">
+        <span class="info-chip chip-step">点击「开始演示」</span>
+      </div>
+      <div class="number-line">
+        <div class="nl-label">搜索范围（边长候选值 1 ~ 6）</div>
+        <div class="nl-track" id="nl-track">
+          <div class="nl-bar"></div>
+          <div class="nl-range" id="nl-range" style="left:0%;width:100%"></div>
+          <div class="nl-marker" id="m-lo" style="left:0%">
+            <div class="dot dot-lo"></div>
+            <div class="lbl lbl-lo">lo=1</div>
+          </div>
+          <div class="nl-marker" id="m-hi" style="left:100%">
+            <div class="dot dot-hi"></div>
+            <div class="lbl lbl-hi">hi=6</div>
+          </div>
+          <div class="nl-marker" id="m-mid" style="left:50%; display:none">
+            <div class="dot dot-mid"></div>
+            <div class="lbl lbl-mid">mid=?</div>
+          </div>
+        </div>
+      </div>
+      <div class="check-section" id="check-section" style="display:none">
+        <div class="check-title" id="check-title">检验 mid=? 时各块巧克力可切数量：</div>
+        <div class="choco-grid" id="choco-grid"></div>
+        <div id="total-verdict" style="margin-top:10px; font-size:14px;"></div>
+      </div>
+      <div class="final-banner" id="final-banner"></div>
+    </div>
+
+    <div style="margin-top:1rem">
+      <div class="check-title" style="font-size:13px; color:#888780; margin-bottom:8px">执行日志</div>
+      <div class="log" id="log"><div class="log-entry" style="color:#b4b2a9">等待开始…</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">C++ 完整实现</div>
+    <div class="code-block">
+      <pre id="cppcode"><span class="cm">// 分巧克力 — 二分答案</span>
+<span class="kw">#include</span> &lt;bits/stdc++.h&gt;
+<span class="kw">using namespace</span> std;
+
+<span class="kw">int</span> N, K;
+<span class="kw">int</span> H[<span class="nm">100005</span>], W[<span class="nm">100005</span>];
+
+<span class="cm">// check: 边长为 L 时能否切出 >= K 块</span>
+<span class="kw">bool</span> <span class="fn">check</span>(<span class="kw">int</span> L) {
+    <span class="kw">long long</span> cnt = <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; N; i++)
+        cnt += (H[i] / L) * (W[i] / L);
+    <span class="kw">return</span> cnt &gt;= K;
+}
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    cin &gt;&gt; N &gt;&gt; K;
+    <span class="kw">int</span> maxLen = <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; N; i++) {
+        cin &gt;&gt; H[i] &gt;&gt; W[i];
+        maxLen = max(maxLen, min(H[i], W[i]));
+    }
+
+    <span class="cm">// 二分搜索边长的最大值</span>
+    <span class="kw">int</span> lo = <span class="nm">1</span>, hi = maxLen, ans = <span class="nm">0</span>;
+    <span class="kw">while</span> (lo &lt;= hi) {
+        <span class="kw">int</span> mid = (lo + hi) / <span class="nm">2</span>;
+        <span class="kw">if</span> (<span class="fn">check</span>(mid)) {
+            ans = mid;        <span class="cm">// mid 可行，记录答案</span>
+            lo = mid + <span class="nm">1</span>;   <span class="cm">// 尝试更大的边长</span>
+        } <span class="kw">else</span> {
+            hi = mid - <span class="nm">1</span>;   <span class="cm">// mid 不可行，缩小上界</span>
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">关键思路总结</div>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
+      <div class="algo-box" style="margin:0">
+        <div class="algo-title">① 识别单调性</div>
+        <div class="algo-text" style="font-size:13px">若 L 可行 → L-1 也可行<br>答案空间是 <em>可行/不可行</em> 的分界点</div>
+      </div>
+      <div class="algo-box" style="margin:0">
+        <div class="algo-title">② 确定搜索范围</div>
+        <div class="algo-text" style="font-size:13px">lo=1（最小），hi=min(H,W)的最大值<br>复杂度 O(N log M)</div>
+      </div>
+      <div class="algo-box" style="margin:0">
+        <div class="algo-title">③ 实现 check 函数</div>
+        <div class="algo-text" style="font-size:13px">统计所有巧克力能切出多少块<br>⌊H/L⌋ × ⌊W/L⌋ 取整相乘</div>
+      </div>
+      <div class="algo-box" style="margin:0">
+        <div class="algo-title">④ 更新逻辑</div>
+        <div class="algo-text" style="font-size:13px">可行 → ans=mid, lo=mid+1<br>不可行 → hi=mid-1</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const chocolates = [{h:6,w:5},{h:5,w:6}];
+const K = 10;
+const MAX_LEN = 6;
+
+const steps = [];
+let stepIdx = 0;
+let autoTimer = null;
+let isAuto = false;
+
+function buildSteps() {
+  steps.length = 0;
+  let lo = 1, hi = MAX_LEN, ans = 0;
+  steps.push({type:'init', lo, hi, ans});
+  while (lo <= hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    let cnt = 0;
+    const counts = chocolates.map(c => {
+      const n = Math.floor(c.h/mid) * Math.floor(c.w/mid);
+      cnt += n;
+      return n;
+    });
+    const ok = cnt >= K;
+    steps.push({type:'check', lo, hi, mid, counts, cnt, ok, ans});
+    if (ok) {
+      ans = mid;
+      steps.push({type:'update', lo, hi, mid, newLo: mid+1, ans, dir:'right', ok});
+      lo = mid + 1;
+    } else {
+      steps.push({type:'update', lo, hi, mid, newHi: mid-1, ans, dir:'left', ok});
+      hi = mid - 1;
+    }
+  }
+  steps.push({type:'done', ans});
+}
+
+function pct(v) { return ((v - 1) / (MAX_LEN - 1) * 100).toFixed(1) + '%'; }
+
+function renderStep(s) {
+  const chips = document.getElementById('step-info');
+  const nlRange = document.getElementById('nl-range');
+  const mLo = document.getElementById('m-lo');
+  const mHi = document.getElementById('m-hi');
+  const mMid = document.getElementById('m-mid');
+  const cs = document.getElementById('check-section');
+  const fb = document.getElementById('final-banner');
+
+  fb.classList.remove('show');
+
+  if (s.type === 'init') {
+    chips.innerHTML = `<span class="info-chip chip-lo">lo = 1</span><span class="info-chip chip-hi">hi = ${MAX_LEN}</span><span class="info-chip chip-ans">ans = 0</span>`;
+    mLo.style.left = pct(s.lo); mLo.querySelector('.lbl').textContent = `lo=${s.lo}`;
+    mHi.style.left = pct(s.hi); mHi.querySelector('.lbl').textContent = `hi=${s.hi}`;
+    mMid.style.display = 'none';
+    nlRange.style.left = pct(s.lo); nlRange.style.right = (100 - parseFloat(pct(s.hi))) + '%';
+    cs.style.display = 'none';
+    addLog(`开始二分，lo=${s.lo}, hi=${s.hi}`, 'highlight');
+    return;
+  }
+
+  if (s.type === 'check') {
+    chips.innerHTML = `<span class="info-chip chip-lo">lo = ${s.lo}</span><span class="info-chip chip-hi">hi = ${s.hi}</span><span class="info-chip chip-mid">mid = ${s.mid}</span><span class="info-chip chip-ans">ans = ${s.ans}</span>`;
+    mLo.style.left = pct(s.lo); mLo.querySelector('.lbl').textContent = `lo=${s.lo}`;
+    mHi.style.left = pct(s.hi); mHi.querySelector('.lbl').textContent = `hi=${s.hi}`;
+    mMid.style.display = '';
+    mMid.style.left = pct(s.mid); mMid.querySelector('.lbl').textContent = `mid=${s.mid}`;
+    const loPct = parseFloat(pct(s.lo));
+    const hiPct = parseFloat(pct(s.hi));
+    nlRange.style.left = pct(s.lo);
+    nlRange.style.width = (hiPct - loPct) + '%';
+    nlRange.style.right = '';
+
+    cs.style.display = '';
+    document.getElementById('check-title').textContent = `检验 mid=${s.mid} 时各块巧克力可切数量（需要 ≥${K} 块）：`;
+    const grid = document.getElementById('choco-grid');
+    grid.innerHTML = '';
+    s.counts.forEach((cnt, i) => {
+      const c = chocolates[i];
+      const rh = Math.floor(c.h / s.mid);
+      const rw = Math.floor(c.w / s.mid);
+      const card = document.createElement('div');
+      card.className = 'choco-card checking';
+      card.id = `cc-${i}`;
+      let cells = '';
+      for (let r = 0; r < c.h; r++) {
+        for (let cc2 = 0; cc2 < c.w; cc2++) {
+          const used = r < rh * s.mid && cc2 < rw * s.mid;
+          cells += `<div class="choco-cell${used ? ' used' : ''}"></div>`;
+        }
+      }
+      card.innerHTML = `<div class="choco-rect" style="width:${c.w*11}px">${cells}</div>
+        <div class="choco-info">${c.h}×${c.w} 巧克力</div>
+        <div class="choco-count">可切 ${cnt} 块</div>`;
+      grid.appendChild(card);
+      setTimeout(() => {
+        card.className = 'choco-card ' + (cnt > 0 ? 'pass' : 'fail');
+      }, 300);
+    });
+    const tv = document.getElementById('total-verdict');
+    tv.innerHTML = `合计可切 <strong>${s.cnt}</strong> 块，${s.ok ? `<span class="verdict ok">✓ ≥ ${K}，边长 ${s.mid} 可行</span>` : `<span class="verdict ng">✗ < ${K}，边长 ${s.mid} 不可行</span>`}`;
+    addLog(`mid=${s.mid}：合计 ${s.cnt} 块 → ${s.ok ? '✓ 可行' : '✗ 不可行'}`, s.ok ? 'success' : 'fail-entry');
+    return;
+  }
+
+  if (s.type === 'update') {
+    if (s.ok) {
+      chips.innerHTML = `<span class="info-chip chip-lo">lo = ${s.newLo}</span><span class="info-chip chip-hi">hi = ${s.hi}</span><span class="info-chip chip-mid">mid = ${s.mid}</span><span class="info-chip chip-ans">ans = ${s.ans}</span>`;
+      mLo.style.left = pct(s.newLo); mLo.querySelector('.lbl').textContent = `lo=${s.newLo}`;
+      addLog(`✓ ans 更新为 ${s.ans}，lo = mid+1 = ${s.newLo}`, 'success');
+    } else {
+      chips.innerHTML = `<span class="info-chip chip-lo">lo = ${s.lo}</span><span class="info-chip chip-hi">hi = ${s.newHi}</span><span class="info-chip chip-mid">mid = ${s.mid}</span><span class="info-chip chip-ans">ans = ${s.ans}</span>`;
+      mHi.style.left = pct(s.newHi); mHi.querySelector('.lbl').textContent = `hi=${s.newHi}`;
+      addLog(`✗ hi = mid-1 = ${s.newHi}`, 'fail-entry');
+    }
+    return;
+  }
+
+  if (s.type === 'done') {
+    chips.innerHTML = `<span class="info-chip chip-ans">✅ 最终答案：${s.ans}</span>`;
+    mMid.style.display = 'none';
+    cs.style.display = 'none';
+    fb.textContent = `🎉 二分结束！最大正方形边长 = ${s.ans}（每位小朋友得到 ${s.ans}×${s.ans} 的巧克力）`;
+    fb.classList.add('show');
+    addLog(`二分结束，最终答案 = ${s.ans}`, 'highlight');
+    stopAuto();
+    document.getElementById('btn-next').disabled = true;
+  }
+}
+
+function addLog(msg, cls) {
+  const log = document.getElementById('log');
+  const d = document.createElement('div');
+  d.className = 'log-entry' + (cls ? ' ' + cls : '');
+  d.textContent = `[步骤${stepIdx}] ${msg}`;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+}
+
+function startAnim() {
+  buildSteps();
+  stepIdx = 0;
+  document.getElementById('log').innerHTML = '';
+  document.getElementById('final-banner').classList.remove('show');
+  document.getElementById('check-section').style.display = 'none';
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('btn-next').disabled = false;
+  renderStep(steps[stepIdx]);
+  stepIdx++;
+}
+
+function nextStep() {
+  if (stepIdx >= steps.length) return;
+  renderStep(steps[stepIdx]);
+  stepIdx++;
+  if (stepIdx >= steps.length) {
+    document.getElementById('btn-next').disabled = true;
+  }
+}
+
+function resetAnim() {
+  stopAuto();
+  stepIdx = 0;
+  document.getElementById('log').innerHTML = '<div class="log-entry" style="color:#b4b2a9">等待开始…</div>';
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('step-info').innerHTML = '<span class="info-chip chip-step">点击「开始演示」</span>';
+  document.getElementById('final-banner').classList.remove('show');
+  document.getElementById('check-section').style.display = 'none';
+  const mLo = document.getElementById('m-lo');
+  const mHi = document.getElementById('m-hi');
+  mLo.style.left = '0%'; mLo.querySelector('.lbl').textContent = 'lo=1';
+  mHi.style.left = '100%'; mHi.querySelector('.lbl').textContent = `hi=${MAX_LEN}`;
+  document.getElementById('m-mid').style.display = 'none';
+  document.getElementById('nl-range').style.left = '0%';
+  document.getElementById('nl-range').style.width = '100%';
+}
+
+function toggleAuto() {
+  if (isAuto) { stopAuto(); return; }
+  isAuto = true;
+  document.getElementById('btn-auto').textContent = '停止自动';
+  if (stepIdx === 0 || !steps.length) startAnim();
+  autoRun();
+}
+
+function autoRun() {
+  const spd = parseInt(document.getElementById('speed-sel').value);
+  autoTimer = setTimeout(() => {
+    if (!isAuto) return;
+    if (stepIdx >= steps.length) { stopAuto(); return; }
+    nextStep();
+    autoRun();
+  }, spd);
+}
+
+function stopAuto() {
+  isAuto = false;
+  clearTimeout(autoTimer);
+  document.getElementById('btn-auto').textContent = '自动播放';
+}
+</script>
+</body>
+</html>
