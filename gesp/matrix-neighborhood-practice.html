@@ -138,6 +138,7 @@
     .toc-card strong { display: block; margin-top: 12px; font-size: 17px; }
     .toc-card em { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; font-style: normal; }
     .problem {
+      scroll-margin-top: 90px;
       margin: 34px auto;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -158,12 +159,14 @@
     .meta span { color: var(--rose); font-family: Georgia, serif; font-weight: 800; margin-right: 8px; }
     .meta b { color: #fff; background: var(--teal); border-radius: 6px; padding: 3px 7px; margin-right: 9px; }
     h2 {
+      scroll-margin-top: 90px;
       margin: 0;
       font-family: Georgia, "Noto Serif SC", serif;
       font-size: clamp(28px, 4vw, 44px);
       line-height: 1.1;
     }
     h3 { margin: 22px 0 8px; font-size: 20px; }
+    h4 { scroll-margin-top: 90px; margin: 18px 0 8px; font-size: 19px; }
     p { line-height: 1.78; }
     .story {
       border-left: 4px solid var(--gold);
@@ -191,6 +194,69 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
+    .solution-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px dashed var(--line);
+    }
+    .solution-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border: 1px solid var(--teal);
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: var(--teal);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(25, 114, 111, .16);
+    }
+    .solution-button.secondary {
+      border-color: var(--blue);
+      background: #fff;
+      color: var(--blue);
+      box-shadow: none;
+    }
+    .solution-index {
+      margin-top: 48px;
+      padding-top: 34px;
+      border-top: 2px solid var(--line);
+    }
+    .solution-note {
+      max-width: 780px;
+      color: var(--muted);
+      margin: 12px 0 22px;
+    }
+    .solution-card {
+      scroll-margin-top: 90px;
+      margin: 24px auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: clamp(18px, 3vw, 30px);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+    }
+    .solution-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px 18px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+    .solution-head .meta {
+      grid-column: 1 / -1;
+    }
+    .solution-head h3 {
+      margin: 0;
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: clamp(24px, 3vw, 34px);
+    }
     .analysis {
       border-radius: 8px;
       border: 1px solid #c9dfd8;
@@ -214,6 +280,9 @@
       .toc, .summary { grid-template-columns: 1fr; }
       .problem-head { display: block; }
       .jump { display: inline-flex; margin-top: 12px; }
+      .solution-actions { display: grid; }
+      .solution-button { width: 100%; }
+      .solution-head { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -298,50 +367,10 @@
           <h3>提示与数据范围</h3>
           <p>3 &lt;= n, m &lt;= 500，1 &lt;= q &lt;= n * m。行号、列号均从 1 开始。</p>
         </section>
-        <section class="analysis">
-          <h3>思路解析</h3>
-          <p>先用二维数组把石头坐标标记为 1。枚举每个格子，如果它是石头就输出 #；否则用 8 个方向数组检查相邻位置是否在地图内，并累加石头数量。</p>
-        </section>
-        <section>
-          <h3>参考代码（C++）</h3>
-          <pre class="code"><code>#include &lt;iostream&gt;
-using namespace std;
-
-int stone[505][505];
-int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
-int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
-
-int main() {
-    int n, m, q;
-    cin &gt;&gt; n &gt;&gt; m &gt;&gt; q;
-    for (int i = 1; i &lt;= q; i++) {
-        int r, c;
-        cin &gt;&gt; r &gt;&gt; c;
-        stone[r][c] = 1;
-    }
-
-    for (int i = 1; i &lt;= n; i++) {
-        for (int j = 1; j &lt;= m; j++) {
-            if (stone[i][j] == 1) {
-                cout &lt;&lt; &quot;#&quot;;
-            } else {
-                int cnt = 0;
-                for (int d = 0; d &lt; 8; d++) {
-                    int x = i + dx[d];
-                    int y = j + dy[d];
-                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; stone[x][y] == 1) {
-                        cnt++;
-                    }
-                }
-                cout &lt;&lt; cnt;
-            }
-            if (j &lt; m) cout &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}</code></pre>
-        </section>
+        <div class="solution-actions" aria-label="第 1 题解析与代码入口">
+          <a class="solution-button" href="#p1-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p1-code">查看参考代码（C++）</a>
+        </div>
       </article>
 
 
@@ -387,53 +416,10 @@ P 1 2 0 0
           <h3>提示与数据范围</h3>
           <p>1 &lt;= n, m &lt;= 200。</p>
         </section>
-        <section class="analysis">
-          <h3>思路解析</h3>
-          <p>这题只看上下左右，因此方向数组长度为 4。枚举普通土地时，逐个判断四邻格是否在地图内、是否为 P。</p>
-        </section>
-        <section>
-          <h3>参考代码（C++）</h3>
-          <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-using namespace std;
-
-char a[205][205];
-int dx[4] = {-1, 1, 0, 0};
-int dy[4] = {0, 0, -1, 1};
-
-int main() {
-    int n, m;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= n; i++) {
-        string s;
-        cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) {
-            a[i][j] = s[j - 1];
-        }
-    }
-
-    for (int i = 1; i &lt;= n; i++) {
-        for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;P&#x27; || a[i][j] == &#x27;#&#x27;) {
-                cout &lt;&lt; a[i][j];
-            } else {
-                int cnt = 0;
-                for (int d = 0; d &lt; 4; d++) {
-                    int x = i + dx[d];
-                    int y = j + dy[d];
-                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;P&#x27;) {
-                        cnt++;
-                    }
-                }
-                cout &lt;&lt; cnt;
-            }
-            if (j &lt; m) cout &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}</code></pre>
-        </section>
+        <div class="solution-actions" aria-label="第 2 题解析与代码入口">
+          <a class="solution-button" href="#p2-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p2-code">查看参考代码（C++）</a>
+        </div>
       </article>
 
 
@@ -488,57 +474,14 @@ BLOCK</code></pre>
           <h3>提示与数据范围</h3>
           <p>1 &lt;= n, m &lt;= 100，1 &lt;= q &lt;= 1000。</p>
         </section>
-        <section class="analysis">
-          <h3>思路解析</h3>
-          <p>先根据方向把目标坐标算出来，再依次判断越界、墙、怪物、空地。注意越界要先判断，否则直接访问数组可能出错。</p>
-        </section>
-        <section>
-          <h3>参考代码（C++）</h3>
-          <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-using namespace std;
-
-char a[105][105];
-
-int main() {
-    int n, m;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= n; i++) {
-        string s;
-        cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) {
-            a[i][j] = s[j - 1];
-        }
-    }
-
-    int q;
-    cin &gt;&gt; q;
-    for (int i = 1; i &lt;= q; i++) {
-        int r, c;
-        char dir;
-        cin &gt;&gt; r &gt;&gt; c &gt;&gt; dir;
-        int nr = r, nc = c;
-        if (dir == &#x27;U&#x27;) nr--;
-        else if (dir == &#x27;D&#x27;) nr++;
-        else if (dir == &#x27;L&#x27;) nc--;
-        else nc++;
-
-        if (nr &lt; 1 || nr &gt; n || nc &lt; 1 || nc &gt; m || a[nr][nc] == &#x27;#&#x27;) {
-            cout &lt;&lt; &quot;BLOCK\n&quot;;
-        } else if (a[nr][nc] == &#x27;M&#x27;) {
-            cout &lt;&lt; &quot;HIT\n&quot;;
-        } else {
-            cout &lt;&lt; &quot;MISS\n&quot;;
-        }
-    }
-    return 0;
-}</code></pre>
-        </section>
+        <div class="solution-actions" aria-label="第 3 题解析与代码入口">
+          <a class="solution-button" href="#p3-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p3-code">查看参考代码（C++）</a>
+        </div>
       </article>
 
-
-      
       <h2 id="middle" style="margin-top:34px;">中难度（3 题）</h2>
+      
       <article class="problem" id="p4">
         <div class="problem-head">
           <div>
@@ -583,48 +526,10 @@ T.....
           <h3>提示与数据范围</h3>
           <p>1 &lt;= n, m &lt;= 300。</p>
         </section>
-        <section class="analysis">
-          <h3>思路解析</h3>
-          <p>和扫雷类似，只是宝箱来自输入字符矩阵。墙不影响相邻统计，它只是输出时保留为 #。</p>
-        </section>
-        <section>
-          <h3>参考代码（C++）</h3>
-          <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-using namespace std;
-
-char a[305][305];
-int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
-int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
-
-int main() {
-    int n, m;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= n; i++) {
-        string s;
-        cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
-    }
-
-    for (int i = 1; i &lt;= n; i++) {
-        for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;#&#x27;) cout &lt;&lt; &quot;#&quot;;
-            else if (a[i][j] == &#x27;T&#x27;) cout &lt;&lt; &quot;*&quot;;
-            else {
-                int cnt = 0;
-                for (int d = 0; d &lt; 8; d++) {
-                    int x = i + dx[d], y = j + dy[d];
-                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;T&#x27;) cnt++;
-                }
-                cout &lt;&lt; cnt;
-            }
-            if (j &lt; m) cout &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}</code></pre>
-        </section>
+        <div class="solution-actions" aria-label="第 4 题解析与代码入口">
+          <a class="solution-button" href="#p4-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p4-code">查看参考代码（C++）</a>
+        </div>
       </article>
 
 
@@ -672,52 +577,10 @@ SA0#000</code></pre>
           <h3>提示与数据范围</h3>
           <p>1 &lt;= n, m &lt;= 200。</p>
         </section>
-        <section class="analysis">
-          <h3>思路解析</h3>
-          <p>枚举一个土地格周围 8 个位置。若相邻格和当前格同行或同列，就是 4 邻域；否则就是斜邻域。先判断 A，再判断 B。</p>
-        </section>
-        <section>
-          <h3>参考代码（C++）</h3>
-          <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-using namespace std;
-
-char a[205][205];
-
-int main() {
-    int n, m;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= n; i++) {
-        string s;
-        cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
-    }
-
-    for (int i = 1; i &lt;= n; i++) {
-        for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;S&#x27; || a[i][j] == &#x27;#&#x27;) {
-                cout &lt;&lt; a[i][j];
-            } else {
-                int four = 0, diag = 0;
-                for (int x = i - 1; x &lt;= i + 1; x++) {
-                    for (int y = j - 1; y &lt;= j + 1; y++) {
-                        if (x == i &amp;&amp; y == j) continue;
-                        if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;S&#x27;) {
-                            if (x == i || y == j) four++;
-                            else diag++;
-                        }
-                    }
-                }
-                if (four &gt; 0) cout &lt;&lt; &quot;A&quot;;
-                else if (diag &gt; 0) cout &lt;&lt; &quot;B&quot;;
-                else cout &lt;&lt; &quot;0&quot;;
-            }
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}</code></pre>
-        </section>
+        <div class="solution-actions" aria-label="第 5 题解析与代码入口">
+          <a class="solution-button" href="#p5-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p5-code">查看参考代码（C++）</a>
+        </div>
       </article>
 
 
@@ -766,12 +629,508 @@ int main() {
           <h3>提示与数据范围</h3>
           <p>1 &lt;= n, m &lt;= 200。</p>
         </section>
+        <div class="solution-actions" aria-label="第 6 题解析与代码入口">
+          <a class="solution-button" href="#p6-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p6-code">查看参考代码（C++）</a>
+        </div>
+      </article>
+
+      <h2 id="high" style="margin-top:34px;">高难度（4 题）</h2>
+      
+      <article class="problem" id="p7">
+        <div class="problem-head">
+          <div>
+            <p class="meta"><span>07</span><b>高</b>4 方向射线 / 障碍停止</p>
+            <h2>弓箭塔警戒图</h2>
+          </div>
+          <a class="jump" href="#top">返回顶部</a>
+        </div>
+        <p class="story">城堡中 A 是弓箭塔，# 是墙，. 是空地。弓箭塔会沿上下左右四个方向一直警戒，遇到墙停止。</p>
+        <section>
+          <h3>题目描述</h3>
+          <p>对每个空地输出能警戒到它的弓箭塔数量。弓箭塔 A 和墙 # 原样输出。</p>
+        </section>
+        <section>
+          <h3>输入格式</h3>
+          <p>第一行包含 n、m。接下来 n 行为地图。</p>
+        </section>
+        <section>
+          <h3>输出格式</h3>
+          <p>输出 n 行，每行 m 个元素，之间用一个空格分隔。</p>
+        </section>
+        <div class="sample-grid">
+          <section>
+            <h3>样例输入</h3>
+            <pre><code>5 7
+A..#..A
+.......
+..#....
+...A#..
+.......</code></pre>
+          </section>
+          <section>
+            <h3>样例输出</h3>
+            <pre><code>A 1 1 # 1 1 A
+1 0 0 1 0 0 1
+1 0 # 1 0 0 1
+2 1 1 A # 0 1
+1 0 0 1 0 0 1</code></pre>
+          </section>
+        </div>
+        <section>
+          <h3>提示与数据范围</h3>
+          <p>1 &lt;= n, m &lt;= 200。</p>
+        </section>
+        <div class="solution-actions" aria-label="第 7 题解析与代码入口">
+          <a class="solution-button" href="#p7-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p7-code">查看参考代码（C++）</a>
+        </div>
+      </article>
+
+
+      <article class="problem" id="p8">
+        <div class="problem-head">
+          <div>
+            <p class="meta"><span>08</span><b>高</b>8 方向 / 距离 2 / 障碍阻挡</p>
+            <h2>魔法爆炸安全区</h2>
+          </div>
+          <a class="jump" href="#top">返回顶部</a>
+        </div>
+        <p class="story">地下迷宫中 B 是魔法炸弹，# 是厚墙，. 是空地。炸弹会向 8 个方向影响距离不超过 2 的格子，但遇到墙会被挡住。</p>
+        <section>
+          <h3>题目描述</h3>
+          <p>输出每个空地被多少个炸弹影响，并在第一行输出完全安全的空地数量。炸弹和墙原样输出。</p>
+        </section>
+        <section>
+          <h3>输入格式</h3>
+          <p>第一行包含 n、m。接下来 n 行为地图。</p>
+        </section>
+        <section>
+          <h3>输出格式</h3>
+          <p>第一行输出安全空地数量。接下来输出 n 行危险计数图，元素之间用一个空格分隔。</p>
+        </section>
+        <div class="sample-grid">
+          <section>
+            <h3>样例输入</h3>
+            <pre><code>5 7
+B..#...
+.......
+..#..B.
+.......
+...B#..</code></pre>
+          </section>
+          <section>
+            <h3>样例输出</h3>
+            <pre><code>8
+B 1 1 # 0 1 0
+1 1 0 0 1 1 1
+1 1 # 2 1 B 1
+0 0 1 1 2 1 1
+0 1 1 B # 1 0</code></pre>
+          </section>
+        </div>
+        <section>
+          <h3>提示与数据范围</h3>
+          <p>1 &lt;= n, m &lt;= 200。</p>
+        </section>
+        <div class="solution-actions" aria-label="第 8 题解析与代码入口">
+          <a class="solution-button" href="#p8-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p8-code">查看参考代码（C++）</a>
+        </div>
+      </article>
+
+
+      <article class="problem" id="p9">
+        <div class="problem-head">
+          <div>
+            <p class="meta"><span>09</span><b>高</b>方向字符 / 直线检测</p>
+            <h2>机器人单向巡逻</h2>
+          </div>
+          <a class="jump" href="#top">返回顶部</a>
+        </div>
+        <p class="story">仓库里有巡逻机器人，字符 ^、v、&lt;、&gt; 表示它的朝向，# 是货架。机器人只会沿自己的朝向直线扫描，遇到货架停止。</p>
+        <section>
+          <h3>题目描述</h3>
+          <p>统计每个空地被多少个机器人扫描到，并在第一行输出至少被一个机器人扫描到的空地数量。机器人和货架原样输出。</p>
+        </section>
+        <section>
+          <h3>输入格式</h3>
+          <p>第一行包含 n、m。接下来 n 行为地图。</p>
+        </section>
+        <section>
+          <h3>输出格式</h3>
+          <p>第一行输出被扫描空地数量。接下来输出 n 行扫描计数图，元素之间用一个空格分隔。</p>
+        </section>
+        <div class="sample-grid">
+          <section>
+            <h3>样例输入</h3>
+            <pre><code>5 8
+&gt;...#..v
+........
+..#..^..
+....#...
+&lt;.......</code></pre>
+          </section>
+          <section>
+            <h3>样例输出</h3>
+            <pre><code>9
+&gt; 1 1 1 # 1 0 v
+0 0 0 0 0 1 0 1
+0 0 # 0 0 ^ 0 1
+0 0 0 0 # 0 0 1
+&lt; 0 0 0 0 0 0 1</code></pre>
+          </section>
+        </div>
+        <section>
+          <h3>提示与数据范围</h3>
+          <p>1 &lt;= n, m &lt;= 200。</p>
+        </section>
+        <div class="solution-actions" aria-label="第 9 题解析与代码入口">
+          <a class="solution-button" href="#p9-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p9-code">查看参考代码（C++）</a>
+        </div>
+      </article>
+
+
+      <article class="problem" id="p10">
+        <div class="problem-head">
+          <div>
+            <p class="meta"><span>10</span><b>高</b>8 邻域计数 + 4 邻域通路</p>
+            <h2>防疫隔离点标记</h2>
+          </div>
+          <a class="jump" href="#top">返回顶部</a>
+        </div>
+        <p class="story">社区网格中 I 表示感染点，# 表示建筑，. 表示可通行空地。工作人员要找出既靠近多个感染点、又能从上下左右至少一个方向进入的临时隔离点。</p>
+        <section>
+          <h3>题目描述</h3>
+          <p>一个空地格若 8 邻域内感染点数量不少于 2，且 4 邻域内至少有一个空地，则标记为 !。第一行输出标记数量，然后输出新地图。</p>
+        </section>
+        <section>
+          <h3>输入格式</h3>
+          <p>第一行包含 n、m。接下来 n 行为社区地图。</p>
+        </section>
+        <section>
+          <h3>输出格式</h3>
+          <p>第一行输出标记数量。接下来输出 n 行新地图。</p>
+        </section>
+        <div class="sample-grid">
+          <section>
+            <h3>样例输入</h3>
+            <pre><code>6 7
+I..I...
+..#....
+...I...
+.I.....
+....#I.
+..I....</code></pre>
+          </section>
+          <section>
+            <h3>样例输出</h3>
+            <pre><code>7
+I..I...
+..#!!..
+..!I...
+.I!.!..
+.!!.#I.
+..I....</code></pre>
+          </section>
+        </div>
+        <section>
+          <h3>提示与数据范围</h3>
+          <p>1 &lt;= n, m &lt;= 200。</p>
+        </section>
+        <div class="solution-actions" aria-label="第 10 题解析与代码入口">
+          <a class="solution-button" href="#p10-analysis">查看思路解析</a>
+          <a class="solution-button secondary" href="#p10-code">查看参考代码（C++）</a>
+        </div>
+      </article>
+
+      <section class="solution-index" id="solutions" aria-labelledby="solutions-title">
+        <h2 id="solutions-title">解析与参考代码</h2>
+        <p class="solution-note">这里集中放置 10 道题的思路解析和 C++ 参考代码。做题时可以先只看题面，需要讲解或核对代码时，再从每道题下方的按钮跳转到对应位置。</p>
+        
+      <article class="solution-card" id="p1-solution">
+        <div class="solution-head">
+          <p class="meta"><span>01</span><b>低</b>8 邻域 / 坐标标记</p>
+          <h3>花坛旁的石头</h3>
+          <a class="jump" href="#p1">返回题目</a>
+        </div>
         <section class="analysis">
-          <h3>思路解析</h3>
+          <h4 id="p1-analysis">思路解析</h4>
+          <p>先用二维数组把石头坐标标记为 1。枚举每个格子，如果它是石头就输出 #；否则用 8 个方向数组检查相邻位置是否在地图内，并累加石头数量。</p>
+        </section>
+        <section>
+          <h4 id="p1-code">参考代码（C++）</h4>
+          <pre class="code"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int stone[505][505];
+int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+int main() {
+    int n, m, q;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; q;
+    for (int i = 1; i &lt;= q; i++) {
+        int r, c;
+        cin &gt;&gt; r &gt;&gt; c;
+        stone[r][c] = 1;
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (stone[i][j] == 1) {
+                cout &lt;&lt; &quot;#&quot;;
+            } else {
+                int cnt = 0;
+                for (int d = 0; d &lt; 8; d++) {
+                    int x = i + dx[d];
+                    int y = j + dy[d];
+                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; stone[x][y] == 1) {
+                        cnt++;
+                    }
+                }
+                cout &lt;&lt; cnt;
+            }
+            if (j &lt; m) cout &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}</code></pre>
+        </section>
+      </article>
+
+
+      <article class="solution-card" id="p2-solution">
+        <div class="solution-head">
+          <p class="meta"><span>02</span><b>低</b>4 邻域 / 字符矩阵</p>
+          <h3>菜地四邻贫瘠度</h3>
+          <a class="jump" href="#p2">返回题目</a>
+        </div>
+        <section class="analysis">
+          <h4 id="p2-analysis">思路解析</h4>
+          <p>这题只看上下左右，因此方向数组长度为 4。枚举普通土地时，逐个判断四邻格是否在地图内、是否为 P。</p>
+        </section>
+        <section>
+          <h4 id="p2-code">参考代码（C++）</h4>
+          <pre class="code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+char a[205][205];
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+
+int main() {
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        string s;
+        cin &gt;&gt; s;
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j - 1];
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (a[i][j] == &#x27;P&#x27; || a[i][j] == &#x27;#&#x27;) {
+                cout &lt;&lt; a[i][j];
+            } else {
+                int cnt = 0;
+                for (int d = 0; d &lt; 4; d++) {
+                    int x = i + dx[d];
+                    int y = j + dy[d];
+                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;P&#x27;) {
+                        cnt++;
+                    }
+                }
+                cout &lt;&lt; cnt;
+            }
+            if (j &lt; m) cout &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}</code></pre>
+        </section>
+      </article>
+
+
+      <article class="solution-card" id="p3-solution">
+        <div class="solution-head">
+          <p class="meta"><span>03</span><b>低</b>4 方向 / 位置检测</p>
+          <h3>勇者朝向攻击</h3>
+          <a class="jump" href="#p3">返回题目</a>
+        </div>
+        <section class="analysis">
+          <h4 id="p3-analysis">思路解析</h4>
+          <p>先根据方向把目标坐标算出来，再依次判断越界、墙、怪物、空地。注意越界要先判断，否则直接访问数组可能出错。</p>
+        </section>
+        <section>
+          <h4 id="p3-code">参考代码（C++）</h4>
+          <pre class="code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+char a[105][105];
+
+int main() {
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        string s;
+        cin &gt;&gt; s;
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j - 1];
+        }
+    }
+
+    int q;
+    cin &gt;&gt; q;
+    for (int i = 1; i &lt;= q; i++) {
+        int r, c;
+        char dir;
+        cin &gt;&gt; r &gt;&gt; c &gt;&gt; dir;
+        int nr = r, nc = c;
+        if (dir == &#x27;U&#x27;) nr--;
+        else if (dir == &#x27;D&#x27;) nr++;
+        else if (dir == &#x27;L&#x27;) nc--;
+        else nc++;
+
+        if (nr &lt; 1 || nr &gt; n || nc &lt; 1 || nc &gt; m || a[nr][nc] == &#x27;#&#x27;) {
+            cout &lt;&lt; &quot;BLOCK\n&quot;;
+        } else if (a[nr][nc] == &#x27;M&#x27;) {
+            cout &lt;&lt; &quot;HIT\n&quot;;
+        } else {
+            cout &lt;&lt; &quot;MISS\n&quot;;
+        }
+    }
+    return 0;
+}</code></pre>
+        </section>
+      </article>
+
+
+      <article class="solution-card" id="p4-solution">
+        <div class="solution-head">
+          <p class="meta"><span>04</span><b>中</b>8 邻域 / 障碍保留</p>
+          <h3>宝箱八向提示牌</h3>
+          <a class="jump" href="#p4">返回题目</a>
+        </div>
+        <section class="analysis">
+          <h4 id="p4-analysis">思路解析</h4>
+          <p>和扫雷类似，只是宝箱来自输入字符矩阵。墙不影响相邻统计，它只是输出时保留为 #。</p>
+        </section>
+        <section>
+          <h4 id="p4-code">参考代码（C++）</h4>
+          <pre class="code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+char a[305][305];
+int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+int main() {
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        string s;
+        cin &gt;&gt; s;
+        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (a[i][j] == &#x27;#&#x27;) cout &lt;&lt; &quot;#&quot;;
+            else if (a[i][j] == &#x27;T&#x27;) cout &lt;&lt; &quot;*&quot;;
+            else {
+                int cnt = 0;
+                for (int d = 0; d &lt; 8; d++) {
+                    int x = i + dx[d], y = j + dy[d];
+                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;T&#x27;) cnt++;
+                }
+                cout &lt;&lt; cnt;
+            }
+            if (j &lt; m) cout &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}</code></pre>
+        </section>
+      </article>
+
+
+      <article class="solution-card" id="p5-solution">
+        <div class="solution-head">
+          <p class="meta"><span>05</span><b>中</b>4 邻域 + 斜邻域</p>
+          <h3>农场喷灌覆盖</h3>
+          <a class="jump" href="#p5">返回题目</a>
+        </div>
+        <section class="analysis">
+          <h4 id="p5-analysis">思路解析</h4>
+          <p>枚举一个土地格周围 8 个位置。若相邻格和当前格同行或同列，就是 4 邻域；否则就是斜邻域。先判断 A，再判断 B。</p>
+        </section>
+        <section>
+          <h4 id="p5-code">参考代码（C++）</h4>
+          <pre class="code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+char a[205][205];
+
+int main() {
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        string s;
+        cin &gt;&gt; s;
+        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (a[i][j] == &#x27;S&#x27; || a[i][j] == &#x27;#&#x27;) {
+                cout &lt;&lt; a[i][j];
+            } else {
+                int four = 0, diag = 0;
+                for (int x = i - 1; x &lt;= i + 1; x++) {
+                    for (int y = j - 1; y &lt;= j + 1; y++) {
+                        if (x == i &amp;&amp; y == j) continue;
+                        if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;S&#x27;) {
+                            if (x == i || y == j) four++;
+                            else diag++;
+                        }
+                    }
+                }
+                if (four &gt; 0) cout &lt;&lt; &quot;A&quot;;
+                else if (diag &gt; 0) cout &lt;&lt; &quot;B&quot;;
+                else cout &lt;&lt; &quot;0&quot;;
+            }
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}</code></pre>
+        </section>
+      </article>
+
+
+      <article class="solution-card" id="p6-solution">
+        <div class="solution-head">
+          <p class="meta"><span>06</span><b>中</b>4 邻域条件 + 8 邻域排除</p>
+          <h3>海岛救援站选址</h3>
+          <a class="jump" href="#p6">返回题目</a>
+        </div>
+        <section class="analysis">
+          <h4 id="p6-analysis">思路解析</h4>
           <p>这题有两个条件：4 邻域找村庄，8 邻域排除海水。两个条件都满足时计数加一并输出 R。</p>
         </section>
         <section>
-          <h3>参考代码（C++）</h3>
+          <h4 id="p6-code">参考代码（C++）</h4>
           <pre class="code"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -825,58 +1184,18 @@ int main() {
       </article>
 
 
-      
-      <h2 id="high" style="margin-top:34px;">高难度（4 题）</h2>
-      <article class="problem" id="p7">
-        <div class="problem-head">
-          <div>
-            <p class="meta"><span>07</span><b>高</b>4 方向射线 / 障碍停止</p>
-            <h2>弓箭塔警戒图</h2>
-          </div>
-          <a class="jump" href="#top">返回顶部</a>
+      <article class="solution-card" id="p7-solution">
+        <div class="solution-head">
+          <p class="meta"><span>07</span><b>高</b>4 方向射线 / 障碍停止</p>
+          <h3>弓箭塔警戒图</h3>
+          <a class="jump" href="#p7">返回题目</a>
         </div>
-        <p class="story">城堡中 A 是弓箭塔，# 是墙，. 是空地。弓箭塔会沿上下左右四个方向一直警戒，遇到墙停止。</p>
-        <section>
-          <h3>题目描述</h3>
-          <p>对每个空地输出能警戒到它的弓箭塔数量。弓箭塔 A 和墙 # 原样输出。</p>
-        </section>
-        <section>
-          <h3>输入格式</h3>
-          <p>第一行包含 n、m。接下来 n 行为地图。</p>
-        </section>
-        <section>
-          <h3>输出格式</h3>
-          <p>输出 n 行，每行 m 个元素，之间用一个空格分隔。</p>
-        </section>
-        <div class="sample-grid">
-          <section>
-            <h3>样例输入</h3>
-            <pre><code>5 7
-A..#..A
-.......
-..#....
-...A#..
-.......</code></pre>
-          </section>
-          <section>
-            <h3>样例输出</h3>
-            <pre><code>A 1 1 # 1 1 A
-1 0 0 1 0 0 1
-1 0 # 1 0 0 1
-2 1 1 A # 0 1
-1 0 0 1 0 0 1</code></pre>
-          </section>
-        </div>
-        <section>
-          <h3>提示与数据范围</h3>
-          <p>1 &lt;= n, m &lt;= 200。</p>
-        </section>
         <section class="analysis">
-          <h3>思路解析</h3>
+          <h4 id="p7-analysis">思路解析</h4>
           <p>枚举每个弓箭塔，再沿 4 个方向一步步走，直到越界或遇到墙。走到空地时让该格警戒次数加一。</p>
         </section>
         <section>
-          <h3>参考代码（C++）</h3>
+          <h4 id="p7-code">参考代码（C++）</h4>
           <pre class="code"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -924,57 +1243,18 @@ int main() {
       </article>
 
 
-      <article class="problem" id="p8">
-        <div class="problem-head">
-          <div>
-            <p class="meta"><span>08</span><b>高</b>8 方向 / 距离 2 / 障碍阻挡</p>
-            <h2>魔法爆炸安全区</h2>
-          </div>
-          <a class="jump" href="#top">返回顶部</a>
+      <article class="solution-card" id="p8-solution">
+        <div class="solution-head">
+          <p class="meta"><span>08</span><b>高</b>8 方向 / 距离 2 / 障碍阻挡</p>
+          <h3>魔法爆炸安全区</h3>
+          <a class="jump" href="#p8">返回题目</a>
         </div>
-        <p class="story">地下迷宫中 B 是魔法炸弹，# 是厚墙，. 是空地。炸弹会向 8 个方向影响距离不超过 2 的格子，但遇到墙会被挡住。</p>
-        <section>
-          <h3>题目描述</h3>
-          <p>输出每个空地被多少个炸弹影响，并在第一行输出完全安全的空地数量。炸弹和墙原样输出。</p>
-        </section>
-        <section>
-          <h3>输入格式</h3>
-          <p>第一行包含 n、m。接下来 n 行为地图。</p>
-        </section>
-        <section>
-          <h3>输出格式</h3>
-          <p>第一行输出安全空地数量。接下来输出 n 行危险计数图，元素之间用一个空格分隔。</p>
-        </section>
-        <div class="sample-grid">
-          <section>
-            <h3>样例输入</h3>
-            <pre><code>5 7
-B..#...
-.......
-..#..B.
-.......
-...B#..</code></pre>
-          </section>
-          <section>
-            <h3>样例输出</h3>
-            <pre><code>8
-B 1 1 # 0 1 0
-1 1 0 0 1 1 1
-1 1 # 2 1 B 1
-0 0 1 1 2 1 1
-0 1 1 B # 1 0</code></pre>
-          </section>
-        </div>
-        <section>
-          <h3>提示与数据范围</h3>
-          <p>1 &lt;= n, m &lt;= 200。</p>
-        </section>
         <section class="analysis">
-          <h3>思路解析</h3>
+          <h4 id="p8-analysis">思路解析</h4>
           <p>对每个炸弹枚举 8 个方向，每个方向最多走 2 步。若越界或遇到墙就停止；若走到空地则危险次数加一。</p>
         </section>
         <section>
-          <h3>参考代码（C++）</h3>
+          <h4 id="p8-code">参考代码（C++）</h4>
           <pre class="code"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -1031,57 +1311,18 @@ int main() {
       </article>
 
 
-      <article class="problem" id="p9">
-        <div class="problem-head">
-          <div>
-            <p class="meta"><span>09</span><b>高</b>方向字符 / 直线检测</p>
-            <h2>机器人单向巡逻</h2>
-          </div>
-          <a class="jump" href="#top">返回顶部</a>
+      <article class="solution-card" id="p9-solution">
+        <div class="solution-head">
+          <p class="meta"><span>09</span><b>高</b>方向字符 / 直线检测</p>
+          <h3>机器人单向巡逻</h3>
+          <a class="jump" href="#p9">返回题目</a>
         </div>
-        <p class="story">仓库里有巡逻机器人，字符 ^、v、&lt;、&gt; 表示它的朝向，# 是货架。机器人只会沿自己的朝向直线扫描，遇到货架停止。</p>
-        <section>
-          <h3>题目描述</h3>
-          <p>统计每个空地被多少个机器人扫描到，并在第一行输出至少被一个机器人扫描到的空地数量。机器人和货架原样输出。</p>
-        </section>
-        <section>
-          <h3>输入格式</h3>
-          <p>第一行包含 n、m。接下来 n 行为地图。</p>
-        </section>
-        <section>
-          <h3>输出格式</h3>
-          <p>第一行输出被扫描空地数量。接下来输出 n 行扫描计数图，元素之间用一个空格分隔。</p>
-        </section>
-        <div class="sample-grid">
-          <section>
-            <h3>样例输入</h3>
-            <pre><code>5 8
-&gt;...#..v
-........
-..#..^..
-....#...
-&lt;.......</code></pre>
-          </section>
-          <section>
-            <h3>样例输出</h3>
-            <pre><code>9
-&gt; 1 1 1 # 1 0 v
-0 0 0 0 0 1 0 1
-0 0 # 0 0 ^ 0 1
-0 0 0 0 # 0 0 1
-&lt; 0 0 0 0 0 0 1</code></pre>
-          </section>
-        </div>
-        <section>
-          <h3>提示与数据范围</h3>
-          <p>1 &lt;= n, m &lt;= 200。</p>
-        </section>
         <section class="analysis">
-          <h3>思路解析</h3>
+          <h4 id="p9-analysis">思路解析</h4>
           <p>每个机器人只有一个方向。根据方向字符得到 dx、dy，然后沿直线前进，遇到 # 或越界停止；空地计数加一。</p>
         </section>
         <section>
-          <h3>参考代码（C++）</h3>
+          <h4 id="p9-code">参考代码（C++）</h4>
           <pre class="code"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -1138,59 +1379,18 @@ int main() {
       </article>
 
 
-      <article class="problem" id="p10">
-        <div class="problem-head">
-          <div>
-            <p class="meta"><span>10</span><b>高</b>8 邻域计数 + 4 邻域通路</p>
-            <h2>防疫隔离点标记</h2>
-          </div>
-          <a class="jump" href="#top">返回顶部</a>
+      <article class="solution-card" id="p10-solution">
+        <div class="solution-head">
+          <p class="meta"><span>10</span><b>高</b>8 邻域计数 + 4 邻域通路</p>
+          <h3>防疫隔离点标记</h3>
+          <a class="jump" href="#p10">返回题目</a>
         </div>
-        <p class="story">社区网格中 I 表示感染点，# 表示建筑，. 表示可通行空地。工作人员要找出既靠近多个感染点、又能从上下左右至少一个方向进入的临时隔离点。</p>
-        <section>
-          <h3>题目描述</h3>
-          <p>一个空地格若 8 邻域内感染点数量不少于 2，且 4 邻域内至少有一个空地，则标记为 !。第一行输出标记数量，然后输出新地图。</p>
-        </section>
-        <section>
-          <h3>输入格式</h3>
-          <p>第一行包含 n、m。接下来 n 行为社区地图。</p>
-        </section>
-        <section>
-          <h3>输出格式</h3>
-          <p>第一行输出标记数量。接下来输出 n 行新地图。</p>
-        </section>
-        <div class="sample-grid">
-          <section>
-            <h3>样例输入</h3>
-            <pre><code>6 7
-I..I...
-..#....
-...I...
-.I.....
-....#I.
-..I....</code></pre>
-          </section>
-          <section>
-            <h3>样例输出</h3>
-            <pre><code>7
-I..I...
-..#!!..
-..!I...
-.I!.!..
-.!!.#I.
-..I....</code></pre>
-          </section>
-        </div>
-        <section>
-          <h3>提示与数据范围</h3>
-          <p>1 &lt;= n, m &lt;= 200。</p>
-        </section>
         <section class="analysis">
-          <h3>思路解析</h3>
+          <h4 id="p10-analysis">思路解析</h4>
           <p>对每个空地分别统计 8 邻域感染点数量和 4 邻域空地数量。两个条件同时满足才标记，原来的 I 和 # 不改变。</p>
         </section>
         <section>
-          <h3>参考代码（C++）</h3>
+          <h4 id="p10-code">参考代码（C++）</h4>
           <pre class="code"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -1243,6 +1443,7 @@ int main() {
         </section>
       </article>
 
+      </section>
     </div>
   </main>
 
