@@ -708,6 +708,7 @@
                         <li><a class="nav-link" data-section="stack">stack 栈</a></li>
                         <li><a class="nav-link" data-section="queue">queue 队列</a></li>
                         <li><a class="nav-link" data-section="deque">deque 双端队列</a></li>
+                        <li><a class="nav-link" data-section="list">list 链表</a></li>
                         <li><a class="nav-link" data-section="priority_queue">priority_queue 优先队列</a></li>
                         <li><a class="nav-link" data-section="set">set/multiset 集合</a></li>
                         <li><a class="nav-link" data-section="map">map/multimap 映射</a></li>
@@ -721,12 +722,16 @@
                         <li><a class="nav-link" data-section="binary">二分查找</a></li>
                         <li><a class="nav-link" data-section="stats">最值与统计</a></li>
                         <li><a class="nav-link" data-section="modify">修改操作</a></li>
+                        <li><a class="nav-link" data-section="search">查找与判断</a></li>
+                        <li><a class="nav-link" data-section="permutation">排列与数值</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-toggle" data-section="libraries">📖 常用库函数</a>
                     <ul class="nav-sub">
                         <li><a class="nav-link" data-section="cmath">cmath 数学函数</a></li>
+                        <li><a class="nav-link" data-section="utility">utility pair</a></li>
+                        <li><a class="nav-link" data-section="bitset">bitset 位集</a></li>
                         <li><a class="nav-link" data-section="cstring">cstring 字符串</a></li>
                         <li><a class="nav-link" data-section="cstdio">cstdio 输入输出</a></li>
                     </ul>
@@ -748,8 +753,8 @@
                     <div class="hero-title">🎯 GESP C++ STL 全套手册</div>
                     <div class="hero-subtitle">从1级到8级，系统掌握所有STL考点</div>
                     <div class="hero-tags">
-                        <span class="hero-tag">📦 9大容器</span>
-                        <span class="hero-tag">🔧 20+算法</span>
+                        <span class="hero-tag">📦 10大容器</span>
+                        <span class="hero-tag">🔧 30+算法与工具</span>
                         <span class="hero-tag">💻 完整代码样例</span>
                         <span class="hero-tag">⚠️ 易错点整理</span>
                         <span class="hero-tag">📊 分级速查</span>
@@ -967,6 +972,34 @@
                             <span class="func-name">v.clear()</span>
                             <span class="func-desc">清空所有元素</span>
                         </li>
+                        <li class="func-item">
+                            <span class="func-name">v.insert(pos, x)</span>
+                            <span class="func-desc">在迭代器pos位置前插入元素x，如v.insert(v.begin()+1, 99)</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">v.insert(pos, cnt, x)</span>
+                            <span class="func-desc">在pos位置前连续插入cnt个x</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">v.erase(pos)</span>
+                            <span class="func-desc">删除pos位置的一个元素，返回删除后下一个位置的迭代器</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">v.erase(first, last)</span>
+                            <span class="func-desc">删除区间[first, last)内的元素，常用于配合unique去重</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">v.resize(n, val)</span>
+                            <span class="func-desc">调整元素个数为n，变大时新元素填val（省略val则默认初始化）</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">v.reserve(n) / v.capacity()</span>
+                            <span class="func-desc">预留容量 / 查看当前容量；reserve不改变size</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">v.begin() / v.end()</span>
+                            <span class="func-desc">首元素迭代器 / 尾后迭代器，常用于sort、遍历、insert、erase</span>
+                        </li>
                     </ul>
 
                     <h3 class="sub-sub-title">代码样例</h3>
@@ -995,6 +1028,16 @@
     
     <span class="code-comment">// 5. 删除末尾</span>
     v.pop_back();
+
+    <span class="code-comment">// 6. insert：在下标1前插入99，结果 10 99 20</span>
+    v.insert(v.begin() + <span class="code-number">1</span>, <span class="code-number">99</span>);
+
+    <span class="code-comment">// 7. erase：删除下标1的元素，结果 10 20</span>
+    v.erase(v.begin() + <span class="code-number">1</span>);
+
+    <span class="code-comment">// 8. resize / reserve</span>
+    v.resize(<span class="code-number">5</span>, <span class="code-number">0</span>);      <span class="code-comment">// size变为5，新元素补0</span>
+    v.reserve(<span class="code-number">100</span>);      <span class="code-comment">// 预留容量，不改变size</span>
     
     <span class="code-keyword">return</span> <span class="code-number">0</span>;
 }
@@ -1006,6 +1049,8 @@
                         <div class="exam-point">vector作为函数参数（传引用）</div>
                         <div class="exam-point">二维vector：vector&lt;vector&lt;int&gt;&gt;</div>
                         <div class="exam-point">迭代器遍历（4级以上）</div>
+                        <div class="exam-point">insert/erase会移动后续元素，时间复杂度通常为O(n)</div>
+                        <div class="exam-point">reserve只扩容量不改元素个数，resize会改变size</div>
                     </div>
                 </div>
 
@@ -1204,9 +1249,83 @@
                     </ul>
                 </div>
 
+                <!-- list -->
+                <div id="list">
+                    <h2 class="sub-title">2.6 list 链表 <span class="level-tag high">8级拓展</span></h2>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">📋 基本信息</div>
+                        <p><strong>头文件：</strong><code>#include &lt;list&gt;</code></p>
+                        <p><strong>功能说明：</strong>双向链表，适合频繁在中间插入和删除元素；不支持下标随机访问，不能使用<code>lst[i]</code>。</p>
+                    </div>
+
+                    <h3 class="sub-sub-title">核心函数</h3>
+                    <ul class="func-list">
+                        <li class="func-item">
+                            <span class="func-name">list&lt;int&gt; lst</span>
+                            <span class="func-desc">声明一个int类型链表</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">lst.push_back(x) / lst.push_front(x)</span>
+                            <span class="func-desc">尾部 / 头部插入元素x</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">lst.pop_back() / lst.pop_front()</span>
+                            <span class="func-desc">删除尾部 / 头部元素</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">lst.insert(pos, x)</span>
+                            <span class="func-desc">在迭代器pos前插入x</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">lst.erase(pos)</span>
+                            <span class="func-desc">删除pos位置元素，返回下一个位置</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">lst.remove(x)</span>
+                            <span class="func-desc">删除所有等于x的元素</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">lst.sort() / lst.reverse()</span>
+                            <span class="func-desc">链表内部排序 / 反转；list不能直接用algorithm里的sort</span>
+                        </li>
+                    </ul>
+
+                    <h3 class="sub-sub-title">代码样例</h3>
+                    <div class="code-block">
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;list&gt;</span>
+<span class="code-keyword">using namespace</span> std;
+
+<span class="code-type">int</span> <span class="code-function">main</span>() {
+    list&lt;<span class="code-type">int</span>&gt; lst = {<span class="code-number">3</span>, <span class="code-number">1</span>, <span class="code-number">2</span>};
+
+    lst.push_front(<span class="code-number">0</span>);
+    lst.push_back(<span class="code-number">4</span>);
+
+    list&lt;<span class="code-type">int</span>&gt;::iterator it = lst.begin();
+    ++it;                         <span class="code-comment">// 指向第二个位置</span>
+    lst.insert(it, <span class="code-number">99</span>);          <span class="code-comment">// 在it前插入</span>
+
+    lst.remove(<span class="code-number">99</span>);              <span class="code-comment">// 删除所有99</span>
+    lst.sort();                   <span class="code-comment">// list专用排序</span>
+
+    <span class="code-keyword">for</span> (<span class="code-type">int</span> x : lst) cout << x << <span class="code-string">" "</span>;
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}
+                    </div>
+
+                    <h3 class="sub-sub-title">GESP常见考点</h3>
+                    <div class="exam-points">
+                        <div class="exam-point">理解链表不支持随机访问，不能写lst[i]</div>
+                        <div class="exam-point">中间插入/删除依赖迭代器</div>
+                        <div class="exam-point">list排序使用lst.sort()，不是sort(lst.begin(), lst.end())</div>
+                    </div>
+                </div>
+
                 <!-- priority_queue -->
                 <div id="priority_queue">
-                    <h2 class="sub-title">2.6 priority_queue 优先级队列 <span class="level-tag high">7级</span></h2>
+                    <h2 class="sub-title">2.7 priority_queue 优先级队列 <span class="level-tag high">7级</span></h2>
                     
                     <div class="info-card">
                         <div class="info-card-title">📋 基本信息</div>
@@ -1273,7 +1392,7 @@
 
                 <!-- set -->
                 <div id="set">
-                    <h2 class="sub-title">2.7 set / multiset 集合 <span class="level-tag high">7级</span></h2>
+                    <h2 class="sub-title">2.8 set / multiset 集合 <span class="level-tag high">7级</span></h2>
                     
                     <div class="info-card">
                         <div class="info-card-title">📋 基本信息</div>
@@ -1347,7 +1466,7 @@
 
                 <!-- map -->
                 <div id="map">
-                    <h2 class="sub-title">2.8 map / multimap 映射 <span class="level-tag high">7级</span></h2>
+                    <h2 class="sub-title">2.9 map / multimap 映射 <span class="level-tag high">7级</span></h2>
                     
                     <div class="info-card">
                         <div class="info-card-title">📋 基本信息</div>
@@ -1430,7 +1549,7 @@
 
                 <!-- unordered -->
                 <div id="unordered">
-                    <h2 class="sub-title">2.9 unordered 哈希容器 <span class="level-tag high">8级拓展</span></h2>
+                    <h2 class="sub-title">2.10 unordered 哈希容器 <span class="level-tag high">8级拓展</span></h2>
                     
                     <div class="compare-grid">
                         <div class="compare-card">
@@ -1718,14 +1837,222 @@ cout << count(v.begin(), v.end(), <span class="code-number">3</span>) << endl;  
                         <div class="exam-point">交换两个变量</div>
                     </div>
                 </div>
+
+                <!-- 查找与判断 -->
+                <div id="search">
+                    <h2 class="sub-title">3.5 查找与判断算法 <span class="level-tag">4~7级</span></h2>
+                    
+                    <h3 class="sub-sub-title">核心函数</h3>
+                    <ul class="func-list">
+                        <li class="func-item">
+                            <span class="func-name">find(b, e, x)</span>
+                            <span class="func-desc">在线性区间[b, e)中查找x，返回迭代器；找不到返回e</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">find_if(b, e, 条件)</span>
+                            <span class="func-desc">查找第一个满足条件的元素</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">all_of(b, e, 条件)</span>
+                            <span class="func-desc">判断是否所有元素都满足条件</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">any_of(b, e, 条件)</span>
+                            <span class="func-desc">判断是否至少一个元素满足条件</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">none_of(b, e, 条件)</span>
+                            <span class="func-desc">判断是否没有元素满足条件</span>
+                        </li>
+                    </ul>
+
+                    <h3 class="sub-sub-title">代码样例</h3>
+                    <div class="code-block">
+vector&lt;<span class="code-type">int</span>&gt; v = {<span class="code-number">2</span>, <span class="code-number">4</span>, <span class="code-number">6</span>, <span class="code-number">9</span>};
+
+<span class="code-keyword">if</span> (find(v.begin(), v.end(), <span class="code-number">6</span>) != v.end()) {
+    cout << <span class="code-string">"找到6"</span> << endl;
+}
+
+<span class="code-type">bool</span> allEven = all_of(v.begin(), v.end(), [](<span class="code-type">int</span> x) {
+    <span class="code-keyword">return</span> x % <span class="code-number">2</span> == <span class="code-number">0</span>;
+});
+
+<span class="code-type">bool</span> hasOdd = any_of(v.begin(), v.end(), [](<span class="code-type">int</span> x) {
+    <span class="code-keyword">return</span> x % <span class="code-number">2</span> == <span class="code-number">1</span>;
+});
+                    </div>
+
+                    <h3 class="sub-sub-title">GESP常见考点</h3>
+                    <div class="exam-points">
+                        <div class="exam-point">find是线性查找，区间不需要有序</div>
+                        <div class="exam-point">binary_search/lower_bound要求区间已排序</div>
+                        <div class="exam-point">判断返回值时要和end()比较</div>
+                    </div>
+                </div>
+
+                <!-- 排列与数值 -->
+                <div id="permutation">
+                    <h2 class="sub-title">3.6 排列与数值算法 <span class="level-tag high">6~8级</span></h2>
+                    
+                    <h3 class="sub-sub-title">核心函数</h3>
+                    <ul class="func-list">
+                        <li class="func-item">
+                            <span class="func-name">next_permutation(b, e)</span>
+                            <span class="func-desc">生成下一个字典序排列；存在则返回true，否则返回false并变回最小排列</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">prev_permutation(b, e)</span>
+                            <span class="func-desc">生成上一个字典序排列</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">accumulate(b, e, init)</span>
+                            <span class="func-desc">区间求和/累积，头文件#include &lt;numeric&gt;</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">partial_sum(b, e, out)</span>
+                            <span class="func-desc">前缀和写入out位置，常用于构造前缀和数组</span>
+                        </li>
+                    </ul>
+
+                    <h3 class="sub-sub-title">代码样例</h3>
+                    <div class="code-block">
+<span class="code-keyword">#include</span> <span class="code-string">&lt;algorithm&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;numeric&gt;</span>
+
+vector&lt;<span class="code-type">int</span>&gt; a = {<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>};
+
+<span class="code-keyword">do</span> {
+    <span class="code-keyword">for</span> (<span class="code-type">int</span> x : a) cout << x;
+    cout << endl;
+} <span class="code-keyword">while</span> (next_permutation(a.begin(), a.end()));
+
+vector&lt;<span class="code-type">int</span>&gt; b = {<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>, <span class="code-number">4</span>};
+<span class="code-type">int</span> sum = accumulate(b.begin(), b.end(), <span class="code-number">0</span>);  <span class="code-comment">// 10</span>
+
+vector&lt;<span class="code-type">int</span>&gt; prefix(b.size());
+partial_sum(b.begin(), b.end(), prefix.begin());  <span class="code-comment">// 1 3 6 10</span>
+                    </div>
+
+                    <h3 class="sub-sub-title">GESP常见考点</h3>
+                    <div class="exam-points">
+                        <div class="exam-point">枚举全排列前先sort，确保从最小字典序开始</div>
+                        <div class="exam-point">accumulate第三个参数决定结果类型，long long求和写0LL</div>
+                        <div class="exam-point">partial_sum适合快速构造一维前缀和</div>
+                    </div>
+                </div>
             </div>
 
             <!-- 第四部分：常用库函数 -->
             <div class="content-section" id="libraries">
                 <h1 class="section-title"><span class="icon">📖</span> 第四部分 其他常用库函数</h1>
 
+                <div id="utility">
+                    <h2 class="sub-title">4.1 &lt;utility&gt; pair 二元组</h2>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">📋 基本信息</div>
+                        <p><strong>头文件：</strong><code>#include &lt;utility&gt;</code></p>
+                        <p><strong>功能说明：</strong>把两个值绑定成一个整体，常用于坐标、键值对、排序时的复合关键字。</p>
+                    </div>
+
+                    <h3 class="sub-sub-title">核心函数</h3>
+                    <ul class="func-list">
+                        <li class="func-item">
+                            <span class="func-name">pair&lt;int, int&gt; p</span>
+                            <span class="func-desc">声明一个由两个int组成的二元组</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">p.first / p.second</span>
+                            <span class="func-desc">访问第一个 / 第二个成员</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">make_pair(a, b)</span>
+                            <span class="func-desc">构造pair，也可直接写{a, b}</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">vector&lt;pair&lt;int,int&gt;&gt;</span>
+                            <span class="func-desc">常用于存坐标、边、区间等复合数据</span>
+                        </li>
+                    </ul>
+
+                    <h3 class="sub-sub-title">代码样例</h3>
+                    <div class="code-block">
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;vector&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;utility&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;algorithm&gt;</span>
+<span class="code-keyword">using namespace</span> std;
+
+<span class="code-type">int</span> <span class="code-function">main</span>() {
+    vector&lt;pair&lt;<span class="code-type">int</span>, <span class="code-type">int</span>&gt;&gt; a;
+    a.push_back(make_pair(<span class="code-number">2</span>, <span class="code-number">5</span>));
+    a.push_back({<span class="code-number">1</span>, <span class="code-number">9</span>});
+
+    sort(a.begin(), a.end());  <span class="code-comment">// 先按first，再按second排序</span>
+
+    <span class="code-keyword">for</span> (pair&lt;<span class="code-type">int</span>, <span class="code-type">int</span>&gt; p : a) {
+        cout << p.first << <span class="code-string">" "</span> << p.second << endl;
+    }
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}
+                    </div>
+                </div>
+
+                <div id="bitset">
+                    <h2 class="sub-title">4.2 &lt;bitset&gt; 位集</h2>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">📋 基本信息</div>
+                        <p><strong>头文件：</strong><code>#include &lt;bitset&gt;</code></p>
+                        <p><strong>功能说明：</strong>固定长度的二进制位容器，适合处理二进制状态、位运算和状态压缩入门题。</p>
+                    </div>
+
+                    <h3 class="sub-sub-title">核心函数</h3>
+                    <ul class="func-list">
+                        <li class="func-item">
+                            <span class="func-name">bitset&lt;8&gt; b</span>
+                            <span class="func-desc">声明8位二进制位集，默认全为0</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">b[i]</span>
+                            <span class="func-desc">访问第i位；注意最低位是下标0</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">b.set(i) / b.reset(i) / b.flip(i)</span>
+                            <span class="func-desc">把第i位设为1 / 设为0 / 取反</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">b.count()</span>
+                            <span class="func-desc">统计1的个数</span>
+                        </li>
+                        <li class="func-item">
+                            <span class="func-name">b.to_ulong()</span>
+                            <span class="func-desc">转成无符号整数，位数过大时要注意溢出</span>
+                        </li>
+                    </ul>
+
+                    <h3 class="sub-sub-title">代码样例</h3>
+                    <div class="code-block">
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;bitset&gt;</span>
+<span class="code-keyword">using namespace</span> std;
+
+<span class="code-type">int</span> <span class="code-function">main</span>() {
+    bitset&lt;<span class="code-number">8</span>&gt; b(<span class="code-number">13</span>);   <span class="code-comment">// 00001101</span>
+    cout << b << endl;
+    cout << b.count() << endl;  <span class="code-comment">// 3个1</span>
+
+    b.set(<span class="code-number">1</span>);
+    b.flip(<span class="code-number">2</span>);
+    cout << b.to_ulong() << endl;
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}
+                    </div>
+                </div>
+
                 <div id="cmath">
-                    <h2 class="sub-title">4.1 &lt;cmath&gt; 数学函数</h2>
+                    <h2 class="sub-title">4.3 &lt;cmath&gt; 数学函数</h2>
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1748,7 +2075,7 @@ cout << count(v.begin(), v.end(), <span class="code-number">3</span>) << endl;  
                 </div>
 
                 <div id="cstring">
-                    <h2 class="sub-title">4.2 &lt;cstring&gt; C风格字符串函数</h2>
+                    <h2 class="sub-title">4.4 &lt;cstring&gt; C风格字符串函数</h2>
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1767,7 +2094,7 @@ cout << count(v.begin(), v.end(), <span class="code-number">3</span>) << endl;  
                 </div>
 
                 <div id="cstdio">
-                    <h2 class="sub-title">4.3 &lt;cstdio&gt; 输入输出</h2>
+                    <h2 class="sub-title">4.5 &lt;cstdio&gt; 输入输出</h2>
                     
                     <div class="info-card">
                         <div class="info-card-title">💡 小技巧</div>
