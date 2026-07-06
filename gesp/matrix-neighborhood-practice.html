@@ -869,7 +869,7 @@ int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -879,7 +879,7 @@ int countStone(int i, int j, int n, int m) {
     for (int d = 0; d &lt; 8; d++) {
         int x = i + dx[d];
         int y = j + dy[d];
-        if (check(x, y, n, m) &amp;&amp; stone[x][y] == 1) {
+        if (inBoundary(x, y, n, m) &amp;&amp; stone[x][y] == 1) {
             cnt++;
         }
     }
@@ -933,7 +933,7 @@ int dx[4] = {-1, 1, 0, 0};
 int dy[4] = {0, 0, -1, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -943,7 +943,7 @@ int countPoor(int i, int j, int n, int m) {
     for (int d = 0; d &lt; 4; d++) {
         int x = i + dx[d];
         int y = j + dy[d];
-        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;P&#x27;) {
+        if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;P&#x27;) {
             cnt++;
         }
     }
@@ -997,7 +997,7 @@ using namespace std;
 char a[105][105];
 
 // 判断目标格是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1009,7 +1009,7 @@ string attackResult(int r, int c, char dir, int n, int m) {
     else if (dir == &#x27;L&#x27;) nc--;
     else nc++;
 
-    if (!check(nr, nc, n, m) || a[nr][nc] == &#x27;#&#x27;) return &quot;BLOCK&quot;;
+    if (!inBoundary(nr, nc, n, m) || a[nr][nc] == &#x27;#&#x27;) return &quot;BLOCK&quot;;
     if (a[nr][nc] == &#x27;M&#x27;) return &quot;HIT&quot;;
     return &quot;MISS&quot;;
 }
@@ -1063,7 +1063,7 @@ int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1073,7 +1073,7 @@ int countTreasure(int i, int j, int n, int m) {
     for (int d = 0; d &lt; 8; d++) {
         int x = i + dx[d];
         int y = j + dy[d];
-        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;T&#x27;) {
+        if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;T&#x27;) {
             cnt++;
         }
     }
@@ -1128,7 +1128,7 @@ using namespace std;
 char a[205][205];
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1138,7 +1138,7 @@ char waterLevel(int i, int j, int n, int m) {
     for (int x = i - 1; x &lt;= i + 1; x++) {
         for (int y = j - 1; y &lt;= j + 1; y++) {
             if (x == i &amp;&amp; y == j) continue;
-            if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;S&#x27;) {
+            if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;S&#x27;) {
                 if (x == i || y == j) four++;
                 else diag++;
             }
@@ -1199,7 +1199,7 @@ int dx8[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy8[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1209,11 +1209,11 @@ bool canBuild(int i, int j, int n, int m) {
     int hasCity = 0, hasSea = 0;
     for (int d = 0; d &lt; 4; d++) {
         int x = i + dx4[d], y = j + dy4[d];
-        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;C&#x27;) hasCity = 1;
+        if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;C&#x27;) hasCity = 1;
     }
     for (int d = 0; d &lt; 8; d++) {
         int x = i + dx8[d], y = j + dy8[d];
-        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;~&#x27;) hasSea = 1;
+        if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;~&#x27;) hasSea = 1;
     }
     return hasCity == 1 &amp;&amp; hasSea == 0;
 }
@@ -1275,7 +1275,7 @@ int dx[4] = {-1, 1, 0, 0};
 int dy[4] = {0, 0, -1, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1283,7 +1283,7 @@ bool check(int i, int j, int n, int m) {
 void markTower(int i, int j, int n, int m) {
     for (int d = 0; d &lt; 4; d++) {
         int x = i + dx[d], y = j + dy[d];
-        while (check(x, y, n, m) &amp;&amp; a[x][y] != &#x27;#&#x27;) {
+        while (inBoundary(x, y, n, m) &amp;&amp; a[x][y] != &#x27;#&#x27;) {
             if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
             x += dx[d];
             y += dy[d];
@@ -1348,7 +1348,7 @@ int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1358,7 +1358,7 @@ void markBomb(int i, int j, int n, int m) {
         for (int step = 1; step &lt;= 2; step++) {
             int x = i + dx[d] * step;
             int y = j + dy[d] * step;
-            if (!check(x, y, n, m)) break;
+            if (!inBoundary(x, y, n, m)) break;
             if (a[x][y] == &#x27;#&#x27;) break;
             if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
         }
@@ -1427,7 +1427,7 @@ char a[205][205];
 int cnt[205][205];
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1446,7 +1446,7 @@ void markRobot(int i, int j, int n, int m) {
     int dx, dy;
     getDirection(a[i][j], dx, dy);
     int x = i + dx, y = j + dy;
-    while (check(x, y, n, m) &amp;&amp; a[x][y] != &#x27;#&#x27;) {
+    while (inBoundary(x, y, n, m) &amp;&amp; a[x][y] != &#x27;#&#x27;) {
         if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
         x += dx;
         y += dy;
@@ -1520,7 +1520,7 @@ int dx8[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy8[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
 // 判断坐标是否在地图内。
-bool check(int i, int j, int n, int m) {
+bool inBoundary(int i, int j, int n, int m) {
     return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
 }
 
@@ -1530,11 +1530,11 @@ bool needMark(int i, int j, int n, int m) {
     int infected = 0, exits = 0;
     for (int d = 0; d &lt; 8; d++) {
         int x = i + dx8[d], y = j + dy8[d];
-        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;I&#x27;) infected++;
+        if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;I&#x27;) infected++;
     }
     for (int d = 0; d &lt; 4; d++) {
         int x = i + dx4[d], y = j + dy4[d];
-        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;.&#x27;) exits++;
+        if (inBoundary(x, y, n, m) &amp;&amp; a[x][y] == &#x27;.&#x27;) exits++;
     }
     return infected &gt;= 2 &amp;&amp; exits &gt;= 1;
 }
