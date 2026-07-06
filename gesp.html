@@ -3,638 +3,553 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Faruto | GESP 编程学习</title>
-  <meta name="description" content="Faruto GESP 编程学习导航页，整理 GESP 考级、C++ STL、算法专题与编程学习资料。">
+  <title>Daniel&#x27;s 编程宝典 | GESP 编程易错点</title>
+  <meta name="description" content="Daniel（小葵）的 GESP 编程做题检查宝典：完整保留原始 Word 内容，并补充小学生编程考级常见易错点、调试流程与考场检查清单。">
   <link rel="canonical" href="https://www.faruto.com/gesp.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:url" content="https://www.faruto.com/gesp.html">
-  <meta property="og:title" content="Faruto | GESP 编程学习">
-  <meta property="og:description" content="GESP 考级、C++ STL、算法专题与编程学习资料入口。">
+  <meta property="og:title" content="Daniel&#x27;s 编程宝典 | GESP 编程易错点">
+  <meta property="og:description" content="给 Daniel（小葵）的 GESP 编程做题检查宝典，整理易错点、踩坑点、提交前检查流程和错误类型速查。">
   <style>
     :root {
-      --ink: #172118;
-      --muted: #5d695f;
-      --paper: #f6f1e7;
-      --paper-deep: #e8dcc7;
-      --leaf: #1f7a4d;
-      --leaf-dark: #15543a;
-      --chalk: #fffdf7;
-      --amber: #d39b2a;
-      --line: rgba(23, 33, 24, 0.16);
-      --shadow: 0 24px 70px rgba(27, 44, 31, 0.16);
+      --ink: #172033;
+      --muted: #5f6c7e;
+      --paper: #fffaf0;
+      --cream: #f7eddc;
+      --sky: #e9f2ff;
+      --teal: #1c7c7b;
+      --blue: #2d5f9a;
+      --coral: #d7654d;
+      --gold: #d69b2d;
+      --green: #3d8b68;
+      --line: rgba(23, 32, 51, .16);
+      --shadow: 0 22px 60px rgba(23, 32, 51, .14);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { overflow-x: hidden; }
     body {
       margin: 0;
-      min-height: 100vh;
       color: var(--ink);
-      font-family: "Palatino Linotype", "Book Antiqua", "Noto Serif SC", "Source Han Serif SC", serif;
+      font-family: "Trebuchet MS", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       background:
-        linear-gradient(90deg, rgba(31, 122, 77, 0.05) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(31, 122, 77, 0.04) 1px, transparent 1px),
-        radial-gradient(circle at 18% 20%, rgba(211, 155, 42, 0.18), transparent 34%),
-        radial-gradient(circle at 88% 12%, rgba(31, 122, 77, 0.16), transparent 36%),
+        linear-gradient(90deg, rgba(23, 32, 51, .035) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(23, 32, 51, .035) 1px, transparent 1px),
         var(--paper);
-      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+      background-size: 36px 36px;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      width: min(1120px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 28px 0 44px;
-    }
-
+    a { color: inherit; text-decoration: none; }
+    code, pre { font-family: Consolas, "Courier New", monospace; }
+    .wrap { width: min(1160px, calc(100% - 36px)); margin: 0 auto; }
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 240, .92);
+      backdrop-filter: blur(16px);
+    }
+    .topbar-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
+      gap: 18px;
+      min-height: 68px;
     }
-
     .brand {
       display: flex;
       align-items: baseline;
       gap: 10px;
-      font-family: Georgia, "Times New Roman", serif;
-      letter-spacing: 0;
+      min-width: 0;
+      font-family: Georgia, "Noto Serif SC", serif;
     }
-
-    .brand strong {
-      font-size: 24px;
-      line-height: 1;
-    }
-
-    .brand span {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
+    .brand strong { font-size: 24px; }
+    .brand span { color: var(--muted); font-size: 14px; }
+    .nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
     .nav a {
       border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 9px 14px;
-      color: var(--leaf-dark);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
+      border-radius: 8px;
+      padding: 8px 11px;
+      color: #24435f;
+      background: rgba(255, 255, 255, .58);
       font-size: 14px;
-      background: rgba(255, 253, 247, 0.58);
-      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
     }
-
-    .nav a:hover {
-      transform: translateY(-2px);
-      border-color: rgba(31, 122, 77, 0.35);
-      background: var(--chalk);
-    }
-
     .hero {
+      min-height: calc(100vh - 68px);
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
-      gap: 44px;
+      grid-template-columns: minmax(0, .9fr) minmax(380px, 1.1fr);
+      gap: 42px;
       align-items: center;
-      min-height: 520px;
-      padding: 54px 0 38px;
+      padding: 54px 0 44px;
     }
-
     .eyebrow {
-      margin: 0 0 18px;
-      color: var(--leaf);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
+      margin: 0 0 16px;
+      color: var(--coral);
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      font-weight: 800;
+      letter-spacing: .14em;
       text-transform: uppercase;
     }
-
     h1 {
-      max-width: 780px;
       margin: 0;
-      font-size: clamp(42px, 8vw, 86px);
-      line-height: 0.96;
+      max-width: 720px;
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: clamp(46px, 8vw, 84px);
+      line-height: .96;
       letter-spacing: 0;
     }
-
     .lead {
-      max-width: 660px;
+      max-width: 650px;
       margin: 24px 0 0;
       color: var(--muted);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
       font-size: 18px;
-      line-height: 1.8;
+      line-height: 1.78;
     }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 30px;
-    }
-
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       min-height: 46px;
-      border: 1px solid var(--leaf-dark);
+      border: 1px solid #183756;
       border-radius: 8px;
-      padding: 11px 18px;
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      font-weight: 700;
-      background: var(--leaf-dark);
-      color: white;
-      box-shadow: 0 12px 28px rgba(21, 84, 58, 0.22);
-      transition: transform 180ms ease, box-shadow 180ms ease;
+      padding: 11px 17px;
+      color: #fff;
+      background: #183756;
+      font-weight: 800;
+      box-shadow: 0 15px 34px rgba(24, 55, 86, .22);
     }
-
-    .button.secondary {
-      background: rgba(255, 253, 247, 0.7);
-      color: var(--leaf-dark);
-      box-shadow: none;
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 34px rgba(21, 84, 58, 0.26);
-    }
-
-    .study-board {
-      position: relative;
-      min-height: 390px;
-      border: 1px solid rgba(23, 33, 24, 0.22);
+    .button.secondary { color: #183756; background: rgba(255, 255, 255, .7); box-shadow: none; }
+    .hero-visual {
+      width: 100%;
+      aspect-ratio: 1200 / 760;
+      border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 24px;
-      background:
-        linear-gradient(135deg, rgba(255, 253, 247, 0.92), rgba(232, 220, 199, 0.86)),
-        repeating-linear-gradient(0deg, transparent 0 31px, rgba(23, 33, 24, 0.08) 31px 32px);
+      object-fit: cover;
       box-shadow: var(--shadow);
-      overflow: hidden;
+      background: var(--sky);
     }
-
-    .study-board::before {
-      content: "";
-      position: absolute;
-      inset: 17px;
-      border: 1px dashed rgba(31, 122, 77, 0.28);
-      pointer-events: none;
-    }
-
-    .code-card {
-      position: relative;
-      display: grid;
-      gap: 12px;
-      margin: 26px 0 0;
-      padding: 18px;
-      border-radius: 8px;
-      color: #f4f8ef;
-      font-family: "Consolas", "Courier New", monospace;
-      background: #20372b;
-      box-shadow: 0 16px 36px rgba(27, 44, 31, 0.24);
-    }
-
-    .code-line {
-      display: flex;
-      gap: 14px;
-      font-size: 15px;
-      line-height: 1.55;
-      white-space: nowrap;
-    }
-
-    .code-line span:first-child {
-      color: #a7b9a9;
-      user-select: none;
-    }
-
-    .token {
-      color: #f1c76c;
-    }
-
-    .board-note {
-      position: relative;
-      margin: 0;
-      color: var(--leaf-dark);
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1.25;
-    }
-
-    .board-meta {
-      position: relative;
+    .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 22px;
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
+      margin-top: 18px;
     }
-
-    .board-meta div {
+    .stat {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 12px;
-      background: rgba(255, 253, 247, 0.62);
+      padding: 14px;
+      background: rgba(255, 255, 255, .72);
     }
-
-    .board-meta span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .board-meta strong {
-      display: block;
-      margin-top: 4px;
-      color: var(--ink);
-      font-size: 16px;
-    }
-
+    .stat strong { display: block; font-family: Georgia, "Noto Serif SC", serif; font-size: 26px; color: var(--blue); }
+    .stat span { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; }
+    .band { padding: 58px 0; border-top: 1px solid var(--line); }
+    .band.alt { background: rgba(233, 242, 255, .52); }
     .section-head {
       display: grid;
-      grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.7fr);
-      gap: 32px;
+      grid-template-columns: minmax(0, .72fr) minmax(280px, .58fr);
+      gap: 30px;
       align-items: end;
-      margin: 34px 0 20px;
-      padding-top: 12px;
-      border-top: 1px solid var(--line);
+      margin-bottom: 24px;
     }
-
-    .section-head h2 {
+    h2 {
       margin: 0;
-      font-size: clamp(30px, 5vw, 54px);
-      line-height: 1;
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
     }
-
-    .section-head p {
-      margin: 0;
-      color: var(--muted);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      line-height: 1.75;
-    }
-
-    .resource-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .resource-card {
-      position: relative;
-      display: grid;
-      min-height: 310px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 24px;
-      background: rgba(255, 253, 247, 0.82);
-      box-shadow: 0 14px 40px rgba(27, 44, 31, 0.08);
-      overflow: hidden;
-      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-    }
-
-    .resource-card::after {
-      content: "";
-      position: absolute;
-      right: -52px;
-      bottom: -70px;
-      width: 190px;
-      height: 190px;
-      border: 30px solid rgba(31, 122, 77, 0.09);
-      transform: rotate(16deg);
-    }
-
-    .resource-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(31, 122, 77, 0.38);
-      box-shadow: 0 22px 56px rgba(27, 44, 31, 0.13);
-    }
-
-    .tag {
-      width: fit-content;
-      height: fit-content;
-      border-radius: 999px;
-      padding: 7px 11px;
-      color: var(--leaf-dark);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      background: rgba(31, 122, 77, 0.1);
-    }
-
-    .resource-card h3 {
-      position: relative;
-      z-index: 1;
-      margin: 22px 0 0;
-      font-size: clamp(25px, 4vw, 38px);
-      line-height: 1.08;
-    }
-
-    .resource-card p {
-      position: relative;
-      z-index: 1;
-      margin: 18px 0 0;
-      color: var(--muted);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      line-height: 1.75;
-    }
-
-    .card-footer {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      align-self: end;
-      margin-top: 28px;
-      border-top: 1px solid var(--line);
-      padding-top: 16px;
-      color: var(--leaf-dark);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      font-weight: 700;
-    }
-
-    .card-footer span:last-child {
-      color: var(--amber);
-      font-size: 20px;
-    }
-
-    .future {
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .flow {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
+      gap: 14px;
     }
-
-    .download-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .download-link {
-      display: grid;
-      gap: 8px;
+    .flow-step, .pitfall, .error-card, .source-item, .download-link {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 16px;
-      background: rgba(255, 253, 247, 0.72);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      background: rgba(255, 255, 255, .78);
+      box-shadow: 0 12px 32px rgba(23, 32, 51, .07);
     }
-
-    .download-link:hover {
-      transform: translateY(-2px);
-      border-color: rgba(31, 122, 77, 0.38);
-      background: var(--chalk);
+    .flow-step { min-height: 178px; padding: 19px; }
+    .flow-step b {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--teal);
+      font-family: Georgia, serif;
+      font-size: 19px;
     }
-
-    .download-link strong {
-      color: var(--ink);
-      font-family: "Palatino Linotype", "Book Antiqua", "Noto Serif SC", serif;
-      font-size: 21px;
-      line-height: 1.2;
+    .flow-step h3, .pitfall h3, .error-card h3 { margin: 16px 0 8px; font-size: 21px; }
+    .flow-step p, .pitfall p, .error-card p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .pitfall-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
-
-    .download-link span {
-      color: var(--muted);
+    .pitfall { padding: 20px; }
+    .pitfall .tag {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: #183756;
+      background: var(--sky);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .code-note {
+      margin-top: 14px;
+      border-radius: 8px;
+      padding: 13px;
+      overflow-x: auto;
+      color: #f7f3e8;
+      background: #172033;
       font-size: 14px;
       line-height: 1.55;
     }
-
-    .future div {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 15px;
-      background: rgba(232, 220, 199, 0.52);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      color: var(--muted);
+    .errors {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
     }
-
-    .future strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--ink);
-      font-family: "Palatino Linotype", "Book Antiqua", "Noto Serif SC", serif;
-      font-size: 20px;
+    .error-card { padding: 18px; border-top: 4px solid var(--gold); }
+    .error-card h3 { margin-top: 0; color: #183756; }
+    .source-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
-
-    .footer {
-      margin-top: 34px;
-      border-top: 1px solid var(--line);
-      padding: 22px 0 4px;
-      color: var(--muted);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      font-size: 14px;
+    .source-item {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 13px 15px;
     }
-
-    @media (max-width: 860px) {
-      .page {
-        width: min(100% - 28px, 720px);
-        padding-top: 18px;
-      }
-
-      .topbar,
-      .hero,
-      .section-head,
-      .resource-grid,
-      .download-grid,
-      .future {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar {
-        align-items: flex-start;
-      }
-
-      .nav {
-        justify-content: flex-start;
-      }
-
-      .hero {
-        min-height: auto;
-        gap: 26px;
-        padding-top: 42px;
-      }
-
-      .study-board {
-        min-height: auto;
-      }
-
-      .board-meta {
-        grid-template-columns: 1fr;
-      }
+    .source-item > span {
+      color: var(--coral);
+      font-family: Georgia, serif;
+      font-weight: 800;
     }
+    .source-item p { margin: 0; line-height: 1.7; }
+    .code-source { background: #172033; color: #f9f2df; }
+    .code-source code { white-space: pre-wrap; line-height: 1.6; }
+    .extras {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .downloads {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .download-link { display: grid; gap: 7px; padding: 16px; }
+    .download-link strong { font-family: Georgia, "Noto Serif SC", serif; font-size: 20px; }
+    .download-link span { color: var(--muted); font-size: 14px; line-height: 1.55; }
+    footer { padding: 28px 0 42px; color: var(--muted); border-top: 1px solid var(--line); }
 
+    @media (max-width: 920px) {
+      .topbar-inner, .hero, .section-head { grid-template-columns: 1fr; }
+      .topbar-inner { align-items: flex-start; padding: 14px 0; }
+      .nav { justify-content: flex-start; }
+      .hero { min-height: auto; }
+      .flow, .pitfall-grid, .errors, .extras, .downloads, .stats { grid-template-columns: 1fr; }
+    }
     @media (max-width: 560px) {
-      h1 {
-        font-size: 42px;
-      }
-
-      .lead {
-        font-size: 16px;
-      }
-
-      .hero-actions,
-      .card-footer {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .code-card {
-        overflow-x: auto;
-      }
-
-      .resource-card {
-        min-height: 280px;
-        padding: 20px;
-      }
+      .wrap { width: min(100% - 24px, 560px); }
+      h1 { font-size: 42px; }
+      .lead { font-size: 16px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button { width: 100%; }
+      .source-item { grid-template-columns: 42px minmax(0, 1fr); padding: 12px; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header class="topbar">
-      <a class="brand" href="/gesp.html" aria-label="Faruto GESP 首页">
-        <strong>Faruto</strong>
-        <span>GESP 编程学习</span>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/gesp.html" aria-label="Daniel's 编程宝典首页">
+        <strong>Daniel's 编程宝典</strong>
+        <span>GESP / C++ / 小葵错题本</span>
       </a>
       <nav class="nav" aria-label="页面导航">
-        <a href="/test.html" target="_blank" rel="noopener noreferrer">Faruto Preview</a>
-        <a href="/html/index.html" target="_blank" rel="noopener noreferrer">Archive</a>
-        <a href="#resources">学习资料</a>
-        <a href="#documents">文档下载</a>
+        <a href="#flow">做题流程</a>
+        <a href="#pitfalls">易错坑点</a>
+        <a href="#source">Word 全文</a>
+        <a href="#downloads">资料入口</a>
+        <a href="/test.html" target="_blank" rel="noopener noreferrer">Faruto 导航</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
-    <main>
-      <section class="hero">
-        <div>
-          <p class="eyebrow">GESP / C++ / STL / Algorithms</p>
-          <h1>把考级知识整理成可反复打开的编程书桌</h1>
-          <p class="lead">这里收纳 GESP 考级相关的 C++ STL、算法可视化和编程学习资料，后续可以继续扩展真题练习、代码模板和学习路线。</p>
-          <div class="hero-actions">
-            <a class="button" href="#resources">查看学习资料</a>
-            <a class="button secondary" href="/test.html" target="_blank" rel="noopener noreferrer">返回 Faruto 导航</a>
-          </div>
+  <main>
+    <section class="wrap hero">
+      <div>
+        <p class="eyebrow">For Daniel / 小葵 / GESP 备考</p>
+        <h1>把每次踩坑，变成下一次 AC 的检查表。</h1>
+        <p class="lead">这页来自《GESP-编程做题检查步骤-2026.docx》：保留 Daniel（小葵）的原始总结，并整理成考前能快速打开的网页宝典。重点不是背更多知识点，而是在提交前少犯那些最容易丢分的小错误。</p>
+        <div class="hero-actions">
+          <a class="button" href="#flow">先看提交前流程</a>
+          <a class="button secondary" href="#source">查看原始 Word 全文</a>
         </div>
+        <div class="stats" aria-label="页面摘要">
+          <div class="stat"><strong>143</strong><span>条原始 Word 内容</span></div>
+          <div class="stat"><strong>7</strong><span>步考场检查流程</span></div>
+          <div class="stat"><strong>12+</strong><span>补充易错提醒</span></div>
+        </div>
+      </div>
+      <img class="hero-visual" src="/gesp/daniel-coding-map.svg" alt="Daniel's 编程宝典 GESP 做题检查流程图">
+    </section>
 
-        <aside class="study-board" aria-label="GESP 学习看板">
-          <p class="board-note">C++ STL 和算法专题，是从“会写程序”到“写得更快更稳”的工具箱。</p>
-          <div class="code-card" aria-hidden="true">
-            <div class="code-line"><span>01</span><code><span class="token">vector</span>&lt;int&gt; score;</code></div>
-            <div class="code-line"><span>02</span><code>sort(score.begin(), score.end());</code></div>
-            <div class="code-line"><span>03</span><code><span class="token">map</span>&lt;string, int&gt; rank;</code></div>
-            <div class="code-line"><span>04</span><code>queue&lt;Node&gt; bfs;</code></div>
-          </div>
-          <div class="board-meta">
-            <div><span>Topic</span><strong>STL</strong></div>
-            <div><span>Language</span><strong>C++</strong></div>
-            <div><span>Track</span><strong>GESP</strong></div>
-          </div>
-        </aside>
-      </section>
-
-      <section id="resources" aria-labelledby="resources-title">
+    <section id="flow" class="band alt">
+      <div class="wrap">
         <div class="section-head">
-          <h2 id="resources-title">学习资料</h2>
-          <p>所有页面都放入网站的 `/gesp/` 目录：包含 STL 手册、STL 动画演示，以及二分答案算法专题。</p>
+          <h2>考场提交前 7 步</h2>
+          <p>从 Word 原文里抽出的主线：读题、手算、定变量、写代码、跑样例、测边界、再提交。每一步都很小，但能挡住很多低级错误。</p>
         </div>
-
-        <div class="resource-grid">
-          <a class="resource-card" href="/gesp/stl-animation.html" target="_blank" rel="noopener noreferrer">
-            <span class="tag">STL Animation</span>
-            <h3>GESP 考级 C++ STL 动画演示</h3>
-            <p>用可视化方式理解常用容器和算法的运行过程，适合在学习 STL 时对照观察步骤、状态变化和典型用法。</p>
-            <div class="card-footer">
-              <span>打开动画版</span>
-              <span aria-hidden="true">→</span>
-            </div>
-          </a>
-
-          <a class="resource-card" href="/gesp/stl-handbook.html" target="_blank" rel="noopener noreferrer">
-            <span class="tag">STL Handbook</span>
-            <h3>GESP 考级 C++ STL 全套手册</h3>
-            <p>系统整理 STL 容器、算法、适用场景和常见写法，适合作为考级复习与日常刷题时的速查资料。</p>
-            <div class="card-footer">
-              <span>打开手册版</span>
-              <span aria-hidden="true">→</span>
-            </div>
-          </a>
-
-          <a class="resource-card" href="/gesp/binary-search-chocolate.html" target="_blank" rel="noopener noreferrer">
-            <span class="tag">Binary Search</span>
-            <h3>二分答案：分巧克力问题</h3>
-            <p>用互动可视化拆解“答案范围、检查函数、左右边界收缩”的完整过程，适合作为二分答案专题入门案例。</p>
-            <div class="card-footer">
-              <span>打开算法专题</span>
-              <span aria-hidden="true">→</span>
-            </div>
-          </a>
+        <div class="flow">
+          <article class="flow-step"><b>1</b><h3>认真读题两遍</h3><p>尤其看括号、样例解释、输入输出格式和数据范围。先把样例为什么得到输出想清楚。</p></article>
+          <article class="flow-step"><b>2</b><h3>用草稿纸手算</h3><p>遇到循环、数组、字符串、选择题时，先模拟一轮状态变化，别急着敲代码。</p></article>
+          <article class="flow-step"><b>3</b><h3>先定变量类型</h3><p>三级以上编程题，整数优先考虑 long long；多组样例里的 sum、flag、cnt 每次重置。</p></article>
+          <article class="flow-step"><b>4</b><h3>写完整框架</h3><p>头文件、main、return 0、分号、输入输出格式先搭好，避免 CE 类小错。</p></article>
+          <article class="flow-step"><b>5</b><h3>跑完全部样例</h3><p>严格对照大小写、空格、换行、逗号，Yes/No 这种输出不要凭感觉。</p></article>
+          <article class="flow-step"><b>6</b><h3>自造边界数据</h3><p>多试 0、1、最大值、最小值、只有一个元素、全部相同、升序/降序等情况。</p></article>
+          <article class="flow-step"><b>7</b><h3>错了先读报错</h3><p>TLE 查复杂度和死循环，WA 查逻辑和边界，CE 查语法，RE 查越界、除零和递归。</p></article>
+          <article class="flow-step"><b>✓</b><h3>时间不够先跳题</h3><p>卡住时不要硬扛。先把能拿的分拿到，再回来逐字检查这道题。</p></article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="documents" aria-labelledby="documents-title">
+    <section id="pitfalls" class="band">
+      <div class="wrap">
         <div class="section-head">
-          <h2 id="documents-title">相关手册与文档</h2>
-          <p>保留网页阅读版，同时提供 Word 和 PPT 源文档，便于后续继续编辑、讲解或课堂展示。</p>
+          <h2>Daniel 重点坑点</h2>
+          <p>这些都是小学生编程考级里特别容易丢分的地方：写错一个字符、漏一次初始化、输出多一个空格，都可能从会做变成 WA。</p>
         </div>
-        <div class="download-grid">
-          <a class="download-link" href="/gesp/stl-handbook.html" target="_blank" rel="noopener noreferrer">
-            <strong>STL 网页手册</strong>
-            <span>在线阅读版，适合快速查阅。</span>
-          </a>
-          <a class="download-link" href="/gesp/stl-handbook.docx" target="_blank" rel="noopener noreferrer">
-            <strong>STL Word 文档</strong>
-            <span>可编辑手册源文件。</span>
-          </a>
-          <a class="download-link" href="/gesp/stl-handbook.pptx" target="_blank" rel="noopener noreferrer">
-            <strong>STL PPT 文档</strong>
-            <span>可用于讲解和展示。</span>
-          </a>
+        <div class="pitfall-grid">
+          <article class="pitfall"><span class="tag">循环变量</span><h3>i / j / k 别串台</h3><p>双重循环里外层是 i、内层是 j，复制代码后一定检查自增变量和数组下标。</p><pre class="code-note"><code>for (j = 1; j <= n; j++)  // 不是 i++</code></pre></article>
+          <article class="pitfall"><span class="tag">判断条件</span><h3>= 和 == 分清楚</h3><p>判断时可以把常量写在前面，减少把赋值当判断的机会。</p><pre class="code-note"><code>if (1 == flag) { ... }</code></pre></article>
+          <article class="pitfall"><span class="tag">初始化</span><h3>多组数据每轮清空</h3><p>sum、cnt、flag、数组、最大最小值，都要确认初始化位置是不是在每组数据开始处。</p></article>
+          <article class="pitfall"><span class="tag">整数范围</span><h3>int 不够就用 long long</h3><p>看到乘法、累加、排序后的总和、很大的 n，先判断是否会超过 int。</p></article>
+          <article class="pitfall"><span class="tag">字符串数组</span><h3>索引和长度不是一回事</h3><p>下标通常是 0 到 n-1，长度通常是 1 到 n。循环变量到底代表下标还是长度，先写清楚。</p></article>
+          <article class="pitfall"><span class="tag">输出格式</span><h3>大小写、空格、换行</h3><p>Yes/No、每行输出几个数、末尾是否换行，都要照题目，不要用自己的习惯。</p></article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section aria-labelledby="future-title">
+    <section class="band alt">
+      <div class="wrap">
         <div class="section-head">
-          <h2 id="future-title">后续可扩展</h2>
-          <p>这个页面先作为入口骨架，后续新增内容时只需要继续往资源区追加卡片或专题分组。</p>
+          <h2>错误反馈速查</h2>
+          <p>提交后没过时，先按反馈类型缩小范围。不要一上来全改，先找到最可能的那一类问题。</p>
         </div>
-        <div class="future" aria-label="未来内容方向">
-          <div><strong>考级路线</strong>级别目标、知识点清单、复习节奏。</div>
-          <div><strong>算法专题</strong>排序、搜索、递推、图论基础。</div>
-          <div><strong>代码模板</strong>常用输入输出、容器、函数模板。</div>
-          <div><strong>练习资料</strong>真题、错题、讲解与扩展题。</div>
+        <div class="errors">
+          <article class="error-card"><h3>TLE</h3><p>超时。查死循环、复杂度、重复计算、输入输出效率。</p></article>
+          <article class="error-card"><h3>MLE</h3><p>内存超限。查数组太大、缓存太多、递归太深。</p></article>
+          <article class="error-card"><h3>CE</h3><p>编译错误。查分号、括号、头文件、变量名、函数参数。</p></article>
+          <article class="error-card"><h3>WA</h3><p>答案错误。查逻辑、边界、数据范围、输出格式。</p></article>
+          <article class="error-card"><h3>RE</h3><p>运行错误。查数组越界、除以零、栈溢出、非法访问。</p></article>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <footer class="footer">
-      <p>Faruto / FQuantStudio · GESP 编程学习导航</p>
-    </footer>
-  </div>
+    <section class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>我补充的小学生 GESP 易错清单</h2>
+          <p>在原文基础上，再补一些 GESP 和入门竞赛常见坑，适合考前最后一天快速过一遍。</p>
+        </div>
+        <div class="pitfall-grid">
+          <article class="pitfall"><span class="tag">读入</span><h3>cin 混 getline</h3><p>如果先用 cin 再 getline，中间可能残留换行。需要先处理掉换行，或者统一读入方式。</p></article>
+          <article class="pitfall"><span class="tag">数组</span><h3>开大一点，但别离谱</h3><p>数组大小要覆盖最大 n。下标从 0 还是 1 开始，全题保持一致。</p></article>
+          <article class="pitfall"><span class="tag">除法</span><h3>整数除法会截断</h3><p>平均数、比例、小数输出时，确认是不是需要 double，别让 5 / 2 变成 2。</p></article>
+          <article class="pitfall"><span class="tag">排序</span><h3>排序区间左闭右开</h3><p>vector 常用 sort(a.begin(), a.end())；数组从 1 开始时常用 sort(a+1, a+n+1)。</p></article>
+          <article class="pitfall"><span class="tag">二分</span><h3>边界必须能收缩</h3><p>while 条件、mid、l/r 更新要保证每轮范围变小，防止死循环。</p></article>
+          <article class="pitfall"><span class="tag">审题</span><h3>“不正确的是”要圈出来</h3><p>选择题里“不对”“不能”“至少”“至多”都要标记，别把题目方向读反。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="source" class="band alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>原始 Word 全文</h2>
+          <p>以下逐条来自 Word 原文，保留所有非空段落；代码样式的行单独用深色块显示，便于 Daniel 复习时快速定位。</p>
+        </div>
+        <ol class="source-list">
+          <li class="source-item"><span>01</span><p>给亲爱的小葵的编程秘籍</p></li>
+<li class="source-item"><span>02</span><p>GESP-编程做题检查步骤-2025</p></li>
+<li class="source-item"><span>03</span><p>新坑注意点：</p></li>
+<li class="source-item code-source"><span>04</span><code>string多样例时注意初始化使用（根据具体题目内容） s=&quot;&quot;;</code></li>
+<li class="source-item code-source"><span>05</span><code>【1】三级以上编程题目 统一90%情形long long来定义整型变量，能彻底解决问题：long long i,j,k,sum=0; 类似方式。</code></li>
+<li class="source-item"><span>06</span><p>【2】注意排序时也要用long long:</p></li>
+<li class="source-item code-source"><span>07</span><code>cin&gt;&gt;n;</code></li>
+<li class="source-item code-source"><span>08</span><code>long long g[n]</code></li>
+<li class="source-item code-source"><span>09</span><code>sort(g+1,g+n+1,greater&lt;long long&gt;());</code></li>
+<li class="source-item code-source"><span>10</span><code>vector &lt;long long&gt; g(n+1,0);</code></li>
+<li class="source-item code-source"><span>11</span><code>sort(g.begin()+1,g.end(),greater&lt;long long&gt;());</code></li>
+<li class="source-item code-source"><span>12</span><code>reverse(g.begin(),g.end())</code></li>
+<li class="source-item"><span>13</span><p>编程做题步骤：</p></li>
+<li class="source-item"><span>14</span><p>认真读题（认真读题目文字），一定注意题目中一些括号中的内容，详细研读题目给的样例以及样例解释/样例说明，把样例从输入怎么得到的输出结果，计算过程思考清楚！这样就能有初步思路（这里可以动笔）；</p></li>
+<li class="source-item"><span>15</span><p>重复上面过程两遍，认真读题--&gt;研究样例--&gt;思考计算过程。</p></li>
+<li class="source-item"><span>16</span><p>题目中的数据范围也要注意，涉及到变量的选择和定义！</p></li>
+<li class="source-item"><span>17</span><p>编写完成之后，不要着急提交，要把样例以及边界值全部尝试一下，没有问题之后再在系统中进行提交！</p></li>
+<li class="source-item"><span>18</span><p>编程部分：常见语法错误！重点查看！各种深坑！</p></li>
+<li class="source-item code-source"><span>19</span><code>（1）for循环相关：for(j=1;j&lt;=n;i++) 正确写法：for(j=1;j&lt;=n;j++) 使用多个循环变量i j k s t一定不要前后弄混！仔细检查！双重循环直接手动敲入！</code></li>
+<li class="source-item code-source"><span>20</span><code>（2）if判断==的使用 if(flag=1) 正确写法：if( 1 == flag ) 使用==判断时 把数字写在前面</code></li>
+<li class="source-item"><span>21</span><p>（3）变量初始化 以及 变量初始化位置 一定要注意，尤其是多个样例的类型题目！！！</p></li>
+<li class="source-item"><span>22</span><p>（4）复制自己其他部分的代码后，里面检查复制的代码是否满足要求，以及相应的变量、索引、或者相关的是否需要修改和调整一下！！！</p></li>
+<li class="source-item"><span>23</span><p>编程部分：动笔 最后一定要动笔检查计算过程！！</p></li>
+<li class="source-item"><span>24</span><p>程序提交后没有通过出现问题时解决步骤：</p></li>
+<li class="source-item"><span>25</span><p>首先先去再重新读一下题目，包括题目要求以及输入输出格式要求，然后再读一下程序逻辑是否有问题。</p></li>
+<li class="source-item"><span>26</span><p>看报错类型针对解决</p></li>
+<li class="source-item"><span>27</span><p>TLE:超时了，检查变量类型是否承载不了数据，检查是否while死循环了，质数检测范围；</p></li>
+<li class="source-item"><span>28</span><p>MLE:内存超限了，</p></li>
+<li class="source-item"><span>29</span><p>WA错误答案:程序逻辑有问题！</p></li>
+<li class="source-item"><span>30</span><p>编译错误(CE) 程序语法有问题！</p></li>
+<li class="source-item"><span>31</span><p>RE (Runtime Error) - 运行时错误 程序逻辑有问题！</p></li>
+<li class="source-item"><span>32</span><p>以上还没解决的话</p></li>
+<li class="source-item"><span>33</span><p>先去再重新读一下题目，包括题目要求、边界值以及输入输出格式要求，然后再读一下程序逻辑是否有问题。（最后仔仔细细从头到尾，一个字母一个字母详细读程序！）</p></li>
+<li class="source-item"><span>34</span><p>但要注意剩余时间，如果时间剩余不多，可以先做其他题目。</p></li>
+<li class="source-item"><span>35</span><p>多重循环的时候一定要检查一下循环变量的名字是否用错了。</p></li>
+<li class="source-item"><span>36</span><p>比如外层循环变量是i，内层循环变量是j，内层相关运算变量该用j的地方错误写成了i。这里一定要注意检查！！！</p></li>
+<li class="source-item code-source"><span>37</span><code>//substr(起始位置，提取长度)</code></li>
+<li class="source-item"><span>38</span><p>涉及到数组以及字符串循环时，要确定循环变量到底是代表什么意思，是索引（序号下标）还是长度，数组索引范围是 0,1, ...,n-1，长度变化范围是1,2,...,n，一定要注意！</p></li>
+<li class="source-item"><span>39</span><p>仔细读题</p></li>
+<li class="source-item code-source"><span>40</span><code>注意变量类型（int long long double bool）、注意变量范围；</code></li>
+<li class="source-item"><span>41</span><p>-2的31次方到2的31次方-1</p></li>
+<li class="source-item"><span>42</span><p>-2,147,483,648 到 2,147,483,647（10位数）</p></li>
+<li class="source-item"><span>43</span><p>梳理算法</p></li>
+<li class="source-item"><span>44</span><p>思考、梳理算法该怎么实现；</p></li>
+<li class="source-item"><span>45</span><p>先编写框架</p></li>
+<li class="source-item"><span>46</span><p>头文件、main、最后的return 0;别忘记写</p></li>
+<li class="source-item"><span>47</span><p>分号别忘记写；</p></li>
+<li class="source-item"><span>48</span><p>定义变量、写输入、输出</p></li>
+<li class="source-item"><span>49</span><p>全部变量都要初始化一下！输出要注意题目要求的格式。</p></li>
+<li class="source-item"><span>50</span><p>Yes No 首字母是否大写，以及是换行还是空格还是逗号。</p></li>
+<li class="source-item"><span>51</span><p>yeS nO yEs n0</p></li>
+<li class="source-item"><span>52</span><p>最后全部样例都需要运行</p></li>
+<li class="source-item"><span>53</span><p>严格查看运行的样例和题目给出的是否一致。</p></li>
+<li class="source-item"><span>54</span><p>Yes No 等相关英文字母首字母是否大写，以及是换行还是空格还是逗号。</p></li>
+<li class="source-item"><span>55</span><p>每行代码后面的分号一定不要忘记；出现bug的时候要仔细读报错内容！</p></li>
+<li class="source-item"><span>56</span><p>5-1全部样例运行之后，要运行一下变量范围的边界值，可以多出2个样例，检测异常情况</p></li>
+<li class="source-item"><span>57</span><p>对于多个样例输入的题目</p></li>
+<li class="source-item"><span>58</span><p>多个样例输入的题目，相关变量每次都需要初始化。</p></li>
+<li class="source-item"><span>59</span><p>比如sum flag cnt等变量在循环开始前都需要初始化！！</p></li>
+<li class="source-item"><span>60</span><p>以及求最大值、最小值的 初始值也需要初始化，在while的时候。tmax tmin初始化</p></li>
+<li class="source-item"><span>61</span><p>数组进行求和也要进行数组的初始化</p></li>
+<li class="source-item"><span>62</span><p>a b初始值大小不确定时：</p></li>
+<li class="source-item code-source"><span>63</span><code>for(i=min(a,b)+1;i&lt;=max(a,b)-1;i++)</code></li>
+<li class="source-item"><span>64</span><p>选择题、单选题部分：</p></li>
+<li class="source-item"><span>65</span><p>在C++, continue 语句通常与 if 语句配合使用。 这个是正确的。</p></li>
+<li class="source-item"><span>66</span><p>continue 主要用于循环结构（如 for、while、do-while），而 if 语句用于控制 continue 的执行条件。</p></li>
+<li class="source-item"><span>67</span><p>仔细读题</p></li>
+<li class="source-item"><span>68</span><p>“以下哪个选项不对”这种坑要注意；</p></li>
+<li class="source-item"><span>69</span><p>涉及到循环的题目可以用草稿纸模拟计算一下</p></li>
+<li class="source-item"><span>70</span><p>最后检查2遍（从头到尾检查一遍、从尾到头检查一遍）</p></li>
+<li class="source-item"><span>71</span><p>涉及到循环的题目全部用草稿纸模拟计算一下，交叉核对。</p></li>
+<li class="source-item"><span>72</span><p>for循环尤其要注意: 初始值、判断条件、自增/自减值，一定要认真看！！！</p></li>
+<li class="source-item code-source"><span>73</span><code>样例：for(i=3333; i&lt;99; i+=5)</code></li>
+<li class="source-item"><span>74</span><p>C++中的整数字面量规则</p></li>
+<li class="source-item"><span>75</span><p>为了更权威地确认，我们可以参考C++中整数字面量的表示：</p></li>
+<li class="source-item"><span>76</span><p>十进制：以非零数字开头，例如100。</p></li>
+<li class="source-item"><span>77</span><p>八进制：以0开头，后面跟八进制数字（0-7），例如010、001。</p></li>
+<li class="source-item"><span>78</span><p>十六进制：以0x或0X开头，例如0x1A。</p></li>
+<li class="source-item"><span>79</span><p>二进制（C++14起）：以0b或0B开头，例如0b101。</p></li>
+<li class="source-item"><span>80</span><p>因此，010和001确实是八进制数。</p></li>
+<li class="source-item"><span>81</span><p># 编程竞赛常见错误反馈及解决方式汇总</p></li>
+<li class="source-item"><span>82</span><p>在编程竞赛和日常编程中，常见的错误反馈包括TLE、MLE、CE等。以下是这些错误的详细解释和解决方法：</p></li>
+<li class="source-item"><span>83</span><p>## 1. TLE (Time Limit Exceeded) - 时间超出限制</p></li>
+<li class="source-item"><span>84</span><p>**原因**：程序运行时间超过了题目规定的限制。</p></li>
+<li class="source-item"><span>85</span><p>**解决方法**：</p></li>
+<li class="source-item"><span>86</span><p>- **优化算法复杂度**：检查是否使用了最优算法（如将O(n²)优化为O(nlogn)）</p></li>
+<li class="source-item"><span>87</span><p>- **减少循环次数**：避免不必要的嵌套循环</p></li>
+<li class="source-item"><span>88</span><p>- **使用更高效的数据结构**：如用哈希表替代线性搜索</p></li>
+<li class="source-item"><span>89</span><p>- **避免重复计算**：使用记忆化或动态规划</p></li>
+<li class="source-item"><span>90</span><p>- **检查输入输出效率**：</p></li>
+<li class="source-item"><span>91</span><p>- C++中使用`ios::sync_with_stdio(false); cin.tie(NULL);`</p></li>
+<li class="source-item"><span>92</span><p>- Java中使用BufferedReader替代Scanner</p></li>
+<li class="source-item"><span>93</span><p>- Python中使用sys.stdin.readline</p></li>
+<li class="source-item"><span>94</span><p>- **提前终止**：在满足条件时及时break或return</p></li>
+<li class="source-item"><span>95</span><p>- **注意语言特性**：Python在某些情况下较慢，可能需要换用PyPy或C++</p></li>
+<li class="source-item"><span>96</span><p>## 2. MLE (Memory Limit Exceeded) - 内存超出限制</p></li>
+<li class="source-item"><span>97</span><p>**原因**：程序使用的内存超过了题目规定的限制。</p></li>
+<li class="source-item"><span>98</span><p>**解决方法**：</p></li>
+<li class="source-item"><span>99</span><p>- **检查数据结构大小**：估算所需内存是否合理</p></li>
+<li class="source-item"><span>100</span><p>- **释放不必要的变量**：及时删除不再需要的大对象</p></li>
+<li class="source-item"><span>101</span><p>- **使用更紧凑的数据结构**：</p></li>
+<li class="source-item"><span>102</span><p>- 用位运算代替布尔数组</p></li>
+<li class="source-item"><span>103</span><p>- 使用更小的数据类型（如short代替int）</p></li>
+<li class="source-item"><span>104</span><p>- **避免过度缓存**：不要预先存储所有结果，考虑即时计算</p></li>
+<li class="source-item"><span>105</span><p>- **优化递归**：过深的递归可能导致栈溢出，改为迭代实现</p></li>
+<li class="source-item"><span>106</span><p>- **检查无限循环**：可能导致内存不断增长</p></li>
+<li class="source-item"><span>107</span><p>## 3. CE (Compilation Error) - 编译错误</p></li>
+<li class="source-item"><span>108</span><p>**原因**：源代码无法通过编译。</p></li>
+<li class="source-item"><span>109</span><p>**解决方法**：</p></li>
+<li class="source-item"><span>110</span><p>- **检查语法错误**：括号不匹配、缺少分号等基本语法问题</p></li>
+<li class="source-item"><span>111</span><p>- **检查语言标准**：确保使用的特性在评判系统支持的语言版本中可用</p></li>
+<li class="source-item"><span>112</span><p>- **检查拼写错误**：变量名、函数名拼写是否正确</p></li>
+<li class="source-item"><span>113</span><p>- **检查头文件/导入**：确保所有需要的库都已正确包含</p></li>
+<li class="source-item"><span>114</span><p>- **检查未声明的标识符**：所有变量和函数是否已正确定义</p></li>
+<li class="source-item"><span>115</span><p>- **检查类型匹配**：函数参数和返回值类型是否正确</p></li>
+<li class="source-item"><span>116</span><p>- **注意语言差异**：如Java类名必须与文件名一致，Python缩进要求等</p></li>
+<li class="source-item"><span>117</span><p>## 其他常见错误</p></li>
+<li class="source-item"><span>118</span><p>### 4. WA (Wrong Answer) - 答案错误</p></li>
+<li class="source-item"><span>119</span><p>- 检查边界条件（如空输入、极值）</p></li>
+<li class="source-item"><span>120</span><p>- 验证算法逻辑是否正确</p></li>
+<li class="source-item"><span>121</span><p>- 检查输出格式是否符合要求</p></li>
+<li class="source-item"><span>122</span><p>- 使用小数据测试找出错误</p></li>
+<li class="source-item"><span>123</span><p>### 5. RE (Runtime Error) - 运行时错误</p></li>
+<li class="source-item"><span>124</span><p>- 检查数组越界访问</p></li>
+<li class="source-item"><span>125</span><p>- 检查除以零情况</p></li>
+<li class="source-item"><span>126</span><p>- 检查空指针/空引用</p></li>
+<li class="source-item"><span>127</span><p>- 检查栈溢出（特别是递归程序）</p></li>
+<li class="source-item"><span>128</span><p>### 6. PE (Presentation Error) - 格式错误</p></li>
+<li class="source-item"><span>129</span><p>- 检查空格、换行符等格式要求</p></li>
+<li class="source-item"><span>130</span><p>- 检查输出顺序是否正确</p></li>
+<li class="source-item"><span>131</span><p>- 检查是否有多余的输出</p></li>
+<li class="source-item"><span>132</span><p>## 调试技巧</p></li>
+<li class="source-item"><span>133</span><p>1. **小数据测试**：构造小规模输入验证程序行为</p></li>
+<li class="source-item"><span>134</span><p>2. **打印调试**：在关键位置输出中间结果</p></li>
+<li class="source-item"><span>135</span><p>3. **静态检查**：仔细阅读代码寻找逻辑错误</p></li>
+<li class="source-item"><span>136</span><p>4. **对拍**：编写暴力解法与优化解法对比结果</p></li>
+<li class="source-item"><span>137</span><p>5. **代码复审**：休息后再检查代码可能有新发现</p></li>
+<li class="source-item"><span>138</span><p>## 预防措施</p></li>
+<li class="source-item"><span>139</span><p>1. **编码规范**：保持一致的编码风格减少低级错误</p></li>
+<li class="source-item"><span>140</span><p>2. **模块化**：将功能分解为小函数便于测试</p></li>
+<li class="source-item"><span>141</span><p>3. **注释**：关键算法添加注释帮助理解</p></li>
+<li class="source-item"><span>142</span><p>4. **测试用例**：预先准备各种边界情况的测试数据</p></li>
+<li class="source-item"><span>143</span><p>掌握这些错误类型及其解决方法，能帮助你在编程竞赛和日常开发中更高效地定位和解决问题。</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="downloads" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>资料入口</h2>
+          <p>保留已有 GESP 资料入口，同时提供本页对应的原始 Word 下载，后续可以继续往这个专区加专题。</p>
+        </div>
+        <div class="downloads">
+          <a class="download-link" href="/gesp/daniel-coding-guide.docx" target="_blank" rel="noopener noreferrer"><strong>原始 Word</strong><span>Daniel 的编程做题检查步骤源文件。</span></a>
+          <a class="download-link" href="/gesp/stl-animation.html" target="_blank" rel="noopener noreferrer"><strong>STL 动画</strong><span>可视化理解 C++ STL 容器和算法。</span></a>
+          <a class="download-link" href="/gesp/stl-handbook.html" target="_blank" rel="noopener noreferrer"><strong>STL 手册</strong><span>GESP C++ STL 全套手册网页版。</span></a>
+          <a class="download-link" href="/gesp/binary-search-chocolate.html" target="_blank" rel="noopener noreferrer"><strong>二分专题</strong><span>分巧克力问题与二分答案演示。</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Faruto / FQuantStudio · Daniel's 编程宝典 · 生成自 GESP-编程做题检查步骤-2026.docx</div>
+  </footer>
 </body>
 </html>

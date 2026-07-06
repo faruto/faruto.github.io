@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Daniel's 编程宝典复习地图</title>
+  <desc id="desc">从读题、建模、编码、样例、边界、提交到复盘的 GESP 编程检查流程图。</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff7df"/>
+      <stop offset="0.52" stop-color="#f7ead2"/>
+      <stop offset="1" stop-color="#e9f2ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#0f1c2d" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="760" rx="36" fill="#182337"/>
+  <path d="M0 150 C210 80 352 245 560 130 C760 19 928 84 1200 36 L1200 760 L0 760 Z" fill="#1c7c7b" opacity=".34"/>
+  <path d="M68 88 h1064 v584 H68z" rx="30" fill="url(#paper)" filter="url(#shadow)"/>
+  <path d="M108 145 h984" stroke="#26374f" stroke-opacity=".18" stroke-width="3"/>
+  <text x="108" y="132" font-family="Georgia, 'Noto Serif SC', serif" font-size="44" fill="#172033" font-weight="700">Daniel's 编程宝典</text>
+  <text x="762" y="130" font-family="'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="24" fill="#2f5c7c">GESP 做题检查流程</text>
+  <g font-family="'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="24" fill="#172033" font-weight="700">
+    <rect x="116" y="205" width="214" height="118" rx="22" fill="#ffffff"/>
+    <text x="148" y="255">1. 读题两遍</text>
+    <text x="148" y="290" font-size="18" fill="#566274" font-weight="400">圈数据范围、格式、样例</text>
+    <rect x="386" y="205" width="214" height="118" rx="22" fill="#fff4d6"/>
+    <text x="418" y="255">2. 手算样例</text>
+    <text x="418" y="290" font-size="18" fill="#6a5a2f" font-weight="400">先想过程，再写代码</text>
+    <rect x="656" y="205" width="214" height="118" rx="22" fill="#e9f7f0"/>
+    <text x="688" y="255">3. 定变量</text>
+    <text x="688" y="290" font-size="18" fill="#3c6a58" font-weight="400">long long / 初始化</text>
+    <rect x="926" y="205" width="154" height="118" rx="22" fill="#ffe8e0"/>
+    <text x="954" y="255">4. 编码</text>
+    <text x="954" y="290" font-size="18" fill="#784938" font-weight="400">循环变量别写错</text>
+    <rect x="180" y="420" width="214" height="118" rx="22" fill="#e8f0ff"/>
+    <text x="212" y="470">5. 跑样例</text>
+    <text x="212" y="505" font-size="18" fill="#435b81" font-weight="400">大小写、空格、换行</text>
+    <rect x="456" y="420" width="214" height="118" rx="22" fill="#ffffff"/>
+    <text x="488" y="470">6. 测边界</text>
+    <text x="488" y="505" font-size="18" fill="#566274" font-weight="400">0、1、最大值、多组</text>
+    <rect x="732" y="420" width="214" height="118" rx="22" fill="#fff4d6"/>
+    <text x="764" y="470">7. 再提交</text>
+    <text x="764" y="505" font-size="18" fill="#6a5a2f" font-weight="400">CE/TLE/WA 对症查</text>
+  </g>
+  <g stroke="#172033" stroke-width="4" stroke-opacity=".35" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M330 264 h56"/>
+    <path d="M600 264 h56"/>
+    <path d="M870 264 h56"/>
+    <path d="M1003 323 C1003 385 848 377 848 420"/>
+    <path d="M732 479 h-62"/>
+    <path d="M456 479 h-62"/>
+  </g>
+  <g font-family="Consolas, 'Courier New', monospace" font-size="22">
+    <rect x="156" y="590" width="888" height="42" rx="10" fill="#172033"/>
+    <text x="182" y="619" fill="#ffd166">if (1 == flag)  // 把常量写前面，防止 = 和 == 混用</text>
+  </g>
+</svg>
