@@ -10,7 +10,7 @@
   <meta property="og:locale" content="zh_CN">
   <meta property="og:url" content="https://www.faruto.com/gesp.html">
   <meta property="og:title" content="Faruto | GESP 编程学习">
-  <meta property="og:description" content="GESP 考级、C++ STL、算法专题与编程学习资料入口。">
+  <meta property="og:description" content="GESP 考级、C++ STL、算法专题与编程学习内容入口。">
   <style>
     :root {
       --ink: #172118;
@@ -384,43 +384,6 @@
       margin-top: 18px;
     }
 
-    .download-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .download-link {
-      display: grid;
-      gap: 8px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 16px;
-      background: rgba(255, 253, 247, 0.72);
-      font-family: "Trebuchet MS", "Noto Sans SC", sans-serif;
-      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-    }
-
-    .download-link:hover {
-      transform: translateY(-2px);
-      border-color: rgba(31, 122, 77, 0.38);
-      background: var(--chalk);
-    }
-
-    .download-link strong {
-      color: var(--ink);
-      font-family: "Palatino Linotype", "Book Antiqua", "Noto Serif SC", serif;
-      font-size: 21px;
-      line-height: 1.2;
-    }
-
-    .download-link span {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
     .future div {
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -457,7 +420,6 @@
       .hero,
       .section-head,
       .resource-grid,
-      .download-grid,
       .future {
         grid-template-columns: 1fr;
       }
@@ -526,7 +488,6 @@
         <a href="/test.html" target="_blank" rel="noopener noreferrer">Faruto Preview</a>
         <a href="/html/index.html" target="_blank" rel="noopener noreferrer">Archive</a>
         <a href="#resources">学习资料</a>
-        <a href="#documents">文档下载</a>
         <a href="/gesp/daniel-coding-guide.html" target="_blank" rel="noopener noreferrer">Daniel 编程宝典</a>
         <a href="/gesp/matrix-neighborhood-practice.html" target="_blank" rel="noopener noreferrer">矩阵邻域 10 题</a>
       </nav>
@@ -615,27 +576,6 @@
               <span>打开算法专题</span>
               <span aria-hidden="true">→</span>
             </div>
-          </a>
-        </div>
-      </section>
-
-      <section id="documents" aria-labelledby="documents-title">
-        <div class="section-head">
-          <h2 id="documents-title">相关手册与文档</h2>
-          <p>保留网页阅读版，同时提供 Word 和 PPT 源文档，便于后续继续编辑、讲解或课堂展示。</p>
-        </div>
-        <div class="download-grid">
-          <a class="download-link" href="/gesp/stl-handbook.html" target="_blank" rel="noopener noreferrer">
-            <strong>STL 网页手册</strong>
-            <span>在线阅读版，适合快速查阅。</span>
-          </a>
-          <a class="download-link" href="/gesp/stl-handbook.docx" target="_blank" rel="noopener noreferrer">
-            <strong>STL Word 文档</strong>
-            <span>可编辑手册源文件。</span>
-          </a>
-          <a class="download-link" href="/gesp/stl-handbook.pptx" target="_blank" rel="noopener noreferrer">
-            <strong>STL PPT 文档</strong>
-            <span>可用于讲解和展示。</span>
           </a>
         </div>
       </section>
