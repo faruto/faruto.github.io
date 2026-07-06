@@ -864,38 +864,54 @@ I..I...
           <pre class="code"><code>#include &lt;iostream&gt;
 using namespace std;
 
+int n, m, q;
 int stone[505][505];
 int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-int main() {
-    int n, m, q;
+// 1. 输入数据模块：读入地图大小和石头坐标。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m &gt;&gt; q;
-    for (int i = 1; i &lt;= q; i++) {
+    for (int k = 1; k &lt;= q; k++) {
         int r, c;
         cin &gt;&gt; r &gt;&gt; c;
         stone[r][c] = 1;
     }
+}
 
+// 判断坐标是否还在地图里面。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：统计 (i, j) 周围 8 个方向的石头数量。
+int countStone(int i, int j) {
+    int cnt = 0;
+    for (int d = 0; d &lt; 8; d++) {
+        int x = i + dx[d];
+        int y = j + dy[d];
+        if (check(x, y, n, m) &amp;&amp; stone[x][y] == 1) {
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
+// 3. 输出模块：石头输出 #，空格输出周围石头数。
+void printAnswer() {
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            if (stone[i][j] == 1) {
-                cout &lt;&lt; &quot;#&quot;;
-            } else {
-                int cnt = 0;
-                for (int d = 0; d &lt; 8; d++) {
-                    int x = i + dx[d];
-                    int y = j + dy[d];
-                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; stone[x][y] == 1) {
-                        cnt++;
-                    }
-                }
-                cout &lt;&lt; cnt;
-            }
+            if (stone[i][j] == 1) cout &lt;&lt; &quot;#&quot;;
+            else cout &lt;&lt; countStone(i, j);
             if (j &lt; m) cout &lt;&lt; &quot; &quot;;
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -918,12 +934,13 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[205][205];
 int dx[4] = {-1, 1, 0, 0};
 int dy[4] = {0, 0, -1, 1};
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入菜地地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
@@ -932,26 +949,41 @@ int main() {
             a[i][j] = s[j - 1];
         }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：只检查上下左右 4 个方向。
+int countPoor(int i, int j) {
+    int cnt = 0;
+    for (int d = 0; d &lt; 4; d++) {
+        int x = i + dx[d];
+        int y = j + dy[d];
+        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;P&#x27;) {
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
+// 3. 输出模块：普通土地输出贫瘠邻居数，其它格子原样输出。
+void printAnswer() {
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;P&#x27; || a[i][j] == &#x27;#&#x27;) {
-                cout &lt;&lt; a[i][j];
-            } else {
-                int cnt = 0;
-                for (int d = 0; d &lt; 4; d++) {
-                    int x = i + dx[d];
-                    int y = j + dy[d];
-                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;P&#x27;) {
-                        cnt++;
-                    }
-                }
-                cout &lt;&lt; cnt;
-            }
+            if (a[i][j] == &#x27;P&#x27; || a[i][j] == &#x27;#&#x27;) cout &lt;&lt; a[i][j];
+            else cout &lt;&lt; countPoor(i, j);
             if (j &lt; m) cout &lt;&lt; &quot; &quot;;
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -974,10 +1006,13 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m, q;
 char a[105][105];
+int rowAsk[1005], colAsk[1005];
+char dirAsk[1005];
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入地图和所有攻击指令。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
@@ -986,27 +1021,40 @@ int main() {
             a[i][j] = s[j - 1];
         }
     }
-
-    int q;
     cin &gt;&gt; q;
-    for (int i = 1; i &lt;= q; i++) {
-        int r, c;
-        char dir;
-        cin &gt;&gt; r &gt;&gt; c &gt;&gt; dir;
-        int nr = r, nc = c;
-        if (dir == &#x27;U&#x27;) nr--;
-        else if (dir == &#x27;D&#x27;) nr++;
-        else if (dir == &#x27;L&#x27;) nc--;
-        else nc++;
-
-        if (nr &lt; 1 || nr &gt; n || nc &lt; 1 || nc &gt; m || a[nr][nc] == &#x27;#&#x27;) {
-            cout &lt;&lt; &quot;BLOCK\n&quot;;
-        } else if (a[nr][nc] == &#x27;M&#x27;) {
-            cout &lt;&lt; &quot;HIT\n&quot;;
-        } else {
-            cout &lt;&lt; &quot;MISS\n&quot;;
-        }
+    for (int k = 1; k &lt;= q; k++) {
+        cin &gt;&gt; rowAsk[k] &gt;&gt; colAsk[k] &gt;&gt; dirAsk[k];
     }
+}
+
+// 判断目标格是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 位置检测模块：根据朝向计算目标格，并判断攻击结果。
+string attackResult(int r, int c, char dir) {
+    int nr = r, nc = c;
+    if (dir == &#x27;U&#x27;) nr--;
+    else if (dir == &#x27;D&#x27;) nr++;
+    else if (dir == &#x27;L&#x27;) nc--;
+    else nc++;
+
+    if (!check(nr, nc, n, m) || a[nr][nc] == &#x27;#&#x27;) return &quot;BLOCK&quot;;
+    if (a[nr][nc] == &#x27;M&#x27;) return &quot;HIT&quot;;
+    return &quot;MISS&quot;;
+}
+
+// 3. 输出模块：按顺序输出每次攻击的结果。
+void printAnswer() {
+    for (int k = 1; k &lt;= q; k++) {
+        cout &lt;&lt; attackResult(rowAsk[k], colAsk[k], dirAsk[k]) &lt;&lt; &quot;\n&quot;;
+    }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1029,35 +1077,57 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[305][305];
 int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入探险地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
         cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j - 1];
+        }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：统计周围 8 个方向的宝箱数量。
+int countTreasure(int i, int j) {
+    int cnt = 0;
+    for (int d = 0; d &lt; 8; d++) {
+        int x = i + dx[d];
+        int y = j + dy[d];
+        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;T&#x27;) {
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
+// 3. 输出模块：墙保留，宝箱输出 *，空地输出提示数字。
+void printAnswer() {
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
             if (a[i][j] == &#x27;#&#x27;) cout &lt;&lt; &quot;#&quot;;
             else if (a[i][j] == &#x27;T&#x27;) cout &lt;&lt; &quot;*&quot;;
-            else {
-                int cnt = 0;
-                for (int d = 0; d &lt; 8; d++) {
-                    int x = i + dx[d], y = j + dy[d];
-                    if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;T&#x27;) cnt++;
-                }
-                cout &lt;&lt; cnt;
-            }
+            else cout &lt;&lt; countTreasure(i, j);
             if (j &lt; m) cout &lt;&lt; &quot; &quot;;
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1080,39 +1150,57 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[205][205];
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入农场地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
         cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j - 1];
+        }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：先判断 4 邻域，再判断斜邻域。
+char waterLevel(int i, int j) {
+    int four = 0, diag = 0;
+    for (int x = i - 1; x &lt;= i + 1; x++) {
+        for (int y = j - 1; y &lt;= j + 1; y++) {
+            if (x == i &amp;&amp; y == j) continue;
+            if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;S&#x27;) {
+                if (x == i || y == j) four++;
+                else diag++;
+            }
+        }
+    }
+    if (four &gt; 0) return &#x27;A&#x27;;
+    if (diag &gt; 0) return &#x27;B&#x27;;
+    return &#x27;0&#x27;;
+}
+
+// 3. 输出模块：喷灌器和石块原样输出，土地输出等级。
+void printAnswer() {
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;S&#x27; || a[i][j] == &#x27;#&#x27;) {
-                cout &lt;&lt; a[i][j];
-            } else {
-                int four = 0, diag = 0;
-                for (int x = i - 1; x &lt;= i + 1; x++) {
-                    for (int y = j - 1; y &lt;= j + 1; y++) {
-                        if (x == i &amp;&amp; y == j) continue;
-                        if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;S&#x27;) {
-                            if (x == i || y == j) four++;
-                            else diag++;
-                        }
-                    }
-                }
-                if (four &gt; 0) cout &lt;&lt; &quot;A&quot;;
-                else if (diag &gt; 0) cout &lt;&lt; &quot;B&quot;;
-                else cout &lt;&lt; &quot;0&quot;;
-            }
+            if (a[i][j] == &#x27;S&#x27; || a[i][j] == &#x27;#&#x27;) cout &lt;&lt; a[i][j];
+            else cout &lt;&lt; waterLevel(i, j);
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1135,49 +1223,67 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
-char a[205][205];
+int n, m;
+char a[205][205], ans[205][205];
 int dx4[4] = {-1, 1, 0, 0};
 int dy4[4] = {0, 0, -1, 1};
 int dx8[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy8[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入海岛地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
         cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j - 1];
+            ans[i][j] = a[i][j];
+        }
     }
+}
 
-    char ans[205][205];
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：4 邻域找村庄，8 邻域排除海水。
+bool canBuild(int i, int j) {
+    if (a[i][j] != &#x27;.&#x27;) return false;
+    int hasCity = 0, hasSea = 0;
+    for (int d = 0; d &lt; 4; d++) {
+        int x = i + dx4[d], y = j + dy4[d];
+        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;C&#x27;) hasCity = 1;
+    }
+    for (int d = 0; d &lt; 8; d++) {
+        int x = i + dx8[d], y = j + dy8[d];
+        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;~&#x27;) hasSea = 1;
+    }
+    return hasCity == 1 &amp;&amp; hasSea == 0;
+}
+
+// 3. 输出模块：先标记 R，再输出数量和新地图。
+void printAnswer() {
     int total = 0;
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            ans[i][j] = a[i][j];
-            if (a[i][j] != &#x27;.&#x27;) continue;
-
-            int hasCity = 0, hasSea = 0;
-            for (int d = 0; d &lt; 4; d++) {
-                int x = i + dx4[d], y = j + dy4[d];
-                if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;C&#x27;) hasCity = 1;
-            }
-            for (int d = 0; d &lt; 8; d++) {
-                int x = i + dx8[d], y = j + dy8[d];
-                if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;~&#x27;) hasSea = 1;
-            }
-            if (hasCity == 1 &amp;&amp; hasSea == 0) {
+            if (canBuild(i, j)) {
                 ans[i][j] = &#x27;R&#x27;;
                 total++;
             }
         }
     }
-
     cout &lt;&lt; total &lt;&lt; &quot;\n&quot;;
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) cout &lt;&lt; ans[i][j];
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1200,35 +1306,53 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[205][205];
 int cnt[205][205];
 int dx[4] = {-1, 1, 0, 0};
 int dy[4] = {0, 0, -1, 1};
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入城堡地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
         cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
-    }
-
-    for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;A&#x27;) {
-                for (int d = 0; d &lt; 4; d++) {
-                    int x = i + dx[d], y = j + dy[d];
-                    while (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] != &#x27;#&#x27;) {
-                        if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
-                        x += dx[d];
-                        y += dy[d];
-                    }
-                }
-            }
+            a[i][j] = s[j - 1];
         }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 直线检测模块：从一个弓箭塔向 4 个方向延伸，遇墙停止。
+void markTower(int i, int j) {
+    for (int d = 0; d &lt; 4; d++) {
+        int x = i + dx[d], y = j + dy[d];
+        while (check(x, y, n, m) &amp;&amp; a[x][y] != &#x27;#&#x27;) {
+            if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
+            x += dx[d];
+            y += dy[d];
+        }
+    }
+}
+
+// 计算所有弓箭塔的警戒范围。
+void calculateGuard() {
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (a[i][j] == &#x27;A&#x27;) markTower(i, j);
+        }
+    }
+}
+
+// 3. 输出模块：空地输出被警戒次数，其它格子原样输出。
+void printAnswer() {
+    calculateGuard();
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
             if (a[i][j] == &#x27;.&#x27;) cout &lt;&lt; cnt[i][j];
@@ -1237,6 +1361,11 @@ int main() {
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1259,36 +1388,54 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[205][205];
 int cnt[205][205];
 int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入迷宫地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
         cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
-    }
-
-    for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] == &#x27;B&#x27;) {
-                for (int d = 0; d &lt; 8; d++) {
-                    for (int step = 1; step &lt;= 2; step++) {
-                        int x = i + dx[d] * step;
-                        int y = j + dy[d] * step;
-                        if (x &lt; 1 || x &gt; n || y &lt; 1 || y &gt; m) break;
-                        if (a[x][y] == &#x27;#&#x27;) break;
-                        if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
-                    }
-                }
-            }
+            a[i][j] = s[j - 1];
         }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：炸弹向 8 个方向最多影响 2 格，遇墙停止。
+void markBomb(int i, int j) {
+    for (int d = 0; d &lt; 8; d++) {
+        for (int step = 1; step &lt;= 2; step++) {
+            int x = i + dx[d] * step;
+            int y = j + dy[d] * step;
+            if (!check(x, y, n, m)) break;
+            if (a[x][y] == &#x27;#&#x27;) break;
+            if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
+        }
+    }
+}
+
+// 计算所有炸弹的影响范围。
+void calculateDanger() {
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (a[i][j] == &#x27;B&#x27;) markBomb(i, j);
+        }
+    }
+}
+
+// 3. 输出模块：先输出安全空地数量，再输出危险计数图。
+void printAnswer() {
+    calculateDanger();
     int safe = 0;
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
@@ -1296,7 +1443,6 @@ int main() {
         }
     }
     cout &lt;&lt; safe &lt;&lt; &quot;\n&quot;;
-
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
             if (a[i][j] == &#x27;.&#x27;) cout &lt;&lt; cnt[i][j];
@@ -1305,6 +1451,11 @@ int main() {
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1327,36 +1478,63 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[205][205];
 int cnt[205][205];
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入仓库地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
         cin &gt;&gt; s;
-        for (int j = 1; j &lt;= m; j++) a[i][j] = s[j - 1];
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j - 1];
+        }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 把方向字符转换为行列变化量。
+void getDirection(char ch, int &amp;dx, int &amp;dy) {
+    dx = 0;
+    dy = 0;
+    if (ch == &#x27;^&#x27;) dx = -1;
+    else if (ch == &#x27;v&#x27;) dx = 1;
+    else if (ch == &#x27;&lt;&#x27;) dy = -1;
+    else if (ch == &#x27;&gt;&#x27;) dy = 1;
+}
+
+// 2. 直线检测模块：机器人沿自己的朝向一直扫描，遇货架停止。
+void markRobot(int i, int j) {
+    int dx, dy;
+    getDirection(a[i][j], dx, dy);
+    int x = i + dx, y = j + dy;
+    while (check(x, y, n, m) &amp;&amp; a[x][y] != &#x27;#&#x27;) {
+        if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
+        x += dx;
+        y += dy;
+    }
+}
+
+// 计算所有机器人的扫描范围。
+void calculateScan() {
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            int dx = 0, dy = 0;
-            if (a[i][j] == &#x27;^&#x27;) dx = -1;
-            else if (a[i][j] == &#x27;v&#x27;) dx = 1;
-            else if (a[i][j] == &#x27;&lt;&#x27;) dy = -1;
-            else if (a[i][j] == &#x27;&gt;&#x27;) dy = 1;
-            else continue;
-
-            int x = i + dx, y = j + dy;
-            while (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] != &#x27;#&#x27;) {
-                if (a[x][y] == &#x27;.&#x27;) cnt[x][y]++;
-                x += dx;
-                y += dy;
+            if (a[i][j] == &#x27;^&#x27; || a[i][j] == &#x27;v&#x27; || a[i][j] == &#x27;&lt;&#x27; || a[i][j] == &#x27;&gt;&#x27;) {
+                markRobot(i, j);
             }
         }
     }
+}
 
+// 3. 输出模块：先输出被扫描空地数量，再输出扫描计数图。
+void printAnswer() {
+    calculateScan();
     int total = 0;
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
@@ -1364,7 +1542,6 @@ int main() {
         }
     }
     cout &lt;&lt; total &lt;&lt; &quot;\n&quot;;
-
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
             if (a[i][j] == &#x27;.&#x27;) cout &lt;&lt; cnt[i][j];
@@ -1373,6 +1550,11 @@ int main() {
         }
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
@@ -1395,14 +1577,15 @@ int main() {
 #include &lt;string&gt;
 using namespace std;
 
+int n, m;
 char a[205][205], ans[205][205];
 int dx4[4] = {-1, 1, 0, 0};
 int dy4[4] = {0, 0, -1, 1};
 int dx8[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int dy8[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-int main() {
-    int n, m;
+// 1. 输入数据模块：读入社区地图。
+void readInput() {
     cin &gt;&gt; n &gt;&gt; m;
     for (int i = 1; i &lt;= n; i++) {
         string s;
@@ -1412,32 +1595,49 @@ int main() {
             ans[i][j] = a[i][j];
         }
     }
+}
 
+// 判断坐标是否在地图内。
+bool check(int i, int j, int n, int m) {
+    return i &gt;= 1 &amp;&amp; i &lt;= n &amp;&amp; j &gt;= 1 &amp;&amp; j &lt;= m;
+}
+
+// 2. 邻域检测模块：统计 8 邻域感染点和 4 邻域通路。
+bool needMark(int i, int j) {
+    if (a[i][j] != &#x27;.&#x27;) return false;
+    int infected = 0, exits = 0;
+    for (int d = 0; d &lt; 8; d++) {
+        int x = i + dx8[d], y = j + dy8[d];
+        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;I&#x27;) infected++;
+    }
+    for (int d = 0; d &lt; 4; d++) {
+        int x = i + dx4[d], y = j + dy4[d];
+        if (check(x, y, n, m) &amp;&amp; a[x][y] == &#x27;.&#x27;) exits++;
+    }
+    return infected &gt;= 2 &amp;&amp; exits &gt;= 1;
+}
+
+// 3. 输出模块：先标记 !，再输出数量和新地图。
+void printAnswer() {
     int total = 0;
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) {
-            if (a[i][j] != &#x27;.&#x27;) continue;
-            int infected = 0, exits = 0;
-            for (int d = 0; d &lt; 8; d++) {
-                int x = i + dx8[d], y = j + dy8[d];
-                if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;I&#x27;) infected++;
-            }
-            for (int d = 0; d &lt; 4; d++) {
-                int x = i + dx4[d], y = j + dy4[d];
-                if (x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= m &amp;&amp; a[x][y] == &#x27;.&#x27;) exits++;
-            }
-            if (infected &gt;= 2 &amp;&amp; exits &gt;= 1) {
+            if (needMark(i, j)) {
                 ans[i][j] = &#x27;!&#x27;;
                 total++;
             }
         }
     }
-
     cout &lt;&lt; total &lt;&lt; &quot;\n&quot;;
     for (int i = 1; i &lt;= n; i++) {
         for (int j = 1; j &lt;= m; j++) cout &lt;&lt; ans[i][j];
         cout &lt;&lt; &quot;\n&quot;;
     }
+}
+
+int main() {
+    readInput();
+    printAnswer();
     return 0;
 }</code></pre>
         </section>
