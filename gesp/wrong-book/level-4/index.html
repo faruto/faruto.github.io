@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GESP 4 级错题本 | Faruto</title>
+  <meta name="description" content="小葵的 GESP 4 级错题本练习系统，支持全部练习、随机抽题、交卷统计和答案解析。">
+  <link rel="canonical" href="https://www.faruto.com/gesp/wrong-book/level-4/">
+  <link rel="stylesheet" href="../assets/wrong-book.css">
+</head>
+<body data-questions-url="../data/level-4/questions.json" data-answers-url="../data/level-4/answers.json" data-level="4">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span class="brand-copy"><strong>GESP 4 级错题本</strong><span>Faruto / 小葵 / 反复练习</span></span>
+      </a>
+      <nav class="top-nav" aria-label="四级错题本导航">
+        <a href="../">错题训练入口</a>
+        <a href="/gesp.html">GESP 导航</a>
+        <button type="button" data-action="back-start">重新选择</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap practice-shell">
+    <section id="start-screen" class="start-screen">
+      <div class="practice-intro">
+        <div>
+          <p class="eyebrow">GESP Level 4 / Xiao Kui's Wrong Book</p>
+          <h1 id="book-title">小葵的 GESP 4 级错题本</h1>
+          <p id="book-subtitle" class="lead">把做错过的题，再认真做一遍。答题时先不看答案，交卷后再看解析。</p>
+        </div>
+        <div class="source-note">
+          <span class="note-mark" aria-hidden="true">☼</span>
+          <strong>本次练习只看题目</strong>
+          <p>答案和解析会在交卷后加载。可以使用键盘 Tab 操作，也可以在题号栏跳题。</p>
+        </div>
+      </div>
+      <div class="setup-panel">
+        <div>
+          <h3>选择练习方式</h3>
+          <p>全部练习按错题本顺序进行；随机练习从现有题目中抽取，不重复，并尽量同时包含选择题和判断题。</p>
+          <div class="mode-buttons">
+            <button class="primary-button" type="button" data-action="start-all">全部练习</button>
+            <button class="secondary-button" type="button" data-action="open-random">随机练习</button>
+            <button id="resume-button" class="quiet-button" type="button" data-action="resume" hidden>继续上次练习</button>
+          </div>
+        </div>
+        <aside>
+          <h3>随机题数</h3>
+          <p>先选择题数，再开始随机练习。</p>
+          <div id="start-counts" class="count-options" aria-label="随机题数"></div>
+        </aside>
+      </div>
+      <div class="stats-strip" aria-label="练习记录">
+        <div class="stat-box"><span>题库题数</span><strong id="total-count">—</strong></div>
+        <div class="stat-box"><span>练习次数</span><strong id="attempt-count">0</strong></div>
+        <div class="stat-box"><span>平均正确率</span><strong id="accuracy-rate">—</strong></div>
+      </div>
+      <p id="load-status" class="footer-note" aria-live="polite"></p>
+    </section>
+
+    <section id="setup-screen" hidden>
+      <div class="practice-intro">
+        <div>
+          <p class="eyebrow">Random practice</p>
+          <h2>随机抽一组题</h2>
+          <p class="lead">从 10 道已有错题中抽题，不额外生成新题。每次开始都会重新打乱题序。</p>
+        </div>
+        <button class="quiet-button" type="button" data-action="back-start">返回选择</button>
+      </div>
+      <div class="setup-panel">
+        <div>
+          <h3>本次练习题数</h3>
+          <p>题目数量越少，越适合短时间复习；选择“全部”会覆盖整本错题。</p>
+          <div id="random-counts" class="count-options" aria-label="随机练习题数"></div>
+        </div>
+        <div>
+          <button class="primary-button" type="button" data-action="start-random">开始随机练习</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="practice-screen" hidden>
+      <div class="session-head">
+        <div>
+          <p class="session-kicker">正在练习 / 答案暂不显示</p>
+          <h2 id="session-title">第 1 题</h2>
+        </div>
+        <div class="progress-box" aria-label="答题进度">
+          <div class="progress-label"><span id="progress-text">已答 0 / 10</span><span id="progress-percent">0%</span></div>
+          <div class="progress-track"><span id="progress-fill" style="width: 0%"></span></div>
+        </div>
+      </div>
+      <div class="session-grid">
+        <aside class="question-rail" aria-label="题号导航">
+          <div class="rail-title">题号导航</div>
+          <div id="question-rail-list" class="rail-list"></div>
+        </aside>
+        <article class="question-panel" aria-live="polite">
+          <div class="question-meta"><span id="question-type" class="question-type">选择题</span><span id="knowledge-tag" class="knowledge-tag">知识点</span></div>
+          <div id="question-stem" class="question-stem"></div>
+          <div id="option-list" class="option-list"></div>
+          <div class="question-footer">
+            <span id="footer-note" class="footer-note">选择一个答案后可以继续。</span>
+            <div class="footer-actions">
+              <button class="secondary-button" type="button" data-action="previous">上一题</button>
+              <button class="primary-button" type="button" data-action="next">下一题</button>
+            </div>
+          </div>
+        </article>
+        <aside class="session-notes">
+          <div>
+            <h3>做题提醒</h3>
+            <p>先读清题干，再看代码。遇到不确定的题可以先空着，最后从题号栏回来检查。</p>
+          </div>
+          <div class="note-rule"></div>
+          <div>
+            <p id="unanswered-note">还有 10 题未作答。</p>
+            <button class="primary-button submit-button" type="button" data-action="submit">交卷并查看结果</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="result-screen" hidden>
+      <div class="practice-intro">
+        <div><p class="eyebrow">Finished / Review</p><h2>这次完成得怎么样？</h2></div>
+        <button class="quiet-button" type="button" data-action="back-start">回到练习选择</button>
+      </div>
+      <div class="result-panel">
+        <div class="result-head">
+          <div class="score-ring"><span><strong id="score-value">0</strong><small>分</small></span></div>
+          <div class="result-copy"><h3 id="result-title">练习完成</h3><p id="result-summary">已完成本次练习。</p></div>
+        </div>
+        <div class="result-stats">
+          <div class="result-stat"><span>答对题数</span><strong id="correct-count">0 / 0</strong></div>
+          <div class="result-stat"><span>选择题正确率</span><strong id="choice-accuracy">—</strong></div>
+          <div class="result-stat"><span>判断题正确率</span><strong id="tf-accuracy">—</strong></div>
+        </div>
+        <div class="section-heading"><div><p class="eyebrow">Answer review</p><h3>逐题解析</h3></div><p>错题会用暖红色标出；做对的题也可以展开复盘思路。</p></div>
+        <div id="review-list" class="review-list"></div>
+        <div class="result-actions">
+          <button id="retry-wrong" class="primary-button" type="button" data-action="retry-wrong">只练错题</button>
+          <button class="secondary-button" type="button" data-action="open-random">重新随机</button>
+          <button class="secondary-button" type="button" data-action="start-all">全部重练</button>
+          <button class="quiet-button" type="button" data-action="clear-history">清空本机记录</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap">Faruto / FQuantStudio · GESP 4 级错题本 · 页面使用 UTF-8 编码</div></footer>
+  <script type="module" src="../assets/app.js"></script>
+</body>
+</html>

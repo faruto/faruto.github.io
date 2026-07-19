@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "level": 4,
+  "title": "小葵的 GESP 4 级错题本",
+  "subtitle": "把做错过的题，再认真做一遍。",
+  "updatedAt": "2026-07",
+  "source": "GESP错题本-4级-202607.docx",
+  "questions": [
+    {
+      "id": "l4-202607-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "小杨在对“能量晶石”按亮度进行排序。如果两块晶石亮度相同，他希望保持它们在原始序列中的相对顺序。下列关于排序算法稳定性的说法，错误的是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "冒泡排序是稳定的，因为只有在左边比右边大时才交换。"},
+        {"key": "B", "label": "插入排序是稳定的，因为它将元素插入到相等元素的右侧。"},
+        {"key": "C", "label": "选择排序是稳定的，因为它每次选出最小元素放在前面。"},
+        {"key": "D", "label": "稳定性是指排序后相等元素的相对位置不发生改变。"}
+      ],
+      "knowledge": "排序算法稳定性"
+    },
+    {
+      "id": "l4-202607-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "在“模拟实验室”程序中，为了防止除以 0 导致崩溃，小杨使用了异常处理机制。执行以下代码将输出（）。"},
+        {"type": "code", "language": "cpp", "value": "try {\n    int x = 10, y = 0;\n    if (y == 0) throw \"Zero Error\";\n    cout << x / y;\n} catch (int e) {\n    cout << \"Error Code: \" << e;\n} catch (const char* msg) {\n    cout << \"Caught: \" << msg;\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "0"},
+        {"key": "B", "label": "Error Code: 0", "code": true},
+        {"key": "C", "label": "Caught: Zero Error", "code": true},
+        {"key": "D", "label": "程序直接崩溃"}
+      ],
+      "knowledge": "异常抛出与捕获"
+    },
+    {
+      "id": "l4-202607-s3",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "下面代码使用某种排序算法，将数组中的元素按从小到大排序。这段代码使用的排序算法是（）。"},
+        {"type": "code", "language": "cpp", "value": "void mystery_sort(double arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int minPos = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minPos]) {\n                minPos = j;\n            }\n        }\n        double temp = arr[i];\n        arr[i] = arr[minPos];\n        arr[minPos] = temp;\n    }\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "冒泡排序"},
+        {"key": "B", "label": "插入排序"},
+        {"key": "C", "label": "选择排序"},
+        {"key": "D", "label": "非典型排序"}
+      ],
+      "knowledge": "选择排序"
+    },
+    {
+      "id": "l4-202607-s4",
+      "type": "single-choice",
+      "sourceNumber": 4,
+      "stem": [
+        {"type": "text", "value": "小杨正在读取“冒险日志”文件 quest.txt。若文件内容为 Level 10，执行以下程序后输出为（）。"},
+        {"type": "code", "language": "cpp", "value": "ifstream fin(\"quest.txt\");\nstring s;\nint v;\nfin >> s >> v;\ncout << s.length() * v;"}
+      ],
+      "options": [
+        {"key": "A", "label": "50", "code": true},
+        {"key": "B", "label": "15", "code": true},
+        {"key": "C", "label": "70", "code": true},
+        {"key": "D", "label": "5", "code": true}
+      ],
+      "knowledge": "文件输入与字符串长度"
+    },
+    {
+      "id": "l4-202607-s5",
+      "type": "single-choice",
+      "sourceNumber": 6,
+      "stem": [
+        {"type": "text", "value": "小杨正在开发一款名为“星际网格”的游戏，他用二维数组 `int map[5][4];` 来表示地图。已知 `int` 占 4 字节，如果 `map` 的内存地址是 `0x2000`，则表达式 `&map + 1` 的地址值是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "0x204c", "code": true},
+        {"key": "B", "label": "0x205c", "code": true},
+        {"key": "C", "label": "0x2050", "code": true},
+        {"key": "D", "label": "0x2058", "code": true}
+      ],
+      "knowledge": "二维数组内存与指针运算"
+    },
+    {
+      "id": "l4-202607-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "在 C++ 中，引用一旦初始化并绑定到某个变量后，可以通过赋值语句将其重新绑定到另一个变量。"}
+      ],
+      "knowledge": "引用绑定规则"
+    },
+    {
+      "id": "l4-202607-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "选择排序算法在寻找每一轮最小值时，如果遇到相等的元素不进行交换，则选择排序是一种稳定的排序算法。"}
+      ],
+      "knowledge": "选择排序稳定性"
+    },
+    {
+      "id": "l4-202607-t3",
+      "type": "true-false",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "在 C++ 中定义二维数组并初始化时，可以省略第一维，但不能省略第二维。因此 `int a[][2] = {{1, 2}, {3, 4}};` 是合法的，而 `int a[][] = {{1, 2}, {3, 4}};` 是不合法的。"}
+      ],
+      "knowledge": "二维数组初始化"
+    },
+    {
+      "id": "l4-202607-t4",
+      "type": "true-false",
+      "sourceNumber": 8,
+      "stem": [
+        {"type": "text", "value": "假设文件 `output.txt` 能正常打开，下面代码通过 `rdbuf` 将 `cout` 的输出重定向到了文件中。"},
+        {"type": "code", "language": "cpp", "value": "ofstream fout(\"output.txt\");\nstreambuf* old_buf = cout.rdbuf();\ncout.rdbuf(fout.rdbuf());\ncout << \"GESP Exam\";\ncout.rdbuf(old_buf);"}
+      ],
+      "knowledge": "输出流重定向"
+    },
+    {
+      "id": "l4-202607-t5",
+      "type": "true-false",
+      "sourceNumber": 10,
+      "stem": [
+        {"type": "text", "value": "下面代码可以通过编译。"},
+        {"type": "code", "language": "cpp", "value": "int a[5];\na++;"}
+      ],
+      "knowledge": "数组名与指针常量"
+    }
+  ]
+}

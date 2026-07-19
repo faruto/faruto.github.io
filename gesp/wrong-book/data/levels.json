@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "levels": [
+    {
+      "level": 4,
+      "title": "GESP 4 级错题本",
+      "subtitle": "小葵的选择题与判断题训练",
+      "path": "level-4/",
+      "questionCount": 10,
+      "updatedAt": "2026-07"
+    }
+  ]
+}
