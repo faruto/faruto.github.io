@@ -413,6 +413,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            min-width: 0;
         }
 
         .code-block {
@@ -423,6 +424,9 @@
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 13px;
             line-height: 1.6;
+            white-space: pre;
+            tab-size: 4;
+            max-width: 100%;
             overflow-x: auto;
         }
 
@@ -483,6 +487,12 @@
             }
             .code-panel, .desc-panel {
                 flex: 1;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .info-panel {
+                flex-direction: column;
             }
         }
     </style>
