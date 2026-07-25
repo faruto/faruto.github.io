@@ -17,7 +17,7 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
 
-fetch('data/levels.json')
+fetch(`data/levels.json?v=${Date.now()}`, {cache: 'no-store'})
   .then((response) => {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return response.json();
