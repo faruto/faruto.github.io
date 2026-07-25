@@ -13,6 +13,6 @@ $tool = "D:\FPython_workspace\Fwebsite\_preview_gesp_wrong_book_20260719\tools\b
 & $py $tool validate --questions "D:\FPython_workspace\Fwebsite\_preview_gesp_wrong_book_20260719\gesp\wrong-book\data\level-4\questions.json" --answers "D:\FPython_workspace\Fwebsite\_preview_gesp_wrong_book_20260719\gesp\wrong-book\data\level-4\answers.json"
 ```
 
-`extract` 会按 Word 中图片出现的顺序提取截图、计算 SHA-256，并标记 `new`、`unchanged` 和待确认删除项。当前截图型 Word 没有可靠的本机中文代码 OCR，因此新增截图要人工转写和校对后，再更新两个 JSON 文件。
+`extract` 会自动选择 `GESP错题本-{级别}级-YYYYMM.docx` 或 `GESP错题本-{级别}级-YYYYMMDD.docx` 中日期最新的文件，按 Word 中图片出现的顺序提取截图、计算 SHA-256，并标记 `new`、`unchanged` 和待确认删除项。当前截图型 Word 没有可靠的本机中文代码 OCR，因此新增截图要人工转写和校对后，再更新两个 JSON 文件。
 
 未来 5–8 级只需新增对应的 `data/level-N/` 目录和 `levels.json` 注册项，答题页逻辑不需要复制。

@@ -3,8 +3,8 @@
   "level": 4,
   "title": "小葵的 GESP 4 级错题本",
   "subtitle": "把做错过的题，再认真做一遍。",
-  "updatedAt": "2026-07",
-  "source": "GESP错题本-4级-202607.docx",
+  "updatedAt": "2026-07-25",
+  "source": "GESP错题本-4级-20260725.docx",
   "questions": [
     {
       "id": "l4-202607-s1",
@@ -130,6 +130,72 @@
         {"type": "code", "language": "cpp", "value": "int a[5];\na++;"}
       ],
       "knowledge": "数组名与指针常量"
+    },
+    {
+      "id": "l4-20260725-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "下列关于结构体初始化的写法，正确的是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "struct Point { int x, y; };\nPoint p = (1,2);", "code": true},
+        {"key": "B", "label": "struct Point { int x, y; };\nPoint p = {1,2};", "code": true},
+        {"key": "C", "label": "struct Point { int x, y; };\nPoint p = new Point(1,2);", "code": true},
+        {"key": "D", "label": "struct Point { int x, y; };\nPoint p = <1,2>;", "code": true}
+      ],
+      "knowledge": "结构体初始化"
+    },
+    {
+      "id": "l4-20260725-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "执行下面程序，输出结果是（）。"},
+        {"type": "code", "language": "cpp", "value": "int divi(int a, int b) {\n    if (b == 0) throw 0;\n    return a / b;\n}\n\nint main() {\n    try {\n        cout << divi(10, 0);\n    } catch (const char* msg) {\n        cout << \"A\";\n    } catch (int) {\n        cout << \"B\";\n    }\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "A", "code": true},
+        {"key": "B", "label": "B", "code": true},
+        {"key": "C", "label": "程序崩溃"},
+        {"key": "D", "label": "无输出"}
+      ],
+      "knowledge": "异常类型匹配"
+    },
+    {
+      "id": "l4-20260725-s3",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "下列函数实现排行榜中单个元素的位置调整（类似插入排序的相邻搬移）。当某玩家分数增加，需将其向前移动时，while 循环的条件应为（）。"},
+        {"type": "code", "language": "cpp", "value": "struct Player { int score; };\nvoid up(Player players[], int n, int idx) {\n    Player cur = players[idx];\n    int i = idx;\n    while (____________________) {\n        players[i] = players[i - 1];\n        i--;\n    }\n    players[i] = cur;\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "i > 0 && cur.score > players[i-1].score", "code": true},
+        {"key": "B", "label": "i > 0 && cur.score < players[i-1].score", "code": true},
+        {"key": "C", "label": "i < n-1 && cur.score > players[i+1].score", "code": true},
+        {"key": "D", "label": "i < n-1 && cur.score < players[i+1].score", "code": true}
+      ],
+      "knowledge": "插入排序的向前搬移条件"
+    },
+    {
+      "id": "l4-20260725-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "下面程序能够把 `Hello` 写入 `data.txt` 文件中。"},
+        {"type": "code", "language": "cpp", "value": "ofstream fout(\"data.txt\");\ncout << \"Hello\";\nfout.close();"}
+      ],
+      "knowledge": "文件输出流与标准输出流"
+    },
+    {
+      "id": "l4-20260725-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "由于选择排序和插入排序的时间复杂度均为 O(n²)，在任何实际场景下两者的性能表现几乎相同，可以互相替代。"}
+      ],
+      "knowledge": "排序算法复杂度与性能特点"
     }
   ]
 }

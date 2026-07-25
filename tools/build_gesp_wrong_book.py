@@ -54,14 +54,14 @@ def sha256(data: bytes) -> str:
 
 
 def find_latest(source_dir: Path, level: int) -> Path:
-    pattern = re.compile(rf"^GESP错题本-{level}级-(\d{{6}})\.docx$")
+    pattern = re.compile(rf"^GESP错题本-{level}级-(\d{{6}}(?:\d{{2}})?)\.docx$")
     candidates = []
     for path in source_dir.glob("*.docx"):
         match = pattern.match(path.name)
         if match:
             candidates.append((match.group(1), path))
     if not candidates:
-        raise FileNotFoundError(f"未找到 GESP错题本-{level}级-YYYYMM.docx")
+        raise FileNotFoundError(f"未找到 GESP错题本-{level}级-YYYYMM[DD].docx")
     return max(candidates, key=lambda item: item[0])[1]
 
 
