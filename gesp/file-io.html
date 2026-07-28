@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GESP C++ 四级文件读写专题：ifstream、ofstream、fstream、freopen、文件流模板、易错点与真题化练习。">
+  <link rel="canonical" href="https://www.faruto.com/gesp/file-io.html">
+  <title>GESP C++ 四级文件读写专题</title>
+  <style>
+    :root{--paper:#f8f4e9;--ink:#102d54;--muted:#4f687d;--teal:#0f8583;--coral:#de5d4d;--yellow:#f7d453;--green:#dff1e9;--red:#fce1db;--line:rgba(16,45,84,.22);--serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;--sans:"Noto Sans SC","Microsoft YaHei",sans-serif;--mono:Consolas,"Courier New",monospace}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font:16px/1.75 var(--sans);background:linear-gradient(rgba(16,45,84,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,45,84,.05) 1px,transparent 1px),radial-gradient(circle at 8% 4%,rgba(247,212,83,.26),transparent 22rem),var(--paper);background-size:24px 24px,24px 24px,auto,auto}a{color:inherit;text-decoration:none}code,pre{font-family:var(--mono)}button{font:inherit}.page{width:min(1160px,calc(100% - 40px));margin:auto}
+    .site-head{position:sticky;top:0;z-index:10;border-bottom:2px solid var(--ink);background:rgba(248,244,233,.95);backdrop-filter:blur(10px)}.bar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:70px}.brand{font:800 22px var(--serif)}.nav{display:flex;flex-wrap:wrap;gap:8px 22px;font:700 14px var(--serif)}.nav a{padding:7px 0;border-bottom:4px solid transparent}.nav a:hover,.nav a:focus-visible{border-color:var(--teal)}
+    .hero{display:grid;grid-template-columns:1fr 1fr;gap:clamp(35px,6vw,72px);align-items:center;min-height:610px;padding:65px 0 50px}h1,h2,h3{font-family:var(--serif)}h1{margin:0;font-size:clamp(48px,6.6vw,76px);line-height:1.03;letter-spacing:-.03em}.title-line{display:block;white-space:nowrap}.marked{position:relative;display:inline-block;color:#096b69}.marked:after{content:"";position:absolute;z-index:-1;left:-2%;right:-2%;bottom:.08em;height:.18em;background:var(--yellow);transform:rotate(-1deg)}.lead{margin:24px 0 0;color:var(--muted);font-size:18px}.lead strong{color:var(--ink);border-bottom:4px solid var(--teal)}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.button{display:inline-flex;justify-content:center;align-items:center;min-height:46px;border:2px solid var(--ink);border-radius:7px;padding:9px 18px;color:#fff;font-weight:800;background:var(--teal);box-shadow:4px 5px 0 rgba(16,45,84,.15);cursor:pointer}.button.alt{color:var(--ink);background:#fffdf7}.button.coral{background:var(--coral)}.button:hover{transform:translateY(-2px)}
+    .board{position:relative;border:3px solid var(--ink);border-radius:19px 8px 17px 10px;padding:33px 26px 25px;background:rgba(255,253,247,.92);box-shadow:6px 7px 0 rgba(16,45,84,.1);transform:rotate(.3deg)}.board:before{content:"文件—流—程序";position:absolute;top:-19px;left:25px;padding:4px 15px;background:#dfe8f2;font:800 15px var(--serif)}.flow{display:grid;grid-template-columns:1fr 54px 1fr;gap:14px 8px;align-items:center}.box{display:grid;place-items:center;min-height:104px;border:2px solid var(--ink);border-radius:7px;padding:13px;text-align:center;background:#fffdf7}.box.file{background:#fff6c5}.box strong{display:block;font:800 19px var(--serif)}.box span{display:block;color:var(--muted);font-size:13px}.arrow{position:relative;height:3px;background:var(--teal)}.arrow:after{content:"";position:absolute;right:0;top:-6px;width:12px;height:12px;border-top:3px solid var(--teal);border-right:3px solid var(--teal);transform:rotate(45deg)}.arrow.back:after{left:0;right:auto;transform:rotate(-135deg)}.flow-note{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}.flow-note code{border:1px dashed var(--teal);padding:8px;text-align:center;color:#096b69;background:var(--green)}
+    .trend{display:grid;grid-template-columns:.85fr repeat(3,1.1fr);border:2px solid #c6a33b;border-radius:11px;overflow:hidden;margin-bottom:70px;background:rgba(255,253,247,.78)}.trend div{padding:16px 17px}.trend div+div{border-left:1px dashed #c6a33b}.trend strong{display:block;color:#096b69;font:800 17px var(--serif)}.trend span{color:var(--muted);font-size:13px}
+    .section{padding:24px 0 64px;scroll-margin-top:85px}.section-head{display:grid;grid-template-columns:.95fr .65fr;gap:30px;align-items:end;border-top:2px solid var(--ink);padding-top:27px;margin-bottom:27px}.section-head h2{margin:0;font-size:clamp(34px,5vw,52px);line-height:1.18}.section-head p{margin:0;color:var(--muted)}.under{text-decoration:underline var(--yellow) .23em;text-underline-offset:-.09em;text-decoration-skip-ink:none}
+    .streams{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stream{position:relative;min-height:285px;border:2px solid var(--ink);border-radius:8px;padding:25px 18px 18px;background:rgba(255,253,247,.88);box-shadow:3px 4px 0 rgba(16,45,84,.08)}.stream:nth-child(even){transform:translateY(12px)}.num{position:absolute;top:-16px;left:16px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:#fff;background:var(--teal);font:800 18px var(--serif)}.stream:nth-child(n+3) .num{background:var(--coral)}.stream h3{margin:12px 0 6px;font-size:24px}.stream p{margin:0;color:var(--muted);font-size:14px}.code{overflow:auto;border:1px solid rgba(16,45,84,.36);border-radius:6px;padding:14px;color:#0b365b;font:14px/1.65 var(--mono);background:#fffdf7;white-space:pre}.stream .code{margin-top:17px;font-size:13px}
+    .route{display:grid;grid-template-columns:.8fr 1.2fr;gap:28px}.steps{border-left:3px dashed var(--teal);padding-left:27px}.step{position:relative;padding:4px 0 23px}.step:before{content:"";position:absolute;left:-36px;top:11px;width:15px;height:15px;border:3px solid var(--paper);border-radius:50%;background:var(--teal);box-shadow:0 0 0 2px var(--teal)}.step h3{margin:0;color:#096b69;font-size:20px}.step p{margin:3px 0 0;color:var(--muted)}table{width:100%;border-collapse:collapse;background:rgba(255,253,247,.85);box-shadow:5px 6px 0 rgba(16,45,84,.09)}th,td{border:1px solid var(--ink);padding:11px 13px;text-align:left;vertical-align:top}th{color:#fff;background:var(--ink)}td code{color:#096b69;font-weight:700}
+    .knowledge{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.api-card{border:2px solid var(--ink);border-radius:8px;padding:20px;background:rgba(255,253,247,.88)}.api-card:nth-child(2){border-color:var(--teal)}.api-card:nth-child(3){border-color:var(--coral)}.api-card:nth-child(4){border-color:#a37a18}.api-card h3{margin:0 0 12px;font-size:23px}.api-list{display:grid;gap:9px}.api-row{display:grid;grid-template-columns:minmax(120px,.7fr) 1.3fr;gap:12px;border-top:1px dashed var(--line);padding-top:9px}.api-row code{color:#096b69;font-weight:700}.api-row span{color:var(--muted);font-size:14px}.priority{display:inline-block;margin-left:7px;border:1px solid;padding:1px 7px;font:700 11px var(--sans);vertical-align:middle}.must{color:#096b69;background:var(--green)}.extra{color:#9c493e;background:var(--red)}
+    .template{border:2px solid var(--ink);border-radius:8px;background:rgba(255,253,247,.88);box-shadow:5px 6px 0 rgba(16,45,84,.1)}.tabs{display:flex;overflow-x:auto;border-bottom:2px solid var(--ink)}.tab{flex:1 0 145px;border:0;border-right:1px solid var(--line);padding:13px;color:var(--ink);font-weight:800;background:transparent;cursor:pointer}.tab[aria-selected=true]{color:#fff;background:var(--teal)}.panel{display:none;grid-template-columns:.8fr 1.2fr;gap:25px;padding:25px}.panel.active{display:grid}.panel h3{margin:0;font-size:25px}.panel p{color:var(--muted)}.note{border-left:6px solid var(--yellow);padding:12px 14px;background:rgba(255,241,169,.58)}
+    .mistakes{display:grid;grid-template-columns:1fr 1fr;gap:10px 23px}.mistake{display:grid;grid-template-columns:40px 1fr;gap:12px;border-bottom:1px dashed var(--coral);padding:14px 2px 17px}.mistake b{display:grid;place-items:center;width:35px;height:35px;border-radius:50%;color:#fff;background:var(--coral);font-family:var(--serif)}.mistake h3{margin:0;font-size:19px}.mistake p{margin:3px 0;color:var(--muted)}.pair{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.pair pre{margin:0;border:1px solid;border-radius:5px;padding:9px;font:12px/1.55 var(--mono);white-space:pre-wrap}.bad{border-color:var(--coral)!important;background:var(--red)}.good{border-color:var(--teal)!important;background:var(--green)}
+    .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.case{border:2px solid var(--ink);border-radius:7px;padding:19px;background:rgba(255,253,247,.88)}.case:nth-child(2),.case:nth-child(5){border-color:#096b69}.case:nth-child(3),.case:nth-child(4){border-color:var(--coral)}.case h3{margin:0;font-size:21px}.case p{color:var(--muted);font-size:14px}.answer{border-top:1px dashed var(--line);padding-top:12px}.strength{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.strength article{border-top:5px solid var(--teal);padding:17px;background:rgba(255,253,247,.86)}.strength article:nth-child(even){border-color:var(--coral)}.strength h3{margin:0;font-size:20px}.strength p{margin:6px 0;color:var(--muted);font-size:14px}.check{margin-top:18px;border:2px solid #c6a33b;padding:16px 20px;background:rgba(255,246,197,.65)}.check strong{font-family:var(--serif)}.check span{display:inline-block;margin:4px 12px 4px 0}
+    .quiz{display:grid;grid-template-columns:1fr 280px;gap:23px;border:2px solid var(--ink);border-radius:8px;padding:23px;background:rgba(255,253,247,.9);box-shadow:5px 6px 0 rgba(16,45,84,.1)}.quiz-main{min-width:0}.quiz-top{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);padding-bottom:13px}.progress{width:min(250px,45%);height:9px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#e6e5dc}.progress div{height:100%;width:0;background:var(--teal)}.meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.meta span{border:1px solid var(--line);padding:3px 8px;color:var(--muted);font-size:12px;background:#fffdf7}.question{font:800 20px/1.55 var(--serif)}.options{display:grid;gap:8px}.option{display:flex;gap:9px;border:1px solid var(--line);border-radius:5px;padding:10px 12px;background:#fffdf7;cursor:pointer}.option:hover{border-color:var(--teal)}.option.correct{border-color:var(--teal);background:var(--green)}.option.wrong{border-color:var(--coral);background:var(--red)}.option input{margin-top:6px;accent-color:var(--teal)}.feedback{margin-top:12px;border-left:5px solid var(--teal);padding:10px 12px;background:var(--green)}.feedback.wrong{border-color:var(--coral);background:var(--red)}.controls{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:18px}.controls .button{min-height:41px;padding:7px 13px}.score-card{border:1px dashed var(--ink);padding:18px;background:rgba(255,246,197,.7)}.score-card h3{margin:0}.score-num{margin:12px 0;color:var(--coral);font:800 50px/1 var(--serif)}.score-card p{color:var(--muted)}.source{color:var(--muted);font-size:13px}.source a{color:#096b69;text-decoration:underline}.hidden{display:none!important}footer{border-top:2px solid var(--ink);padding:25px 0 35px;color:var(--muted);text-align:center;font:700 14px var(--serif)}
+    @media(max-width:940px){.hero{grid-template-columns:1fr;min-height:auto}.streams{grid-template-columns:repeat(2,1fr);gap:28px 15px}.stream:nth-child(even){transform:none}.trend{grid-template-columns:repeat(2,1fr)}.trend div:nth-child(3){border-left:0;border-top:1px dashed #c6a33b}.trend div:nth-child(4){border-top:1px dashed #c6a33b}.route,.quiz{grid-template-columns:1fr}.cases{grid-template-columns:1fr 1fr}.strength{grid-template-columns:1fr 1fr}}
+    @media(max-width:700px){.page{width:min(100% - 26px,640px)}.bar{align-items:flex-start;flex-direction:column;padding:14px 0}.nav{gap:4px 15px}.section-head,.panel{grid-template-columns:1fr}.mistakes,.cases,.knowledge,.strength{grid-template-columns:1fr}.pair{grid-template-columns:1fr}}
+    @media(max-width:520px){.page{width:min(100% - 20px,480px)}h1{font-size:43px}.lead{font-size:16px}.actions{flex-direction:column}.button{width:100%}.board{padding:30px 13px 18px}.flow{grid-template-columns:1fr 36px 1fr}.box{min-height:92px;padding:8px}.flow-note,.trend,.streams{grid-template-columns:1fr}.trend div+div{border-left:0;border-top:1px dashed #c6a33b}.section-head h2{font-size:34px}.panel,.quiz{padding:16px 11px}.quiz-top,.controls{align-items:flex-start;flex-direction:column}.progress{width:100%}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="site-head"><div class="page bar"><a class="brand" href="../gesp.html">GESP 学习专区</a><nav class="nav" aria-label="页内导航"><a href="#streams">四种方式</a><a href="#templates">代码模板</a><a href="#mistakes">高频易错</a><a href="#cases">样题精讲</a><a href="#quiz">专项练习</a></nav></div></header>
+  <main>
+    <section class="page hero"><div><h1><span class="title-line">GESP C++ 四级</span><span class="title-line marked">文件读写专题</span></h1><p class="lead">把文件看成程序外面的“数据仓库”，把流看成连接程序与文件的“水管”。掌握 <strong>ifstream 读、ofstream 写、fstream 双向、freopen 重定向</strong>，就能稳住四级文件操作题。</p><div class="actions"><a class="button" href="#streams">开始学习</a><a class="button alt" href="#quiz">先做专项诊断</a></div></div>
+      <aside class="board" aria-label="文件流方向示意图"><div class="flow"><div class="box file"><div><strong>input.txt</strong><span>文件中的数据</span></div></div><div class="arrow"></div><div class="box"><div><strong>你的程序</strong><span>读取并计算</span></div></div><div class="box file"><div><strong>output.txt</strong><span>保存程序结果</span></div></div><div class="arrow back"></div><div class="box"><div><strong>你的程序</strong><span>把结果写出</span></div></div><div class="flow-note"><code>ifstream fin：文件 → 程序</code><code>ofstream fout：程序 → 文件</code></div></div></aside>
+    </section>
+    <div class="page trend"><div><strong>四级明确考点</strong><span>文件操作与输入输出重定向</span></div><div><strong>2023：概念判断</strong><span>重定向后 cout 是否还在屏幕</span></div><div><strong>2024：读写辨析</strong><span>ifstream、ofstream、freopen</span></div><div><strong>2025–2026：代码输出</strong><span>getline、rdbuf、实际输出目标</span></div></div>
+
+    <section class="page section" id="streams"><div class="section-head"><h2>先认清<span class="under">四种文件操作方式</span></h2><p>人们常把文件流归入“STL 学习”，更准确地说，它属于 C++ 标准库的流体系。前三种包含 <code>&lt;fstream&gt;</code>；<code>freopen</code> 来自 <code>&lt;cstdio&gt;</code>。</p></div>
+      <div class="streams">
+        <article class="stream"><span class="num">1</span><h3>ifstream</h3><p>input file stream，从文件读入。用法像 <code>cin</code>，只是数据源变成文件。</p><pre class="code"><code>ifstream fin("input.txt");
+int x;
+fin &gt;&gt; x;</code></pre></article>
+        <article class="stream"><span class="num">2</span><h3>ofstream</h3><p>output file stream，向文件写出。必须对 <code>fout</code> 使用 <code>&lt;&lt;</code>。</p><pre class="code"><code>ofstream fout("out.txt");
+fout &lt;&lt; 42;</code></pre></article>
+        <article class="stream"><span class="num">3</span><h3>fstream</h3><p>同一个流既能读也能写。四级先会辨认，并知道打开模式可以组合。</p><pre class="code"><code>fstream file("data.txt",
+  ios::in | ios::out);</code></pre></article>
+        <article class="stream"><span class="num">4</span><h3>freopen</h3><p>把标准输入输出整体改道；之后仍写 <code>cin</code>/<code>cout</code>。</p><pre class="code"><code>freopen("in.txt","r",stdin);
+freopen("out.txt","w",stdout);</code></pre></article>
+      </div>
+    </section>
+
+    <section class="page section"><div class="section-head"><h2>读写流程与<span class="under">打开模式</span></h2><p>考试读代码时沿着“创建流 → 检查打开 → 读写 → 关闭”检查，再判断数据到底流向哪里。</p></div>
+      <div class="route"><div class="steps"><article class="step"><h3>① 创建并关联文件</h3><p><code>ifstream fin("score.txt");</code> 可一步完成，也可先声明再 <code>open()</code>。</p></article><article class="step"><h3>② 检查是否打开</h3><p><code>if (!fin.is_open())</code> 能判断路径或权限问题。</p></article><article class="step"><h3>③ 在读取成功时处理</h3><p>写 <code>while (fin &gt;&gt; x)</code> 或 <code>while (getline(fin,line))</code>，不要先问 EOF。</p></article><article class="step"><h3>④ 结束并关闭</h3><p><code>close()</code> 会结束关联；写文件时也会刷新缓冲区。</p></article></div>
+        <table><thead><tr><th>模式</th><th>含义</th><th>四级判断要点</th></tr></thead><tbody><tr><td><code>ios::in</code></td><td>读取</td><td><code>ifstream</code> 默认输入。</td></tr><tr><td><code>ios::out</code></td><td>写入</td><td><code>ofstream</code> 默认输出，通常覆盖旧内容。</td></tr><tr><td><code>ios::app</code></td><td>末尾追加</td><td>日志常用，不清空旧数据。</td></tr><tr><td><code>ios::trunc</code></td><td>打开时清空</td><td>普通输出流常见默认行为。</td></tr><tr><td><code>ios::ate</code></td><td>打开后定位末尾</td><td>仍可重新定位，不等同强制追加。</td></tr><tr><td><code>ios::binary</code></td><td>二进制模式</td><td>拓展认知；四级多考文本文件。</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section class="page section" id="knowledge"><div class="section-head"><h2>完整<span class="under">文件流知识图谱</span></h2><p>小葵先把绿色“四级必会”练熟，再了解红色“拓展认知”。高级接口不要求一次背完，重点是知道它们负责什么。</p></div>
+      <div class="knowledge">
+        <article class="api-card"><h3>读入方法 <span class="priority must">四级必会</span></h3><div class="api-list">
+          <div class="api-row"><code>fin &gt;&gt; x</code><span>格式化读取；跳过空白，按变量类型读取。</span></div>
+          <div class="api-row"><code>getline(fin,s)</code><span>读取完整一行，保留行内空格，不保存换行符。</span></div>
+          <div class="api-row"><code>fin.get(ch)</code><span>逐字符读取，空格和换行也能读到。</span></div>
+          <div class="api-row"><code>fin.ignore(n,'\n')</code><span>忽略字符，常用于清除 <code>&gt;&gt;</code> 后残留的行尾。</span></div>
+          <div class="api-row"><code>fin.peek()</code><span>查看下一个字符但不取走，属于拓展用法。</span></div>
+        </div></article>
+        <article class="api-card"><h3>写出方法 <span class="priority must">四级必会</span></h3><div class="api-list">
+          <div class="api-row"><code>fout &lt;&lt; x</code><span>格式化写出；用法和 cout 相同。</span></div>
+          <div class="api-row"><code>fout.put(ch)</code><span>写出一个字符，包括空格或换行。</span></div>
+          <div class="api-row"><code>fout.flush()</code><span>立即刷新缓冲区；endl 也会换行并刷新。</span></div>
+          <div class="api-row"><code>fout.write(p,n)</code><span>定长写出 n 字节，常用于二进制文件。</span></div>
+          <div class="api-row"><code>'\n' / endl</code><span><code>'\n'</code> 只换行；<code>endl</code> 还会刷新，频繁使用可能较慢。</span></div>
+        </div></article>
+        <article class="api-card"><h3>流状态 <span class="priority must">四级必会</span></h3><div class="api-list">
+          <div class="api-row"><code>is_open()</code><span>文件是否成功打开；只管“是否关联文件”。</span></div>
+          <div class="api-row"><code>eof()</code><span>上一次读取因为到达文件末尾而失败。</span></div>
+          <div class="api-row"><code>fail()</code><span>格式不匹配、文件未开等可恢复失败。</span></div>
+          <div class="api-row"><code>bad()</code><span>更严重的底层读写错误。</span></div>
+          <div class="api-row"><code>clear()</code><span>清除错误标志；若要继续读取，还需处理导致失败的数据。</span></div>
+        </div></article>
+        <article class="api-card"><h3>位置与缓冲区 <span class="priority extra">拓展认知</span></h3><div class="api-list">
+          <div class="api-row"><code>tellg / seekg</code><span>查询或移动输入位置；g 可理解为 get。</span></div>
+          <div class="api-row"><code>tellp / seekp</code><span>查询或移动输出位置；p 可理解为 put。</span></div>
+          <div class="api-row"><code>rdbuf()</code><span>取得流缓冲区，可让 cout 临时写入 ofstream。</span></div>
+          <div class="api-row"><code>open / close</code><span>先声明后打开；同一流重新 open 前应先 close。</span></div>
+          <div class="api-row"><code>相对路径</code><span>相对于程序的当前工作目录，不一定是源代码所在目录。</span></div>
+        </div></article>
+      </div>
+    </section>
+
+    <section class="page section" id="templates"><div class="section-head"><h2>五套<span class="under">考场代码模板</span></h2><p>点击标签切换。先把流类型与方向写对，再替换文件名、变量和处理逻辑。</p></div>
+      <div class="template"><div class="tabs" role="tablist"><button class="tab" role="tab" data-tab="read" aria-selected="true">读取数字</button><button class="tab" role="tab" data-tab="line" aria-selected="false">逐行读取</button><button class="tab" role="tab" data-tab="write" aria-selected="false">写出与追加</button><button class="tab" role="tab" data-tab="both" aria-selected="false">fstream 双向</button><button class="tab" role="tab" data-tab="redirect" aria-selected="false">重定向</button></div>
+        <section class="panel active" role="tabpanel" data-panel="read"><div><h3>按格式读取数字</h3><p>和 <code>cin</code> 一样自动跳过空白。循环条件就是“本次读取是否成功”。</p><div class="note"><strong>稳妥写法：</strong><code>while (fin &gt;&gt; x)</code>，不会在读取失败后重复处理旧值。</div></div><pre class="code"><code>#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    ifstream fin("input.txt");
+    if (!fin.is_open()) return 1;
+    int x, sum = 0;
+    while (fin &gt;&gt; x) sum += x;
+    fin.close();
+    cout &lt;&lt; sum;
+}</code></pre></section>
+        <section class="panel" role="tabpanel" data-panel="line"><div><h3>逐行读取文本</h3><p><code>getline</code> 会读取到换行符，保留一行中的空格。</p><div class="note"><strong>混用提醒：</strong>先用 <code>&gt;&gt;</code> 后用 <code>getline</code>，可能要先忽略残留换行符。</div></div><pre class="code"><code>#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ifstream fin("article.txt");
+    string line;
+    while (getline(fin, line)) {
+        // 处理完整一行
+    }
+    fin.close();
+}</code></pre></section>
+        <section class="panel" role="tabpanel" data-panel="write"><div><h3>覆盖写出与末尾追加</h3><p>普通 <code>ofstream</code> 通常清空旧内容；保留旧内容应加 <code>ios::app</code>。</p><div class="note"><strong>高频坑：</strong>创建 <code>fout</code> 后仍写 <code>cout</code>，内容只到屏幕。</div></div><pre class="code"><code>#include &lt;fstream&gt;
+using namespace std;
+
+int main() {
+    ofstream fout("result.txt");
+    fout &lt;&lt; "score=" &lt;&lt; 100 &lt;&lt; '\n';
+    fout.close();
+
+    ofstream log("result.txt", ios::app);
+    log &lt;&lt; "passed\n";
+    log.close();
+}</code></pre></section>
+        <section class="panel" role="tabpanel" data-panel="both"><div><h3>fstream 双向读写</h3><p>同一个对象配置 <code>ios::in | ios::out</code>。在输入与输出之间切换时，要明确定位并检查状态。</p><div class="note"><strong>四级重点：</strong>会辨认双向模式；<code>seekg/seekp</code> 属于拓展，先理解 g 是读取位置、p 是写入位置。</div></div><pre class="code"><code>#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    fstream file("data.txt",
+                 ios::in | ios::out);
+    if (!file) return 1;
+
+    string word;
+    file &gt;&gt; word;       // 从文件读取
+    file.clear();
+    file.seekp(0, ios::end);
+    file &lt;&lt; "\nDONE"; // 在末尾写入
+    file.close();
+}</code></pre></section>
+        <section class="panel" role="tabpanel" data-panel="redirect"><div><h3>freopen 与 rdbuf 重定向</h3><p><code>freopen</code> 重新连接 <code>stdin</code>/<code>stdout</code>；<code>rdbuf</code> 则临时替换 C++ 流缓冲区。下面两种写法是独立方案。</p><div class="note"><strong>模式字符：</strong><code>"r"</code> 读，<code>"w"</code> 覆盖写，<code>"a"</code> 追加写。使用 rdbuf 后记得恢复旧缓冲区。</div></div><pre class="code"><code>#include &lt;cstdio&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+void byFreopen() {
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    int a, b;
+    cin &gt;&gt; a &gt;&gt; b;
+    cout &lt;&lt; a + b &lt;&lt; '\n';
+}
+
+void byRdbuf() {
+    ofstream log("log.txt");
+    streambuf *old = cout.rdbuf();
+    cout.rdbuf(log.rdbuf());
+    cout &lt;&lt; "saved";
+    cout.rdbuf(old);
+}</code></pre></section>
+      </div>
+    </section>
+
+    <section class="page section" id="mistakes"><div class="section-head"><h2>考场最容易错的<span class="under">六个细节</span></h2><p>逐行确认正在使用的是哪个流对象，以及这次读取是否真的成功。</p></div>
+      <div class="mistakes">
+        <article class="mistake"><b>1</b><div><h3>建了 fout，却仍对 cout 输出</h3><p>ofstream 不会自动接管 cout。</p><div class="pair"><pre class="bad">ofstream fout("a.txt");
+cout &lt;&lt; "Hi"; // 屏幕</pre><pre class="good">ofstream fout("a.txt");
+fout &lt;&lt; "Hi"; // 文件</pre></div></div></article>
+        <article class="mistake"><b>2</b><div><h3>用 while (!fin.eof()) 读取</h3><p>eof 通常在读取失败后才置位。</p><div class="pair"><pre class="bad">while (!fin.eof()) {
+  fin &gt;&gt; x; use(x);
+}</pre><pre class="good">while (fin &gt;&gt; x) {
+  use(x);
+}</pre></div></div></article>
+        <article class="mistake"><b>3</b><div><h3>&gt;&gt; 后直接 getline</h3><p>缓冲区残留换行符时，getline 可能立刻得到空行。</p><div class="pair"><pre class="bad">fin &gt;&gt; n;
+getline(fin,line);</pre><pre class="good">fin &gt;&gt; n;
+fin.ignore(10000,'\n');
+getline(fin,line);</pre></div></div></article>
+        <article class="mistake"><b>4</b><div><h3>把 app 和 ate 当成一回事</h3><p>app 强制每次写在末尾；ate 只是打开后先到末尾。</p><div class="pair"><pre class="bad">ios::ate
+// 等同永远追加？错</pre><pre class="good">ios::app
+// 追加日志更明确</pre></div></div></article>
+        <article class="mistake"><b>5</b><div><h3>忘记检查打开状态</h3><p>路径和工作目录不同，后续读写可能全部失败。</p><div class="pair"><pre class="bad">ifstream fin("x.txt");
+fin &gt;&gt; x;</pre><pre class="good">ifstream fin("x.txt");
+if (!fin) return 1;</pre></div></div></article>
+        <article class="mistake"><b>6</b><div><h3>rdbuf 后忘记恢复</h3><p>后续若要回到屏幕，应保存原缓冲区并恢复。</p><div class="pair"><pre class="bad">cout.rdbuf(fout.rdbuf());
+cout &lt;&lt; "A";</pre><pre class="good">auto *old=cout.rdbuf();
+cout.rdbuf(fout.rdbuf());
+cout &lt;&lt; "A";
+cout.rdbuf(old);</pre></div></div></article>
+      </div>
+    </section>
+
+    <section class="page section" id="cases"><div class="section-head"><h2>五道<span class="under">真题化样题</span></h2><p>参考四级历年考法原创改编：判断输出目标、分析混合读取、选择正确循环、辨析打开模式与流状态。</p></div>
+      <div class="cases">
+        <article class="case"><h3>样题 1：输出去了哪里？</h3><p>执行代码后，字符串出现在哪里？</p><pre class="code"><code>ofstream outFile("log.txt");
+cout &lt;&lt; "GESP";
+outFile.close();</code></pre><div class="answer"><strong>答案：屏幕。</strong>创建 outFile 不等于重定向 cout；必须写 <code>outFile &lt;&lt; "GESP"</code>。</div></article>
+        <article class="case"><h3>样题 2：混合读取</h3><p>文件第一行是 <code>Happy New Year</code>，执行下列代码后 s2 是什么？</p><pre class="code"><code>fin &gt;&gt; s1;
+getline(fin, s2);</code></pre><div class="answer"><strong>答案：<code>" New Year"</code>。</strong><code>&gt;&gt;</code> 读走 Happy，getline 接着读本行剩余内容，包括开头空格。</div></article>
+        <article class="case"><h3>样题 3：正确统计</h3><p>统计文件中成功读到的整数个数，哪种循环最稳妥？</p><pre class="code"><code>int x, cnt = 0;
+while (fin &gt;&gt; x) {
+    cnt++;
+}</code></pre><div class="answer"><strong>答案：上面的写法。</strong>它同时处理文件结束与类型不匹配，不会重复旧值。</div></article>
+        <article class="case"><h3>样题 4：追加还是覆盖？</h3><p>原文件内容为 <code>A</code>，执行后文件内容是什么？</p><pre class="code"><code>ofstream fout("x.txt", ios::app);
+fout &lt;&lt; "B";
+fout.close();</code></pre><div class="answer"><strong>答案：<code>AB</code>。</strong><code>ios::app</code> 保留旧内容，并把新内容写到末尾。</div></article>
+        <article class="case"><h3>样题 5：流失败后怎么办？</h3><p>文件开头是字母，执行 <code>fin &gt;&gt; x</code> 读取 int 失败后，能否直接继续读？</p><pre class="code"><code>int x;
+fin &gt;&gt; x;   // 类型不匹配
+fin.clear();  // 只清状态
+fin.ignore(10000, '\n');</code></pre><div class="answer"><strong>答案：先清状态并处理坏数据。</strong><code>clear()</code> 不会自动移走导致失败的字符，通常还要 <code>ignore</code>。</div></article>
+      </div>
+    </section>
+
+    <section class="page section" id="strength"><div class="section-head"><h2>小葵的<span class="under">四轮强化路线</span></h2><p>每轮只抓一个目标：先会认方向，再会套模板，接着读代码，最后做混合题。比一次背完所有函数更牢。</p></div>
+      <div class="strength">
+        <article><h3>第 1 轮：认方向</h3><p>看到 ifstream 就说“文件到程序”；看到 ofstream 就说“程序到文件”；看到 freopen 就找 stdin/stdout。</p></article>
+        <article><h3>第 2 轮：默写模板</h3><p>每天默写一次读取数字、逐行读取、覆盖写出、追加写出四个短模板，重点写对流对象名。</p></article>
+        <article><h3>第 3 轮：手算输出</h3><p>给文件内容逐个画下划线，标出每次 <code>&gt;&gt;</code> 或 getline 消耗了哪些字符，尤其注意空格和换行。</p></article>
+        <article><h3>第 4 轮：错题归因</h3><p>错题只归入四类：方向错、模式错、分隔符错、状态错；同类连续做 3 题直到全对。</p></article>
+      </div>
+      <div class="check"><strong>考前 20 秒检查：</strong> <span>① 头文件对吗？</span><span>② fin/fout/cin/cout 用对了吗？</span><span>③ app 还是覆盖？</span><span>④ 读取真的成功吗？</span><span>⑤ &gt;&gt; 与 getline 是否混用？</span></div>
+    </section>
+
+    <section class="page section" id="quiz"><div class="section-head"><h2>20 题<span class="under">专项诊断</span></h2><p>10 道选择 + 10 道判断；覆盖流类型、读取方式、打开模式、状态判断、重定向与位置操作。</p></div>
+      <div class="quiz"><div class="quiz-main"><div class="quiz-top"><strong id="status">第 1 / 20 题</strong><div class="progress"><div id="progress"></div></div></div><div class="meta"><span id="type"></span><span id="topic"></span><span id="trap"></span></div><div id="quiz-area"></div><div class="controls"><div><button class="button alt" id="prev">上一题</button> <button class="button alt" id="next">下一题</button></div><button class="button coral" id="submit">提交并查看结果</button><button class="button alt hidden" id="reset">重新作答</button></div></div><aside class="score-card" aria-live="polite"><h3>本次练习得分</h3><div class="score-num"><span id="score">—</span><small> / 20</small></div><p id="score-text">完成后显示结果与复习建议。</p><ul><li>读入：ifstream / getline</li><li>写出：ofstream / ios::app</li><li>状态：eof / fail / clear</li><li>重定向：freopen / rdbuf</li></ul></aside></div>
+      <p class="source">考查范围与题型参考 <a href="https://gesp.ccf.org.cn/101/1010/index.html" target="_blank" rel="noopener noreferrer">CCF GESP 官方真题页面</a>及本地四级真题归档。练习为原创改编，不复现完整真题。</p>
+    </section>
+  </main>
+  <footer><div class="page">GESP C++ 四级文件读写专题 · 先判断数据源与输出目标，再读每一行代码</div></footer>
+  <script>
+    document.querySelectorAll("[data-tab]").forEach(function(tab){tab.addEventListener("click",function(){var key=tab.dataset.tab;document.querySelectorAll("[data-tab]").forEach(function(x){x.setAttribute("aria-selected",String(x===tab))});document.querySelectorAll("[data-panel]").forEach(function(x){x.classList.toggle("active",x.dataset.panel===key)})})});
+    var qs=[
+      ["选择题","流类型","输入与输出","要从文件读取整数，最合适的流类型是？",["ofstream","ifstream","ostream","stdout"],1,"ifstream 是 input file stream，专门用于文件输入。"],
+      ["选择题","输出目标","fout 与 cout","执行 ofstream fout(\"a.txt\"); cout << 7;，数字 7 默认输出到哪里？",["a.txt","屏幕","同时写入文件和屏幕","编译失败"],1,"创建 fout 不会自动改造 cout，cout 默认仍连接标准输出。"],
+      ["选择题","打开模式","覆盖与追加","要保留旧日志并在文件末尾继续写，应使用哪种模式？",["ios::in","ios::trunc","ios::app","ios::binary"],2,"ios::app 表示追加，每次写入都位于文件末尾。"],
+      ["选择题","重定向","freopen 参数","把标准输出重定向到 result.txt，正确的是？",["freopen(\"result.txt\",\"r\",stdout)","freopen(\"result.txt\",\"w\",stdout)","freopen(\"result.txt\",\"w\",stdin)","ofstream(\"result.txt\",stdout)"],1,"stdout 是标准输出，w 是覆盖写模式。"],
+      ["选择题","读取循环","EOF","读取未知个数整数时，最稳妥的循环是？",["while (!fin.eof())","while (fin >> x)","while (x)","for (;;)"],1,"把本次读取是否成功作为条件，可避免失败后继续使用旧值。"],
+      ["选择题","整行读取","空格","哪种写法可以读入包含空格的一整行？",["fin >> line","getline(fin, line)","fin << line","fout >> line"],1,"getline 读取到换行符，行内空格会被保留。"],
+      ["选择题","逐字符读取","空白字符","要读取下一个字符，并且不跳过空格，最直接的方法是？",["fin.get(ch)","fin >> ch","getline(fin,ch)","fout.put(ch)"],0,"get 按字符读取，不会像默认格式化输入那样跳过空白。"],
+      ["选择题","流状态","clear","一次类型不匹配使 fin 失败后，clear() 的作用是？",["删除整个文件","移走错误字符","清除流错误标志","关闭文件"],2,"clear 只清除状态标志；导致失败的数据通常还需 ignore 或重新定位。"],
+      ["选择题","文件位置","get 指针","查询当前输入位置应使用？",["tellg()","tellp()","seekg()","peek()"],0,"tellg 查询 get 指针，也就是输入位置；tellp 对应输出位置。"],
+      ["选择题","双向流","模式组合","要让 fstream 同时支持读写，常见模式组合是？",["ios::in | ios::out","ios::app | ios::trunc","ios::binary | ios::ate","ios::in | ios::trunc"],0,"ios::in 与 ios::out 分别开启输入和输出能力。"],
+      ["判断题","标准库","头文件","ifstream、ofstream 和 fstream 都定义在 <fstream> 中。",["正确","错误"],0,"正确。它们属于 C++ 标准库文件流体系。"],
+      ["判断题","重定向","cout 去向","执行 freopen(\"log.txt\",\"w\",stdout) 后，后续 cout 内容会写入 log.txt。",["正确","错误"],0,"正确。stdout 被重新连接到 log.txt。"],
+      ["判断题","文件状态","is_open","fin.is_open() 可用于判断文件是否成功打开。",["正确","错误"],0,"正确。也可用 if (!fin) 检查流状态。"],
+      ["判断题","写入模式","默认行为","普通 ofstream fout(\"a.txt\") 默认一定保留原有内容。",["正确","错误"],1,"错误。普通输出打开通常会截断文件，保留旧内容应使用 ios::app。"],
+      ["判断题","混合读取","换行符","使用 fin >> n 后立刻 getline(fin,line)，要警惕残留分隔符导致空行。",["正确","错误"],0,"正确。格式化读取可能把行末换行符留在缓冲区。"],
+      ["判断题","双向流","fstream","fstream 可同时配置 ios::in 与 ios::out，读写同一文件。",["正确","错误"],0,"正确。打开模式可以用按位或组合。"],
+      ["判断题","文件结束","eof","在每次读取之前检查 !fin.eof()，一定能保证下一次读取成功。",["正确","错误"],1,"错误。除了 EOF 还有格式错误等失败原因，而且 EOF 往往在尝试越过末尾后才置位。"],
+      ["判断题","输出缓冲","endl","endl 不仅换行，还会刷新输出缓冲区。",["正确","错误"],0,"正确。只需换行时常用 '\\n'，避免不必要的频繁刷新。"],
+      ["判断题","文件路径","工作目录","相对路径一定相对于 .cpp 源代码所在文件夹。",["正确","错误"],1,"错误。相对路径取决于程序运行时的当前工作目录。"],
+      ["判断题","文件位置","seekp","seekp 用于移动输出位置，seekg 用于移动输入位置。",["正确","错误"],0,"正确。p 可联想 put，g 可联想 get。"]
+    ];
+    var current=0,answers=Array(qs.length).fill(null),submitted=false;function el(id){return document.getElementById(id)}function safe(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+    function render(){var q=qs[current],chosen=answers[current],done=answers.filter(function(x){return x!==null}).length;el("status").textContent="第 "+(current+1)+" / "+qs.length+" 题";el("progress").style.width=(done/qs.length*100)+"%";el("type").textContent=q[0];el("topic").textContent="主题："+q[1];el("trap").textContent="易错："+q[2];var html='<p class="question">'+safe(q[3])+'</p><div class="options">';q[4].forEach(function(option,i){var state="";if(chosen!==null){if(i===q[5])state=" correct";else if(i===chosen)state=" wrong"}html+='<label class="option'+state+'"><input type="radio" name="answer" value="'+i+'" '+(chosen===i?"checked":"")+" "+(submitted?"disabled":"")+'><span>'+String.fromCharCode(65+i)+". "+safe(option)+"</span></label>"});html+="</div>";if(chosen!==null)html+='<div class="feedback '+(chosen===q[5]?"":"wrong")+'"><strong>'+(chosen===q[5]?"答对了。":"再检查数据流向。")+"</strong> "+safe(q[6])+"</div>";el("quiz-area").innerHTML=html;el("prev").disabled=current===0;el("next").disabled=current===qs.length-1;el("submit").classList.toggle("hidden",submitted);el("reset").classList.toggle("hidden",!submitted);document.querySelectorAll('input[name="answer"]').forEach(function(input){input.addEventListener("change",function(e){answers[current]=Number(e.target.value);render()})})}
+    el("prev").onclick=function(){if(current>0){current--;render()}};el("next").onclick=function(){if(current<qs.length-1){current++;render()}};el("submit").onclick=function(){submitted=true;var s=answers.reduce(function(total,a,i){return total+Number(a===qs[i][5])},0),missing=answers.filter(function(x){return x===null}).length;el("score").textContent=s;el("score-text").textContent=missing?"还有 "+missing+" 题未作答，未作答按错题计。":s>=16?"掌握较稳，可以继续做文件代码输出题。":"建议按“流类型→打开模式→读写对象→状态判断”复习。";render()};el("reset").onclick=function(){current=0;answers=Array(qs.length).fill(null);submitted=false;el("score").textContent="—";el("score-text").textContent="完成后显示结果与复习建议。";render()};render();
+  </script>
+</body>
+</html>
