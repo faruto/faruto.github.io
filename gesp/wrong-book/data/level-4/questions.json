@@ -3,8 +3,8 @@
   "level": 4,
   "title": "小葵的 GESP 4 级错题本",
   "subtitle": "把做错过的题，再认真做一遍。",
-  "updatedAt": "2026-07-25",
-  "source": "GESP错题本-4级-20260725.docx",
+  "updatedAt": "2026-08-03",
+  "source": "GESP错题本-4级-20260803.docx",
   "questions": [
     {
       "id": "l4-202607-s1",
@@ -196,6 +196,172 @@
         {"type": "text", "value": "由于选择排序和插入排序的时间复杂度均为 O(n²)，在任何实际场景下两者的性能表现几乎相同，可以互相替代。"}
       ],
       "knowledge": "排序算法复杂度与性能特点"
+    },
+    {
+      "id": "l4-20260803-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "执行完下面的代码后，`sum` 的值是（）。"},
+        {"type": "code", "language": "cpp", "value": "int arr[2][3][2] = {\n    {{1,2}, {3,4}, {5,6}},\n    {{7,8}, {9,10}, {11,12}}\n};\nint sum = 0;\nfor (int i = 0; i < 2; i++)\n    for (int j = 0; j < 3; j++)\n        for (int k = 0; k < 2; k++)\n            if ((i+j+k) % 2 == 0)\n                sum += arr[i][j][k];"}
+      ],
+      "options": [
+        {"key": "A", "label": "36", "code": true},
+        {"key": "B", "label": "39", "code": true},
+        {"key": "C", "label": "78", "code": true},
+        {"key": "D", "label": "30", "code": true}
+      ],
+      "knowledge": "三维数组遍历与条件累加"
+    },
+    {
+      "id": "l4-20260803-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "下面的函数 `selectTopK()` 实现从 n 个学生中选出前 k 名成绩最好的学生颁发奖学金（不需要对所有学生完全排序，只需要找出前 k 名），则横线上应填写（）。"},
+        {"type": "code", "language": "cpp", "value": "struct Student {\n    string name;\n    int score;\n};\n\nvoid selectTopK(Student students[], int n, int k) {\n    for (int i = 0; i < k; i++) {\n        int maxIdx = i;\n        for (____________________) {\n            if (students[j].score > students[maxIdx].score) {\n                maxIdx = j;\n            }\n        }\n\n        if (maxIdx != i) {\n            Student temp = students[i];\n            students[i] = students[maxIdx];\n            students[maxIdx] = temp;\n        }\n    }\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "int j = 0; j < n; j++", "code": true},
+        {"key": "B", "label": "int j = i + 1; j < n; j++", "code": true},
+        {"key": "C", "label": "int j = i; j < n; j++", "code": true},
+        {"key": "D", "label": "int j = 1; j <= n; j++", "code": true}
+      ],
+      "knowledge": "部分选择排序"
+    },
+    {
+      "id": "l4-20260803-s3",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "执行下面 C++ 程序，会输出（）。"},
+        {"type": "code", "language": "cpp", "value": "int main() {\n    ofstream fout(\"test.txt\");\n    fout << \"Happy\" << endl;\n    fout << \"New Year\";\n    fout.close();\n\n    ifstream fin(\"test.txt\");\n    string s1, s2;\n    fin >> s1;\n    getline(fin, s2);\n    fin.close();\n\n    cout << s1 << \"|\" << s2;\n    return 0;\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "Happy|New Year", "code": true},
+        {"key": "B", "label": "Happy| New Year", "code": true},
+        {"key": "C", "label": "HappyNew Year|", "code": true},
+        {"key": "D", "label": "Happy|", "code": true}
+      ],
+      "knowledge": "格式化输入与 getline"
+    },
+    {
+      "id": "l4-20260803-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "下面代码可以正常编译并输出 10。"},
+        {"type": "code", "language": "cpp", "value": "#include <iostream>\nusing namespace std;\nint calculate(int x, int y = 10);\nint main() {\n    cout << calculate(5);  // 调用1\n    return 0;\n}\nint calculate(int x, int y) {\n    return x * y;\n}\nint calculate(int x) {  // 重载函数\n    return x * 2;\n}"}
+      ],
+      "knowledge": "函数重载与默认参数二义性"
+    },
+    {
+      "id": "l4-20260803-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "执行下面代码会输出 100。"},
+        {"type": "code", "language": "cpp", "value": "int main() {\n    ofstream fout(\"data.txt\");\n    fout << 10 << \" \" << 20 << endl;\n    fout << 30 << \" \" << 40;\n    fout.close();\n\n    ifstream fin(\"data.txt\");\n    int a, b, c, d;\n    fin >> a >> b >> c >> d;\n    fin.close();\n\n    cout << a + b + c + d;\n    return 0;\n}"}
+      ],
+      "knowledge": "文件流格式化读写"
+    },
+    {
+      "id": "l4-20260803-s4",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "下面 C++ 代码执行后输出是（）。"},
+        {"type": "code", "language": "cpp", "value": "int arr[3] = {1,2,3};\nint *p = NULL;\np = arr;\np++;\ncout << *p << endl;"}
+      ],
+      "options": [
+        {"key": "A", "label": "1,2,3", "code": true},
+        {"key": "B", "label": "1", "code": true},
+        {"key": "C", "label": "2", "code": true},
+        {"key": "D", "label": "3", "code": true}
+      ],
+      "knowledge": "数组指针与指针自增"
+    },
+    {
+      "id": "l4-20260803-s5",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "如果变量 `x` 的地址是 `0x6ffe14`，下面 C++ 代码执行以后输出的是（）。"},
+        {"type": "code", "language": "cpp", "value": "int *p = NULL;\nint x = 2;\np = &x;\np++;\ncout << p << endl;"}
+      ],
+      "options": [
+        {"key": "A", "label": "0x6ffe11", "code": true},
+        {"key": "B", "label": "0x6ffe14", "code": true},
+        {"key": "C", "label": "0x6ffe18", "code": true},
+        {"key": "D", "label": "0x6ffe15", "code": true}
+      ],
+      "knowledge": "指针算术与类型大小"
+    },
+    {
+      "id": "l4-20260803-s6",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "在如下 C++ 代码中实现了对字符串中出现的 26 个字母的个数统计，横线处应填入（）。"},
+        {"type": "code", "language": "cpp", "value": "string str = \"HELLO CHEN A DAI\";\nint strlen = str.length();\nchar alpha[26] = {65};\nint cnt[26] = {0};\nfor (int i = 1; i < 26; i++)\n{\n    ________________;\n}\nfor (int i = 0; i < 26; i++)\n{\n    cout << alpha[i] << \" \";\n}\ncout << endl;\nfor (int i = 0; i < 26; i++)\n{\n    for (int j = 0; j < strlen; j++)\n    {\n        if (alpha[i] == str[j])\n        {\n            cnt[i]++;\n        }\n    }\n}\nfor (int i = 0; i < 26; i++)\n{\n    cout << cnt[i] << \" \";\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "alpha[i] = alpha[i-1] + 1;", "code": true},
+        {"key": "B", "label": "alpha[i] = alpha[i] + 1;", "code": true},
+        {"key": "C", "label": "alpha[i+1] = alpha[i] + 1;", "code": true},
+        {"key": "D", "label": "alpha[i-1] = alpha[i] + 1;", "code": true}
+      ],
+      "knowledge": "字符编码与数组初始化"
+    },
+    {
+      "id": "l4-20260803-s7",
+      "type": "single-choice",
+      "sourceNumber": 4,
+      "stem": [
+        {"type": "text", "value": "下面 C++ 代码执行后生成的文件其字节数为（）。"},
+        {"type": "code", "language": "cpp", "value": "ofstream fout;\nfout.open(\"1.txt\");\nfor (int i = 1; i <= 10; i++)\n{\n    if (i % 5 == 0)\n    {\n        int x = 6;\n        fout << x;\n    }\n    else\n    {\n        char ch = 'A';\n        fout << ch;\n    }\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "10", "code": true},
+        {"key": "B", "label": "16", "code": true},
+        {"key": "C", "label": "40", "code": true},
+        {"key": "D", "label": "24", "code": true}
+      ],
+      "knowledge": "文件流格式化输出与文件大小"
+    },
+    {
+      "id": "l4-20260803-s8",
+      "type": "single-choice",
+      "sourceNumber": 5,
+      "stem": [
+        {"type": "text", "value": "输入一个正整数 N，想找出它所有相邻的因数对。例如输入 12，因数对有 (1,2)、(2,3)、(3,4)。下面哪段代码找不到所有的因数对（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "for(i=1;i<N;i++) if(!(N%i) && !(N%(i+1))) printf(\"(%d,%d)\\n\", i, i+1);", "code": true},
+        {"key": "B", "label": "for(i=2;i<N;i++) if(!(N%i) && !(N%(i+1))) printf(\"(%d,%d)\\n\", i, i+1);", "code": true},
+        {"key": "C", "label": "for(i=2;i<N/2;i++) if(!(N%(i-1)) && !(N%i)) printf(\"(%d,%d)\\n\", i-1, i);", "code": true},
+        {"key": "D", "label": "for(i=1;i<N/2;i++) if(!(N%i) && !(N%(i+1))) printf(\"(%d,%d)\\n\", i, i+1);", "code": true}
+      ],
+      "knowledge": "因数判断与循环边界"
+    },
+    {
+      "id": "l4-20260803-t3",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "用递归法求 n 的阶乘，时间复杂度是 O(n)。"}
+      ],
+      "knowledge": "递归阶乘的时间复杂度"
+    },
+    {
+      "id": "l4-20260803-t4",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "在下面的 C++ 代码中，将对 `1.txt` 文件写入 `hello`。"},
+        {"type": "code", "language": "cpp", "value": "ifstream filein;\nofstream fileout;\nfilein.open(\"1.txt\");\nfileout << \"hello\";"}
+      ],
+      "knowledge": "文件流对象与文件打开"
     }
   ]
 }
