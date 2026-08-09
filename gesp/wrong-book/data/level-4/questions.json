@@ -3,8 +3,8 @@
   "level": 4,
   "title": "小葵的 GESP 4 级错题本",
   "subtitle": "把做错过的题，再认真做一遍。",
-  "updatedAt": "2026-08-03",
-  "source": "GESP错题本-4级-20260803.docx",
+  "updatedAt": "2026-08-09",
+  "source": "GESP错题本-4级-20260809.docx",
   "questions": [
     {
       "id": "l4-202607-s1",
@@ -362,6 +362,60 @@
         {"type": "code", "language": "cpp", "value": "ifstream filein;\nofstream fileout;\nfilein.open(\"1.txt\");\nfileout << \"hello\";"}
       ],
       "knowledge": "文件流对象与文件打开"
+    },
+    {
+      "id": "l4-20260809-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "关于插入排序的时间复杂度，下列说法正确的是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "最好情况和最坏情况的时间复杂度都是 O(n^2)"},
+        {"key": "B", "label": "最好情况是 O(n)，最坏情况是 O(n^2)"},
+        {"key": "C", "label": "最好情况是 O(n)，最坏情况是 O(2^n)"},
+        {"key": "D", "label": "最好情况是 O(n^2)，最坏情况是 O(2^n)"}
+      ],
+      "knowledge": "插入排序的时间复杂度"
+    },
+    {
+      "id": "l4-20260809-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "以下代码能正确初始化指针。"},
+        {"type": "code", "language": "cpp", "value": "int a = 5;\nint *p = a;"}
+      ],
+      "knowledge": "指针初始化与取地址"
+    },
+    {
+      "id": "l4-20260809-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "执行下面 C++ 代码将输出 11。"},
+        {"type": "code", "language": "cpp", "value": "int x = 10;\nvoid f() {\n    int x = x + 1;\n    cout << x << endl;\n}\n\nint main() {\n    f();\n}"}
+      ],
+      "knowledge": "变量遮蔽与局部变量初始化"
+    },
+    {
+      "id": "l4-20260809-t3",
+      "type": "true-false",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "以下 C++ 代码合法。"},
+        {"type": "code", "language": "cpp", "value": "struct Student {\n    string name;\n    int age;\n    float score;\n};\nStudent* students = new Student[20];"}
+      ],
+      "knowledge": "结构体动态数组"
+    },
+    {
+      "id": "l4-20260809-t4",
+      "type": "true-false",
+      "sourceNumber": 4,
+      "stem": [
+        {"type": "text", "value": "对整数数组 `{4, 1, 3, 1, 5, 2}` 进行冒泡排序（将最大元素放到最后），执行一轮之后是 `{4, 1, 3, 1, 2, 5}`。"}
+      ],
+      "knowledge": "冒泡排序一轮的过程"
     }
   ]
 }
