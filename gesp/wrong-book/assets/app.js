@@ -250,7 +250,7 @@ function renderResult(results, correct, choiceResults, tfResults) {
   reviewList.innerHTML = results.map((result, index) => {
     const question = questionMap.get(result.id);
     const answer = answerMap.get(result.id);
-    return `<article class="review-item${result.isCorrect ? '' : ' is-wrong'}">
+    return `<article class="review-item${result.isCorrect ? '' : ' is-wrong'}" data-review-correct="${result.isCorrect}">
       <div class="review-top"><strong>${index + 1}. ${question.type === 'single-choice' ? '选择题' : '判断题'} · 原题 ${question.sourceNumber}</strong><span class="review-status ${result.isCorrect ? 'is-right' : 'is-wrong'}">${result.isCorrect ? '答对' : '需要复习'}</span></div>
       <div class="review-copy">${renderBlocks(question.stem)}</div>
       <div class="review-answer"><span class="answer-chip">你的答案：${escapeHtml(optionText(question, result.userAnswer))}</span><span class="answer-chip">正确答案：${escapeHtml(optionText(question, result.correctAnswer))}</span></div>
@@ -260,6 +260,23 @@ function renderResult(results, correct, choiceResults, tfResults) {
   const wrongButton = document.querySelector('#retry-wrong');
   wrongButton.hidden = wrongCount === 0;
   wrongButton.dataset.ids = JSON.stringify(results.filter((item) => !item.isCorrect).map((item) => item.id));
+  const wrongOnlyFilter = document.querySelector('#wrong-only-filter');
+  wrongOnlyFilter.checked = false;
+  wrongOnlyFilter.disabled = wrongCount === 0;
+  document.querySelector('#wrong-only-count').textContent = `${wrongCount} 道`;
+  applyReviewFilter();
+}
+
+function applyReviewFilter() {
+  const filter = document.querySelector('#wrong-only-filter');
+  const reviewItems = [...document.querySelectorAll('#review-list .review-item')];
+  reviewItems.forEach((item) => {
+    item.hidden = filter.checked && item.dataset.reviewCorrect === 'true';
+  });
+  const visibleCount = reviewItems.filter((item) => !item.hidden).length;
+  document.querySelector('#review-filter-status').textContent = filter.checked
+    ? `正在显示 ${visibleCount} 道错题`
+    : `正在显示全部 ${visibleCount} 道题`;
 }
 
 function clearHistory() {
@@ -271,6 +288,7 @@ function clearHistory() {
 }
 
 function bindActions() {
+  document.querySelector('#wrong-only-filter').addEventListener('change', applyReviewFilter);
   document.querySelectorAll('[data-action]').forEach((button) => button.addEventListener('click', () => {
     const action = button.dataset.action;
     if (action === 'start-all') startSession('all');

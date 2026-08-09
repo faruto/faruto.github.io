@@ -6,7 +6,7 @@
   <title>GESP 4 级错题本 | Faruto</title>
   <meta name="description" content="小葵的 GESP 4 级错题本练习系统，支持全部练习、随机抽题、交卷统计和答案解析。">
   <link rel="canonical" href="https://www.faruto.com/gesp/wrong-book/level-4/">
-  <link rel="stylesheet" href="../assets/wrong-book.css?v=20260725">
+  <link rel="stylesheet" href="../assets/wrong-book.css?v=20260809-1">
 </head>
 <body data-questions-url="../data/level-4/questions.json" data-answers-url="../data/level-4/answers.json" data-level="4">
   <header class="topbar">
@@ -139,7 +139,18 @@
           <div class="result-stat"><span>选择题正确率</span><strong id="choice-accuracy">—</strong></div>
           <div class="result-stat"><span>判断题正确率</span><strong id="tf-accuracy">—</strong></div>
         </div>
-        <div class="section-heading"><div><p class="eyebrow">Answer review</p><h3>逐题解析</h3></div><p>错题会用暖红色标出；做对的题也可以展开复盘思路。</p></div>
+        <div class="section-heading review-heading">
+          <div><p class="eyebrow">Answer review</p><h3>逐题解析</h3></div>
+          <div class="review-tools">
+            <p>错题会用暖红色标出；做对的题也可以展开复盘思路。</p>
+            <label class="wrong-only-filter" for="wrong-only-filter">
+              <input id="wrong-only-filter" type="checkbox">
+              <span>只看错题</span>
+              <small id="wrong-only-count">0 道</small>
+            </label>
+            <span id="review-filter-status" class="visually-hidden" aria-live="polite"></span>
+          </div>
+        </div>
         <div id="review-list" class="review-list"></div>
         <div class="result-actions">
           <button id="retry-wrong" class="primary-button" type="button" data-action="retry-wrong">只练错题</button>
@@ -151,6 +162,6 @@
     </section>
   </main>
   <footer class="footer"><div class="wrap">Faruto / FQuantStudio · GESP 4 级错题本 · 页面使用 UTF-8 编码</div></footer>
-  <script type="module" src="../assets/app.js?v=20260809-1"></script>
+  <script type="module" src="../assets/app.js?v=20260809-2"></script>
 </body>
 </html>

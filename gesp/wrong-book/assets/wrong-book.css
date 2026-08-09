@@ -256,6 +256,25 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .result-stat span { display: block; color: var(--muted); font-size: 12px; }
 .result-stat strong { display: block; margin-top: 5px; font-family: Georgia, serif; font-size: 24px; }
 .review-list { display: grid; gap: 13px; }
+.review-tools { display: grid; justify-items: end; gap: 10px; }
+.wrong-only-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--forest-dark);
+  background: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+.wrong-only-filter:hover { border-color: var(--forest); background: var(--green-soft); }
+.wrong-only-filter input { width: 19px; height: 19px; margin: 0; accent-color: var(--forest); cursor: pointer; }
+.wrong-only-filter small { color: var(--muted); font-size: 12px; font-weight: 700; }
+.wrong-only-filter:has(input:disabled) { opacity: .55; cursor: not-allowed; }
+.wrong-only-filter input:disabled { cursor: not-allowed; }
 .review-item { padding: 17px; border: 1px solid var(--line); border-left: 4px solid var(--leaf); border-radius: 10px; background: #fff; }
 .review-item.is-wrong { border-left-color: var(--red); background: var(--red-soft); }
 .review-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
@@ -274,6 +293,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .error-state { border-color: #dfb6af; background: var(--red-soft); }
 .footer { padding: 28px 0 42px; color: var(--muted); font-size: 12px; text-align: center; }
 [hidden] { display: none !important; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 980px) {
   .session-grid { grid-template-columns: 150px minmax(0, 1fr); }
@@ -292,6 +312,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .source-note { max-width: 420px; }
   .section-heading, .practice-intro, .session-head { display: block; }
   .section-heading p, .practice-intro p { margin-top: 10px; }
+  .review-tools { justify-items: start; margin-top: 14px; }
   .progress-box { max-width: none; margin-top: 18px; }
   .setup-panel { grid-template-columns: 1fr; padding: 19px; }
   .stats-strip, .result-stats { grid-template-columns: 1fr; }
