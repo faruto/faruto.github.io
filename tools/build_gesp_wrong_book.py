@@ -139,6 +139,9 @@ def validate(args: argparse.Namespace) -> int:
             options = item.get("options", [])
             if len(options) < 2 or len({option.get("key") for option in options}) != len(options):
                 errors.append(f"{item.get('id')}: 选择题选项无效")
+            option_keys = [option.get("key") for option in options]
+            if option_keys != ["A", "B", "C", "D"]:
+                errors.append(f"{item.get('id')}: 选择题选项必须按 A、B、C、D 顺序定义")
         else:
             if item.get("options"):
                 errors.append(f"{item.get('id')}: 判断题不应重复定义 options")

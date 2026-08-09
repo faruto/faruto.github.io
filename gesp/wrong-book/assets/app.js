@@ -113,14 +113,8 @@ function chooseRandomQuestions(count) {
 
 function makeSession(mode, ids) {
   const selected = ids || (mode === 'all' ? questions.map((question) => question.id) : chooseRandomQuestions(selectedRandomCount).map((question) => question.id));
-  const optionOrders = {};
-  if (mode !== 'all') {
-    selected.forEach((id) => {
-      const question = questionMap.get(id);
-      if (question.type === 'single-choice') optionOrders[id] = shuffle(question.options.map((option) => option.key));
-    });
-  }
-  return {mode, questionIds: selected, answers: {}, optionOrders, index: 0, status: 'active', startedAt: new Date().toISOString()};
+  // Keep A/B/C/D in the source order in every practice mode.
+  return {mode, questionIds: selected, answers: {}, optionOrders: {}, index: 0, status: 'active', startedAt: new Date().toISOString()};
 }
 
 function startSession(mode, ids) {
@@ -147,8 +141,8 @@ function currentQuestion() { return questionMap.get(session.questionIds[session.
 
 function optionEntries(question) {
   if (question.type === 'true-false') return [{key: 'true', label: '正确'}, {key: 'false', label: '错误'}];
-  const order = session.optionOrders[question.id] || question.options.map((option) => option.key);
-  return order.map((key) => question.options.find((option) => option.key === key));
+  const expectedOrder = ['A', 'B', 'C', 'D'];
+  return [...question.options].sort((left, right) => expectedOrder.indexOf(left.key) - expectedOrder.indexOf(right.key));
 }
 
 function optionText(question, answer) {
