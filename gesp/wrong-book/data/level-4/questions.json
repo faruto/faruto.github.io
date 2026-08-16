@@ -3,8 +3,8 @@
   "level": 4,
   "title": "小葵的 GESP 4 级错题本",
   "subtitle": "把做错过的题，再认真做一遍。",
-  "updatedAt": "2026-08-09",
-  "source": "GESP错题本-4级-20260809.docx",
+  "updatedAt": "2026-08-16",
+  "source": "GESP错题本-4级-20260816.docx",
   "questions": [
     {
       "id": "l4-202607-s1",
@@ -416,6 +416,87 @@
         {"type": "text", "value": "对整数数组 `{4, 1, 3, 1, 5, 2}` 进行冒泡排序（将最大元素放到最后），执行一轮之后是 `{4, 1, 3, 1, 2, 5}`。"}
       ],
       "knowledge": "冒泡排序一轮的过程"
+    },
+    {
+      "id": "l4-20260816-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "排序算法是稳定的（Stable Sorting），就是指排序算法可以保证，在待排序数据中有两个相等记录的关键字 R 和 S（R 出现在 S 之前），在排序后的列表中 R 也一定在 S 前。下面关于排序稳定性的描述，正确的是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "冒泡排序是不稳定的。"},
+        {"key": "B", "label": "插入排序是不稳定的。"},
+        {"key": "C", "label": "选择排序是不稳定的。"},
+        {"key": "D", "label": "以上都不正确。"}
+      ],
+      "knowledge": "排序算法稳定性"
+    },
+    {
+      "id": "l4-20260816-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "一个变量定义为 `int *p = nullptr;`，则下列说法正确的是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "该指针变量的类型为 int。"},
+        {"key": "B", "label": "该指针变量指向的类型为 int。"},
+        {"key": "C", "label": "该指针变量指向的内存地址是随机的。"},
+        {"key": "D", "label": "访问该指针变量指向的内存会出现编译错误。"}
+      ],
+      "knowledge": "指针类型与空指针"
+    },
+    {
+      "id": "l4-20260816-s3",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "一个二维数组定义为 `int array[5][3];`，则 `array[1][2]` 和 `array[2][1]` 在内存中的位置相差多少字节？（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "2 字节"},
+        {"key": "B", "label": "4 字节"},
+        {"key": "C", "label": "8 字节"},
+        {"key": "D", "label": "无法确定"}
+      ],
+      "knowledge": "二维数组内存布局"
+    },
+    {
+      "id": "l4-20260816-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "在 C++ 语言中，如果一个函数可能抛出异常，那么一定要在 `try` 子句调用这个函数。"}
+      ],
+      "knowledge": "异常传播与 try-catch"
+    },
+    {
+      "id": "l4-20260816-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "如果希望记录 10 个最长为 99 字节的字符串，可以将字符串数组定义为 `char s[100][10];`。"}
+      ],
+      "knowledge": "字符数组与二维数组定义"
+    },
+    {
+      "id": "l4-20260816-t3",
+      "type": "true-false",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "`>=` 和 `>>=` 都是 C++ 语言的运算符。"}
+      ],
+      "knowledge": "关系运算符与复合赋值运算符"
+    },
+    {
+      "id": "l4-20260816-t4",
+      "type": "true-false",
+      "sourceNumber": 4,
+      "stem": [
+        {"type": "text", "value": "由于文件重定向操作，程序员在使用 C++ 语言编写程序时无法确定通过 `cout` 输出的内容是否会被输出到屏幕上。"}
+      ],
+      "knowledge": "文件重定向与标准输出"
     }
   ]
 }
