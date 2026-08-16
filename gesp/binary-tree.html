@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GESP C++ 六级树与二叉树专题：概念、性质、四种遍历、数组存储、树的还原、二叉搜索树、代码模板、易错点与真题化练习。">
+  <link rel="canonical" href="https://www.faruto.com/gesp/binary-tree.html">
+  <title>GESP C++ 六级树与二叉树专题</title>
+  <style>
+    :root{
+      --paper:#f8f4e9;--paper-2:#fffdf7;--ink:#102d54;--muted:#52687a;
+      --teal:#0f8583;--teal-dark:#096b69;--coral:#de5d4d;--yellow:#f7d453;
+      --green:#dff1e9;--red:#fce1db;--blue:#dfe8f2;--line:rgba(16,45,84,.24);
+      --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+      --sans:"Noto Sans SC","Microsoft YaHei",sans-serif;--mono:Consolas,"Courier New",monospace;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);font:16px/1.72 var(--sans);background:linear-gradient(rgba(16,45,84,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,45,84,.05) 1px,transparent 1px),var(--paper);background-size:24px 24px,24px 24px,auto}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    code,pre{font-family:var(--mono)}
+    .page{width:min(1160px,calc(100% - 40px));margin:auto}
+    .site-head{position:sticky;top:0;z-index:20;border-bottom:2px solid var(--ink);background:rgba(248,244,233,.96);backdrop-filter:blur(10px)}
+    .bar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:70px}
+    .brand{font:800 22px var(--serif)}
+    .nav{display:flex;flex-wrap:wrap;gap:8px 21px;font:700 14px var(--serif)}
+    .nav a{padding:7px 0;border-bottom:4px solid transparent}
+    .nav a:hover,.nav a:focus-visible{border-color:var(--teal)}
+    .hero{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;min-height:610px;padding:60px 0 44px}
+    .eyebrow{display:inline-block;border:1px solid var(--ink);padding:4px 10px;color:var(--teal-dark);font-weight:800;background:var(--green)}
+    h1,h2,h3{font-family:var(--serif);letter-spacing:0}
+    h1{margin:18px 0 0;font-size:58px;line-height:1.08}
+    .title-line{display:block}
+    .marked{position:relative;display:inline-block;color:var(--teal-dark)}
+    .marked:after{content:"";position:absolute;z-index:-1;left:-2%;right:-2%;bottom:.06em;height:.2em;background:var(--yellow);transform:rotate(-1deg)}
+    .lead{margin:22px 0 0;color:var(--muted);font-size:18px}
+    .lead strong{color:var(--ink);border-bottom:4px solid var(--teal)}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border:2px solid var(--ink);border-radius:7px;padding:9px 18px;color:#fff;font-weight:800;background:var(--teal);box-shadow:4px 5px 0 rgba(16,45,84,.14);cursor:pointer}
+    .button.alt{color:var(--ink);background:var(--paper-2)}
+    .button.coral{background:var(--coral)}
+    .button:hover,.button:focus-visible{transform:translateY(-2px)}
+    .hero-tree{position:relative;border:3px solid var(--ink);border-radius:8px;padding:24px 20px 18px;background:rgba(255,253,247,.92);box-shadow:7px 8px 0 rgba(16,45,84,.1);transform:rotate(.3deg)}
+    .hero-tree:before{content:"一棵树，四种访问顺序";position:absolute;top:-18px;left:24px;padding:4px 13px;background:var(--blue);font:800 15px var(--serif)}
+    .tree-canvas{position:relative;width:100%;aspect-ratio:16/10;min-height:330px}
+    .tree-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+    .tree-lines path{fill:none;stroke:rgba(16,45,84,.72);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+    .hero-tree .tree-lines path{stroke:rgba(15,133,131,.72)}
+    .node{position:absolute;z-index:1;display:grid;place-items:center;width:52px;height:52px;border:3px solid var(--ink);border-radius:50%;color:var(--ink);font:800 21px var(--serif);background:var(--paper-2);box-shadow:0 4px 0 rgba(16,45,84,.12);transform:translate(-50%,-50%);transition:background .22s,color .22s,transform .22s,box-shadow .22s}
+    .node small{position:absolute;top:-21px;min-width:23px;color:var(--coral);font:800 12px var(--sans);text-align:center}
+    .node.visited{background:var(--green);box-shadow:0 0 0 6px rgba(15,133,131,.13)}
+    .node.current{color:#fff;background:var(--coral);transform:translate(-50%,-50%) scale(1.16);box-shadow:0 0 0 7px rgba(222,93,77,.16)}
+    .n-a{left:50%;top:14%}.n-b{left:29%;top:43%}.n-c{left:71%;top:43%}.n-d{left:17%;top:76%}.n-e{left:40%;top:76%}.n-f{left:60%;top:76%}.n-g{left:83%;top:76%}
+    .hero-legend{display:flex;flex-wrap:wrap;gap:8px 16px;border-top:1px dashed var(--line);padding-top:13px;color:var(--muted);font-size:13px}
+    .dot{display:inline-block;width:12px;height:12px;border:2px solid var(--ink);border-radius:50%;vertical-align:-1px;background:var(--paper-2)}
+    .dot.now{border-color:var(--coral);background:var(--coral)}
+    .dot.done{border-color:var(--teal);background:var(--green)}
+    .frequency{display:grid;grid-template-columns:1.15fr repeat(3,1fr);border:2px solid #b28e26;border-radius:7px;overflow:hidden;margin-bottom:66px;background:rgba(255,253,247,.82)}
+    .frequency>div{padding:15px 17px}
+    .frequency>div+div{border-left:1px dashed #b28e26}
+    .frequency strong{display:block;color:var(--teal-dark);font:800 18px var(--serif)}
+    .frequency span{color:var(--muted);font-size:13px}
+    .section{padding:24px 0 64px;scroll-margin-top:85px}
+    .section-head{display:grid;grid-template-columns:1fr .7fr;gap:32px;align-items:end;border-top:2px solid var(--ink);padding-top:26px;margin-bottom:28px}
+    .section-head h2{margin:0;font-size:44px;line-height:1.2}
+    .section-head p{margin:0;color:var(--muted)}
+    .under{text-decoration:underline var(--yellow) .23em;text-underline-offset:-.09em;text-decoration-skip-ink:none}
+    .concept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .concept{position:relative;min-height:215px;border:2px solid var(--ink);border-radius:7px;padding:21px 17px;background:rgba(255,253,247,.9);box-shadow:3px 4px 0 rgba(16,45,84,.08)}
+    .concept:nth-child(2n){border-color:var(--teal)}
+    .concept:nth-child(3n){border-color:var(--coral)}
+    .concept .index{display:grid;place-items:center;width:31px;height:31px;border-radius:50%;color:#fff;background:var(--ink);font-weight:800}
+    .concept h3{margin:12px 0 6px;font-size:22px}
+    .concept p{margin:0;color:var(--muted);font-size:14px}
+    .formula-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+    .formula{border-top:5px solid var(--teal);padding:15px;background:rgba(223,241,233,.84)}
+    .formula:nth-child(even){border-color:var(--coral);background:rgba(252,225,219,.78)}
+    .formula code{display:block;color:var(--ink);font-size:19px;font-weight:800}
+    .formula span{color:var(--muted);font-size:13px}
+    .lab{display:grid;grid-template-columns:1.14fr .86fr;border:2px solid var(--ink);border-radius:8px;background:rgba(255,253,247,.93);box-shadow:6px 7px 0 rgba(16,45,84,.1)}
+    .lab-stage{border-right:2px solid var(--ink);padding:22px}
+    .lab-side{padding:24px}
+    .mode-tabs{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink);border-radius:6px;overflow:hidden;margin-bottom:15px}
+    .mode{min-height:43px;border:0;border-right:1px solid var(--line);color:var(--ink);font-weight:800;background:transparent;cursor:pointer}
+    .mode:last-child{border-right:0}
+    .mode[aria-selected="true"]{color:#fff;background:var(--teal)}
+    .lab .tree-canvas{aspect-ratio:16/10;min-height:350px}
+    .lab-side h3{margin:0;font-size:27px}
+    .rule{margin:10px 0 14px;border-left:6px solid var(--yellow);padding:10px 12px;background:rgba(255,241,169,.55)}
+    .sequence{display:flex;flex-wrap:wrap;gap:7px;min-height:43px;margin:13px 0}
+    .token{display:grid;place-items:center;width:37px;height:37px;border:2px solid var(--ink);border-radius:50%;font:800 16px var(--serif);background:var(--paper-2)}
+    .token.done{color:#fff;border-color:var(--teal);background:var(--teal)}
+    .token.now{color:#fff;border-color:var(--coral);background:var(--coral)}
+    .lab-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+    .control{min-height:42px;border:2px solid var(--ink);border-radius:6px;color:var(--ink);font-weight:800;background:var(--paper-2);cursor:pointer}
+    .control.primary{color:#fff;background:var(--coral)}
+    .control:disabled{opacity:.45;cursor:not-allowed}
+    .tipline{margin:17px 0 0;color:var(--muted);font-size:13px}
+    .representation{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;min-width:0}
+    .representation>*{min-width:0}
+    .array-board{border:2px solid var(--ink);border-radius:7px;padding:20px;background:rgba(255,253,247,.9)}
+    .array-board h3,.code-board h3{margin:0 0 12px;font-size:25px}
+    .array{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:17px 0}
+    .cell{text-align:center}
+    .cell b{display:grid;place-items:center;aspect-ratio:1;border:2px solid var(--ink);border-radius:5px;background:var(--green)}
+    .cell small{display:block;color:var(--muted);font-size:11px}
+    .index-switch{display:flex;gap:8px}
+    .index-switch button{flex:1;min-height:40px;border:2px solid var(--ink);border-radius:5px;color:var(--ink);font-weight:800;background:var(--paper-2);cursor:pointer}
+    .index-switch button[aria-pressed="true"]{color:#fff;background:var(--teal)}
+    .index-formulas{display:grid;gap:7px;margin-top:15px}
+    .index-formulas code{min-width:0;border-left:5px solid var(--yellow);padding:8px 10px;overflow-wrap:anywhere;background:#fff5c9}
+    .code-board{border:2px solid var(--teal);border-radius:7px;padding:20px;background:rgba(223,241,233,.67)}
+    .code{overflow:auto;margin:0;border:1px solid rgba(16,45,84,.35);border-radius:5px;padding:14px;color:#0b365b;font:14px/1.65 var(--mono);background:var(--paper-2);white-space:pre}
+    .rebuild{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .rebuild-steps{border-left:3px dashed var(--teal);padding-left:27px}
+    .rebuild-step{position:relative;padding:2px 0 22px}
+    .rebuild-step:before{content:"";position:absolute;left:-36px;top:9px;width:15px;height:15px;border:3px solid var(--paper);border-radius:50%;background:var(--teal);box-shadow:0 0 0 2px var(--teal)}
+    .rebuild-step h3{margin:0;color:var(--teal-dark);font-size:20px}
+    .rebuild-step p{margin:4px 0 0;color:var(--muted)}
+    .sequence-box{border:2px solid var(--ink);border-radius:7px;padding:20px;background:rgba(255,253,247,.9)}
+    .sequence-box h3{margin:0 0 10px;font-size:24px}
+    .seq-row{display:grid;grid-template-columns:74px 1fr;gap:10px;align-items:center;border-top:1px dashed var(--line);padding:10px 0}
+    .seq-row strong{color:var(--teal-dark)}
+    .letters{display:flex;flex-wrap:wrap;gap:5px}
+    .letters b{display:grid;place-items:center;width:31px;height:31px;border:1px solid var(--ink);background:var(--paper-2)}
+    .letters .root{color:#fff;background:var(--coral)}
+    .verdict{margin-top:14px;border:2px solid #b28e26;padding:12px 14px;background:#fff5c9}
+    .template{min-width:0;overflow:hidden;border:2px solid var(--ink);border-radius:8px;background:rgba(255,253,247,.92);box-shadow:5px 6px 0 rgba(16,45,84,.1)}
+    .tabs{display:flex;overflow-x:auto;border-bottom:2px solid var(--ink)}
+    .tab{flex:1 0 150px;min-height:48px;border:0;border-right:1px solid var(--line);color:var(--ink);font-weight:800;background:transparent;cursor:pointer}
+    .tab[aria-selected="true"]{color:#fff;background:var(--teal)}
+    .panel{display:none;grid-template-columns:.8fr 1.2fr;gap:24px;padding:24px}
+    .panel.active{display:grid}
+    .panel h3{margin:0;font-size:25px}
+    .panel p{color:var(--muted)}
+    .note{border-left:6px solid var(--yellow);padding:11px 13px;background:rgba(255,241,169,.55)}
+    .bst{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .bst-board{border:2px solid var(--ink);border-radius:7px;padding:20px;background:rgba(255,253,247,.9)}
+    .bst-board h3{margin:0 0 8px;font-size:25px}
+    .bst-path{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:18px 0}
+    .bst-path b{display:grid;place-items:center;width:42px;height:42px;border:2px solid var(--ink);border-radius:50%;background:var(--green)}
+    .bst-path span{color:var(--coral);font-weight:800}
+    .complexity{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .complexity div{border-top:5px solid var(--teal);padding:14px;background:var(--green)}
+    .complexity div:last-child{border-color:var(--coral);background:var(--red)}
+    .complexity strong{display:block;font:800 21px var(--serif)}
+    .complexity span{color:var(--muted);font-size:13px}
+    .huffman{display:grid;grid-template-columns:.8fr 1.2fr;gap:22px}
+    .huffman-process{border:2px solid var(--ink);border-radius:7px;padding:20px;background:rgba(255,253,247,.9)}
+    .huffman-process h3,.huffman-notes h3{margin:0 0 10px;font-size:25px}
+    .merge-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0}
+    .weight{display:grid;place-items:center;min-width:43px;height:43px;border:2px solid var(--ink);border-radius:50%;font-weight:800;background:var(--green)}
+    .weight.pick{color:#fff;border-color:var(--coral);background:var(--coral)}
+    .merge-row strong{color:var(--teal-dark)}
+    .huffman-notes{border:2px solid var(--teal);border-radius:7px;padding:20px;background:rgba(223,241,233,.72)}
+    .huffman-list{display:grid;gap:9px}
+    .huffman-list div{border-top:1px dashed var(--line);padding-top:9px}
+    .huffman-list code{color:var(--teal-dark);font-weight:800}
+    .mistakes{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+    .mistake{display:grid;grid-template-columns:40px 1fr;gap:12px;border-bottom:1px dashed var(--coral);padding:14px 2px 17px}
+    .mistake b{display:grid;place-items:center;width:35px;height:35px;border-radius:50%;color:#fff;background:var(--coral);font-family:var(--serif)}
+    .mistake h3{margin:0;font-size:19px}
+    .mistake p{margin:3px 0;color:var(--muted)}
+    .pair{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+    .pair pre{margin:0;border:1px solid;border-radius:5px;padding:9px;font:12px/1.55 var(--mono);white-space:pre-wrap}
+    .bad{border-color:var(--coral)!important;background:var(--red)}
+    .good{border-color:var(--teal)!important;background:var(--green)}
+    .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .case{border:2px solid var(--ink);border-radius:7px;padding:18px;background:rgba(255,253,247,.9)}
+    .case:nth-child(2),.case:nth-child(5){border-color:var(--teal)}
+    .case:nth-child(3),.case:nth-child(4){border-color:var(--coral)}
+    .case h3{margin:0;font-size:20px}
+    .case p{color:var(--muted);font-size:14px}
+    details{border-top:1px dashed var(--line);padding-top:10px}
+    summary{color:var(--teal-dark);font-weight:800;cursor:pointer}
+    details p{margin-bottom:0}
+    .checklist{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}
+    .check-item{border-top:5px solid var(--teal);padding:13px;background:rgba(223,241,233,.82)}
+    .check-item:nth-child(even){border-color:var(--coral);background:rgba(252,225,219,.75)}
+    .check-item strong{display:block;font-family:var(--serif)}
+    .check-item span{color:var(--muted);font-size:12px}
+    .quiz{display:grid;grid-template-columns:1fr 285px;gap:23px;border:2px solid var(--ink);border-radius:8px;padding:23px;background:rgba(255,253,247,.93);box-shadow:5px 6px 0 rgba(16,45,84,.1)}
+    .quiz-main{min-width:0}
+    .quiz-top{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);padding-bottom:13px}
+    .progress{width:min(250px,45%);height:9px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#e6e5dc}
+    .progress div{height:100%;width:5%;background:var(--teal);transition:width .25s}
+    .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+    .meta span{border:1px solid var(--line);padding:3px 8px;color:var(--muted);font-size:12px;background:var(--paper-2)}
+    .question{font:800 20px/1.55 var(--serif)}
+    .options{display:grid;gap:8px}
+    .option{display:flex;gap:9px;border:1px solid var(--line);border-radius:5px;padding:10px 12px;background:var(--paper-2);cursor:pointer}
+    .option:hover{border-color:var(--teal)}
+    .option.correct{border-color:var(--teal);background:var(--green)}
+    .option.wrong{border-color:var(--coral);background:var(--red)}
+    .option input{margin-top:6px;accent-color:var(--teal)}
+    .feedback{margin-top:12px;border-left:5px solid var(--teal);padding:10px 12px;background:var(--green)}
+    .feedback.wrong{border-color:var(--coral);background:var(--red)}
+    .controls{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:18px}
+    .controls .button{min-height:41px;padding:7px 13px}
+    .score-card{border:1px dashed var(--ink);padding:18px;background:rgba(255,246,197,.72)}
+    .score-card h3{margin:0}
+    .score-num{margin:12px 0;color:var(--coral);font:800 48px/1 var(--serif)}
+    .score-card p{color:var(--muted)}
+    .score-card ul{padding-left:20px}
+    .source{margin-top:18px;color:var(--muted);font-size:13px}
+    .source a{color:var(--teal-dark);text-decoration:underline}
+    .hidden{display:none!important}
+    footer{border-top:2px solid var(--ink);padding:25px 0 35px;color:var(--muted);text-align:center;font:700 14px var(--serif)}
+    @media(max-width:960px){
+      .hero{grid-template-columns:1fr;min-height:auto}.hero-tree{max-width:720px;width:100%;margin:auto}
+      .concept-grid,.formula-strip{grid-template-columns:repeat(2,1fr)}
+      .lab,.representation,.bst,.huffman,.quiz{grid-template-columns:1fr}.lab-stage{border-right:0;border-bottom:2px solid var(--ink)}
+      .frequency{grid-template-columns:repeat(2,1fr)}.frequency>div:nth-child(3){border-left:0;border-top:1px dashed #b28e26}.frequency>div:nth-child(4){border-top:1px dashed #b28e26}
+      .cases{grid-template-columns:1fr 1fr}.checklist{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:700px){
+      .page{width:min(100% - 26px,640px)}.bar{align-items:flex-start;flex-direction:column;padding:13px 0}.nav{gap:4px 15px}
+      h1{font-size:46px}.section-head,.rebuild,.panel{grid-template-columns:1fr}.section-head h2{font-size:36px}
+      .mistakes,.cases{grid-template-columns:1fr}.pair{grid-template-columns:1fr}.checklist{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:520px){
+      .page{width:min(100% - 20px,480px)}h1{font-size:38px}.lead{font-size:16px}.actions{flex-direction:column}.button{width:100%}
+      .hero{gap:42px;padding-top:42px}.hero-tree{padding:22px 8px 12px}.tree-canvas,.lab .tree-canvas{aspect-ratio:1/1;min-height:320px}
+      .node{width:44px;height:44px;font-size:18px}.frequency,.concept-grid,.formula-strip{grid-template-columns:1fr}.frequency>div+div{border-left:0;border-top:1px dashed #b28e26}
+      .section-head h2{font-size:32px}.mode-tabs{grid-template-columns:1fr 1fr}.mode:nth-child(2){border-right:0}.mode:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .lab-stage,.lab-side,.panel,.quiz{padding:16px 11px}.lab-controls{grid-template-columns:1fr}.array{gap:3px}.cell b{font-size:13px}.cell small{font-size:9px}
+      .quiz-top,.controls{align-items:flex-start;flex-direction:column}.progress{width:100%}.checklist{grid-template-columns:1fr}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.node{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="site-head"><div class="page bar"><a class="brand" href="../gesp.html">GESP 学习专区</a><nav class="nav" aria-label="页内导航"><a href="#basics">核心概念</a><a href="#traversal">遍历实验室</a><a href="#templates">代码模板</a><a href="#mistakes">高频易错</a><a href="#quiz">专项练习</a></nav></div></header>
+  <main>
+    <section class="page hero">
+      <div><span class="eyebrow">六级核心 · 七八级复习</span><h1><span class="title-line">GESP C++</span><span class="title-line marked">树与二叉树专题</span></h1><p class="lead">别把二叉树看成一堆指针。先盯住一个结点，再按 <strong>根、左、右</strong> 三个位置排顺序，就能拆开遍历、还原、树高和二叉搜索树这些高频题。</p><div class="actions"><a class="button" href="#traversal">先看遍历动画</a><a class="button alt" href="#quiz">直接做专项诊断</a></div></div>
+      <aside class="hero-tree" aria-label="二叉树结构示意图">
+        <div class="tree-canvas tree-nodes">
+          <svg class="tree-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M50 14 Q42 27 29 43"/><path d="M50 14 Q58 27 71 43"/><path d="M29 43 Q23 59 17 76"/><path d="M29 43 Q34 59 40 76"/><path d="M71 43 Q66 59 60 76"/><path d="M71 43 Q77 59 83 76"/></svg>
+          <span class="node n-a" data-node="A">A</span><span class="node n-b" data-node="B">B</span><span class="node n-c" data-node="C">C</span><span class="node n-d" data-node="D">D</span><span class="node n-e" data-node="E">E</span><span class="node n-f" data-node="F">F</span><span class="node n-g" data-node="G">G</span>
+        </div>
+        <div class="hero-legend"><span><i class="dot"></i> 未访问</span><span><i class="dot now"></i> 当前结点</span><span><i class="dot done"></i> 已访问</span><span>根 A · 叶子 D/E/F/G · 高度 3</span></div>
+      </aside>
+    </section>
+    <div class="page frequency"><div><strong>本地真题高频扫描</strong><span>按已整理真题文本中的树相关考法统计；关键词命中不等于题目数量。</span></div><div><strong>六级 · 11 套</strong><span>遍历、数组下标、树高、BST 是核心。</span></div><div><strong>七级 · 9 套</strong><span>还原树、遍历性质与复杂度继续出现。</span></div><div><strong>八级 · 延伸复现</strong><span>更重视复杂度、BST 与综合应用。</span></div></div>
+
+    <section class="page section" id="basics">
+      <div class="section-head"><h2>先把树的<span class="under">语言说清楚</span></h2><p>做题时先圈出根、父子、叶子、层数，再判断题目说的是普通二叉树、完全二叉树，还是二叉搜索树。</p></div>
+      <div class="concept-grid">
+        <article class="concept"><span class="index">1</span><h3>根、父、子、兄弟</h3><p>最上方是根。一个结点直接连出的下一层是孩子；拥有同一个父结点的结点互为兄弟。根没有父结点。</p></article>
+        <article class="concept"><span class="index">2</span><h3>度与叶子</h3><p>结点的度是孩子数量。二叉树中度只能是 0、1、2；度为 0 的结点就是叶子结点。</p></article>
+        <article class="concept"><span class="index">3</span><h3>深度与高度</h3><p>本页约定根深度为 1，空树高度为 0。结点深度从根往下数；树高是最深结点的深度。</p></article>
+        <article class="concept"><span class="index">4</span><h3>子树与递归</h3><p>每个结点的左、右孩子又各自带着一棵二叉树。这个“结构重复”正是递归模板能工作的原因。</p></article>
+        <article class="concept"><span class="index">5</span><h3>满二叉树</h3><p>常见考级语境中，每一层都放满：高度为 h 时结点数恰为 2<sup>h</sup>-1。注意不同教材术语可能略有差别。</p></article>
+        <article class="concept"><span class="index">6</span><h3>完全二叉树</h3><p>除最后一层外都放满，最后一层从左到右连续。最适合用数组紧凑存储，不能在中间随意挖空。</p></article>
+        <article class="concept"><span class="index">7</span><h3>二叉搜索树 BST</h3><p>无重复值时，左子树所有值小于根，右子树所有值大于根，并且左右子树也要满足同样规则。</p></article>
+        <article class="concept"><span class="index">8</span><h3>平衡不是完全</h3><p>平衡关注左右子树高度差；完全关注结点是否按层从左连续摆放。两个概念不能互相替代。</p></article>
+      </div>
+      <div class="formula-strip">
+        <div class="formula"><code>第 k 层至多 2<sup>k-1</sup></code><span>根所在第 1 层最多 1 个结点。</span></div>
+        <div class="formula"><code>高度 h 至多 2<sup>h</sup>-1</code><span>每层都放满时达到最大值。</span></div>
+        <div class="formula"><code>n<sub>0</sub> = n<sub>2</sub> + 1</code><span>任意非空二叉树：叶子数 = 度为 2 的结点数 + 1。</span></div>
+        <div class="formula"><code>边数 = n - 1</code><span>含 n 个结点的树恰有 n-1 条父子边。</span></div>
+      </div>
+    </section>
+
+    <section class="page section" id="traversal">
+      <div class="section-head"><h2>四种遍历的<span class="under">动态实验室</span></h2><p>前、中、后序的名字只看“根”何时访问；层序则借助队列，从上到下、从左到右扫描。</p></div>
+      <div class="lab">
+        <div class="lab-stage">
+          <div class="mode-tabs" role="tablist" aria-label="遍历方式"><button class="mode" data-mode="pre" role="tab" aria-selected="true">前序</button><button class="mode" data-mode="in" role="tab" aria-selected="false">中序</button><button class="mode" data-mode="post" role="tab" aria-selected="false">后序</button><button class="mode" data-mode="level" role="tab" aria-selected="false">层序</button></div>
+          <div class="tree-canvas lab-tree">
+            <svg class="tree-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M50 14 Q42 27 29 43"/><path d="M50 14 Q58 27 71 43"/><path d="M29 43 Q23 59 17 76"/><path d="M29 43 Q34 59 40 76"/><path d="M71 43 Q66 59 60 76"/><path d="M71 43 Q77 59 83 76"/></svg>
+            <span class="node n-a" data-node="A">A</span><span class="node n-b" data-node="B">B</span><span class="node n-c" data-node="C">C</span><span class="node n-d" data-node="D">D</span><span class="node n-e" data-node="E">E</span><span class="node n-f" data-node="F">F</span><span class="node n-g" data-node="G">G</span>
+          </div>
+        </div>
+        <div class="lab-side"><h3 id="mode-title">前序遍历</h3><div class="rule" id="mode-rule"><strong>口诀：</strong>根 → 左 → 右</div><p id="mode-explain">先记录当前根，再递归访问左子树和右子树。</p><div class="sequence" id="sequence" aria-live="polite"></div><p id="visit-status">点击“播放”或“下一步”，观察访问顺序。</p><div class="lab-controls"><button class="control" id="prev-step" disabled>上一步</button><button class="control primary" id="play-tree">播放</button><button class="control" id="next-step">下一步</button></div><p class="tipline">考场心法：把 visit/输出语句圈出来。它在两个递归调用之前是前序，中间是中序，之后是后序。</p></div>
+      </div>
+    </section>
+
+    <section class="page section" id="storage">
+      <div class="section-head"><h2>链式与数组：<span class="under">结点住在哪里</span></h2><p>普通二叉树常用左右指针；完全二叉树常用数组。题目最爱在 0 下标和 1 下标之间切换。</p></div>
+      <div class="representation">
+        <article class="array-board"><h3>完全二叉树的数组位置</h3><div class="array" aria-label="层序数组"><div class="cell"><b>A</b><small>0</small></div><div class="cell"><b>B</b><small>1</small></div><div class="cell"><b>C</b><small>2</small></div><div class="cell"><b>D</b><small>3</small></div><div class="cell"><b>E</b><small>4</small></div><div class="cell"><b>F</b><small>5</small></div><div class="cell"><b>G</b><small>6</small></div></div><div class="index-switch"><button data-base="0" aria-pressed="true">根下标 0</button><button data-base="1" aria-pressed="false">根下标 1</button></div><div class="index-formulas" id="index-formulas"><code>左孩子：2*i + 1</code><code>右孩子：2*i + 2</code><code>父结点：(i - 1) / 2 向下取整</code></div></article>
+        <article class="code-board"><h3>链式结点模板</h3><pre class="code"><code>struct Node {
+    int val;
+    Node* left;
+    Node* right;
+
+    Node(int x)
+        : val(x), left(nullptr), right(nullptr) {}
+};</code></pre><p class="note"><strong>易错：</strong>创建新结点时要初始化左右指针。递归函数第一行通常先处理 <code>root == nullptr</code>。</p></article>
+      </div>
+    </section>
+
+    <section class="page section" id="rebuild">
+      <div class="section-head"><h2>由遍历序列<span class="under">还原一棵树</span></h2><p>中序负责切开左右子树；前序第一个或后序最后一个负责告诉你当前根是谁。</p></div>
+      <div class="rebuild">
+        <div class="rebuild-steps"><article class="rebuild-step"><h3>1. 在前序中找根</h3><p>前序 <code>A B D E C F G</code> 的第一个 A 就是整棵树的根。</p></article><article class="rebuild-step"><h3>2. 用根切中序</h3><p>中序 <code>D B E | A | F C G</code>：A 左侧都是左子树，右侧都是右子树。</p></article><article class="rebuild-step"><h3>3. 分别递归</h3><p>左子树前序从 B 开始，右子树前序从 C 开始；每次重复“找根 + 切中序”。</p></article><article class="rebuild-step"><h3>4. 写出目标序列</h3><p>若问后序，就等左右子树都完成后再写根：<code>D E B F G C A</code>。</p></article></div>
+        <article class="sequence-box"><h3>两组序列怎样组合？</h3><div class="seq-row"><strong>前序</strong><div class="letters"><b class="root">A</b><b>B</b><b>D</b><b>E</b><b>C</b><b>F</b><b>G</b></div></div><div class="seq-row"><strong>中序</strong><div class="letters"><b>D</b><b>B</b><b>E</b><b class="root">A</b><b>F</b><b>C</b><b>G</b></div></div><div class="seq-row"><strong>后序</strong><div class="letters"><b>D</b><b>E</b><b>B</b><b>F</b><b>G</b><b>C</b><b class="root">A</b></div></div><div class="verdict"><strong>唯一确定：</strong>前序 + 中序，或中序 + 后序（结点值互不相同）。<br><strong>通常不能唯一：</strong>只给前序 + 后序。</div></article>
+      </div>
+    </section>
+
+    <section class="page section" id="templates">
+      <div class="section-head"><h2>六套<span class="under">考场代码模板</span></h2><p>先看函数负责哪一棵子树，再看空指针出口，最后检查输出语句相对两个递归调用的位置。</p></div>
+      <div class="template">
+        <div class="tabs" role="tablist" aria-label="代码模板"><button class="tab" role="tab" aria-selected="true" data-panel="tpl-pre">前中后序</button><button class="tab" role="tab" aria-selected="false" data-panel="tpl-level">层序 BFS</button><button class="tab" role="tab" aria-selected="false" data-panel="tpl-depth">高度/计数</button><button class="tab" role="tab" aria-selected="false" data-panel="tpl-stack">栈前序</button><button class="tab" role="tab" aria-selected="false" data-panel="tpl-bst">BST 插入</button><button class="tab" role="tab" aria-selected="false" data-panel="tpl-find">BST 查找</button></div>
+        <div class="panel active" id="tpl-pre" role="tabpanel"><div><h3>递归遍历</h3><p>只移动一行 <code>cout</code>，就能切换前、中、后序。</p><div class="note">前序放最前；中序放两次递归中间；后序放最后。</div></div><pre class="code"><code>void dfs(Node* root) {
+    if (root == nullptr) return;
+
+    cout &lt;&lt; root-&gt;val &lt;&lt; ' '; // 前序
+    dfs(root-&gt;left);
+    // cout &lt;&lt; root-&gt;val &lt;&lt; ' '; // 中序
+    dfs(root-&gt;right);
+    // cout &lt;&lt; root-&gt;val &lt;&lt; ' '; // 后序
+}</code></pre></div>
+        <div class="panel" id="tpl-level" role="tabpanel"><div><h3>队列做层序遍历</h3><p>队列保证先入先出，因此同一层天然从左到右。</p><div class="note">若要按层换行，要先保存本层数量 <code>q.size()</code>。</div></div><pre class="code"><code>void levelOrder(Node* root) {
+    if (root == nullptr) return;
+    queue&lt;Node*&gt; q;
+    q.push(root);
+    while (!q.empty()) {
+        int levelSize = q.size();
+        while (levelSize--) {
+            Node* cur = q.front(); q.pop();
+            cout &lt;&lt; cur-&gt;val &lt;&lt; ' ';
+            if (cur-&gt;left) q.push(cur-&gt;left);
+            if (cur-&gt;right) q.push(cur-&gt;right);
+        }
+        cout &lt;&lt; '\n';
+    }
+}</code></pre></div>
+        <div class="panel" id="tpl-depth" role="tabpanel"><div><h3>高度与结点计数</h3><p>高度取左右最大值；结点总数把左右数量相加。</p><div class="note">不要把 <code>max</code> 与加法混淆。</div></div><pre class="code"><code>int height(Node* root) {
+    if (root == nullptr) return 0;
+    return max(height(root-&gt;left),
+               height(root-&gt;right)) + 1;
+}
+
+int countNodes(Node* root) {
+    if (root == nullptr) return 0;
+    return countNodes(root-&gt;left)
+         + countNodes(root-&gt;right) + 1;
+}</code></pre></div>
+        <div class="panel" id="tpl-stack" role="tabpanel"><div><h3>栈实现非递归前序</h3><p>栈后进先出。想先访问左孩子，就必须先把右孩子压栈。</p><div class="note">口诀：输出当前；右先入栈，左后入栈。</div></div><pre class="code"><code>void preorderStack(Node* root) {
+    if (root == nullptr) return;
+    stack&lt;Node*&gt; st;
+    st.push(root);
+    while (!st.empty()) {
+        Node* cur = st.top(); st.pop();
+        cout &lt;&lt; cur-&gt;val &lt;&lt; ' ';
+        if (cur-&gt;right) st.push(cur-&gt;right);
+        if (cur-&gt;left) st.push(cur-&gt;left);
+    }
+}</code></pre></div>
+        <div class="panel" id="tpl-bst" role="tabpanel"><div><h3>BST 递归插入</h3><p>每次只走左或右一条路径，并把递归返回的新子树接回原位置。</p><div class="note">最常漏写的是 <code>root-&gt;left = ...</code> 和最后的 <code>return root</code>。</div></div><pre class="code"><code>Node* insert(Node* root, int x) {
+    if (root == nullptr) return new Node(x);
+    if (x &lt; root-&gt;val)
+        root-&gt;left = insert(root-&gt;left, x);
+    else if (x &gt; root-&gt;val)
+        root-&gt;right = insert(root-&gt;right, x);
+    return root;
+}</code></pre></div>
+        <div class="panel" id="tpl-find" role="tabpanel"><div><h3>BST 迭代查找</h3><p>比当前值小向左，大则向右；相等时结束。</p><div class="note">复杂度是 <code>O(h)</code>：平衡时约 <code>O(log n)</code>，退化成链时最坏 <code>O(n)</code>。</div></div><pre class="code"><code>Node* find(Node* root, int x) {
+    while (root != nullptr) {
+        if (x == root-&gt;val) return root;
+        if (x &lt; root-&gt;val)
+            root = root-&gt;left;
+        else
+            root = root-&gt;right;
+    }
+    return nullptr;
+}</code></pre></div>
+      </div>
+    </section>
+
+    <section class="page section" id="bst">
+      <div class="section-head"><h2>二叉搜索树：<span class="under">每次排除一边</span></h2><p>BST 的关键不是“左右孩子”两个值，而是整棵左子树都小、整棵右子树都大。</p></div>
+      <div class="bst"><article class="bst-board"><h3>查找 62 的路线</h3><p>示例 BST 中，从根 50 开始比较：</p><div class="bst-path"><b>50</b><span>62 &gt; 50 →</span><b>70</b><span>62 &lt; 70 →</span><b>60</b><span>62 &gt; 60 →</span><b>62</b></div><p class="note">BST 的中序遍历一定按非递减顺序输出；若题目保证值互不相同，就是严格递增。</p></article><article class="bst-board"><h3>复杂度看树高 h</h3><div class="complexity"><div><strong>较平衡：O(log n)</strong><span>每次比较大约排除一半范围。</span></div><div><strong>退化成链：O(n)</strong><span>依次插入 1,2,3,4… 可能一路向右。</span></div></div><p>遍历仍然要访问每个结点，所以前、中、后、层序遍历的时间复杂度都是 <code>O(n)</code>。</p></article></div>
+    </section>
+
+    <section class="page section" id="huffman">
+      <div class="section-head"><h2>哈夫曼树：<span class="under">总挑最小的两个</span></h2><p>它也是六级常见树考点。题目通常考构造过程、带权路径长度 WPL、结点总数和前缀编码性质。</p></div>
+      <div class="huffman"><article class="huffman-process"><h3>构造口诀：小、小、合</h3><p>权值为 2、3、4、7 时，每轮从当前集合选最小的两个合并。</p><div class="merge-row"><span class="weight pick">2</span><span>+</span><span class="weight pick">3</span><strong>→ 5</strong></div><div class="merge-row"><span class="weight pick">4</span><span>+</span><span class="weight pick">5</span><strong>→ 9</strong></div><div class="merge-row"><span class="weight pick">7</span><span>+</span><span class="weight pick">9</span><strong>→ 16</strong></div><p class="note">每次合并值相加形成新结点，再把新权值放回集合继续选择。</p></article><article class="huffman-notes"><h3>四个必会结论</h3><div class="huffman-list"><div><code>WPL = Σ(叶子权值 × 路径长度)</code><br>也可把每次合并产生的新权值相加：5 + 9 + 16 = 30。</div><div><code>n 个符号 → 2n - 1 个结点</code><br>标准哈夫曼树没有度为 1 的结点。</div><div><code>出现越频繁，编码通常越短</code><br>目标是让整棵树的 WPL 最小。</div><div><code>哈夫曼编码是前缀编码</code><br>任何字符编码都不是另一个字符编码的前缀，因此不需要分隔符也能唯一解码。</div></div></article></div>
+    </section>
+
+    <section class="page section" id="mistakes">
+      <div class="section-head"><h2>考场最容易错的<span class="under">八个细节</span></h2><p>先判树的类型、下标起点和深度约定，再动手算遍历；很多错题不是不会递归，而是条件没读完整。</p></div>
+      <div class="mistakes">
+        <article class="mistake"><b>1</b><div><h3>把“中序有序”套到普通二叉树</h3><p>只有 BST 的中序遍历保证有序。</p><div class="pair"><pre class="bad">普通二叉树中序必递增</pre><pre class="good">BST 中序才有序</pre></div></div></article>
+        <article class="mistake"><b>2</b><div><h3>前序 + 后序就说唯一</h3><p>通常不能唯一确定；需要中序参与切分左右子树。</p><div class="pair"><pre class="bad">前序 + 后序 → 唯一</pre><pre class="good">前序/后序 + 中序</pre></div></div></article>
+        <article class="mistake"><b>3</b><div><h3>0 下标与 1 下标公式混用</h3><p>先看根放在 tree[0] 还是 tree[1]。</p><div class="pair"><pre class="bad">根为 0：左孩子 2*i</pre><pre class="good">根为 0：左 2*i+1</pre></div></div></article>
+        <article class="mistake"><b>4</b><div><h3>栈里先压左孩子</h3><p>栈后进先出，先压左会让右孩子先弹出。</p><div class="pair"><pre class="bad">push(left); push(right);</pre><pre class="good">push(right); push(left);</pre></div></div></article>
+        <article class="mistake"><b>5</b><div><h3>树高把两边相加</h3><p>高度只选更深的一边，再加当前层。</p><div class="pair"><pre class="bad">leftH + rightH + 1</pre><pre class="good">max(leftH,rightH)+1</pre></div></div></article>
+        <article class="mistake"><b>6</b><div><h3>忘记空指针出口</h3><p>递归继续访问空孩子会崩溃或无限递归。</p><div class="pair"><pre class="bad">直接访问 root-&gt;left</pre><pre class="good">if (!root) return;</pre></div></div></article>
+        <article class="mistake"><b>7</b><div><h3>把完全二叉树当成满二叉树</h3><p>完全二叉树最后一层可以不满，但必须从左连续。</p><div class="pair"><pre class="bad">完全 = 每层都满</pre><pre class="good">最后一层可不满</pre></div></div></article>
+        <article class="mistake"><b>8</b><div><h3>只比较 BST 的直接孩子</h3><p>BST 约束的是整棵左右子树，不只是相邻三个值。</p><div class="pair"><pre class="bad">左孩子小、右孩子大即可</pre><pre class="good">整棵左小、整棵右大</pre></div></div></article>
+      </div>
+    </section>
+
+    <section class="page section" id="cases">
+      <div class="section-head"><h2>六道<span class="under">真题化样题</span></h2><p>依据 2023–2026 本地归档中反复出现的考法原创改编，训练的是同一知识点，不照抄完整真题。</p></div>
+      <div class="cases">
+        <article class="case"><h3>样题 1：判断遍历</h3><p>递归代码依次执行：访问根、递归左子树、递归右子树。它是哪种遍历？</p><details><summary>查看答案</summary><p><strong>前序遍历。</strong>判断名字只看根的访问位置，根在最前。</p></details></article>
+        <article class="case"><h3>样题 2：序列还原</h3><p>前序为 A B D E C F，中序为 D B E A F C，后序是什么？</p><details><summary>查看答案</summary><p><strong>D E B F C A。</strong>前序首项 A 是根，中序以 A 切成左右两段。</p></details></article>
+        <article class="case"><h3>样题 3：数组下标</h3><p>完全二叉树根在 tree[0]。下标 i 的右孩子在哪里？</p><details><summary>查看答案</summary><p><strong>tree[2*i+2]。</strong>若根从 1 开始，右孩子才是 2*i+1。</p></details></article>
+        <article class="case"><h3>样题 4：递归填空</h3><p>空树高度为 0，左右高度为 L、R，当前树高表达式是什么？</p><details><summary>查看答案</summary><p><strong>max(L,R)+1。</strong>最长根到叶路径只经过左右其中一边。</p></details></article>
+        <article class="case"><h3>样题 5：非递归前序</h3><p>用栈并希望先访问左子树，当前结点处理后应按什么顺序压入孩子？</p><details><summary>查看答案</summary><p><strong>先右后左。</strong>栈后进先出，左孩子后压才能先弹出。</p></details></article>
+        <article class="case"><h3>样题 6：BST 性质</h3><p>对无重复值的 BST 做哪种遍历能得到严格递增序列？复杂度是多少？</p><details><summary>查看答案</summary><p><strong>中序遍历，O(n)。</strong>不管是否平衡，完整遍历都要访问 n 个结点。</p></details></article>
+      </div>
+      <div class="checklist"><div class="check-item"><strong>① 看类型</strong><span>普通 / 完全 / BST？</span></div><div class="check-item"><strong>② 看根位置</strong><span>前、中、后序的根在哪？</span></div><div class="check-item"><strong>③ 看下标</strong><span>从 0 还是从 1 开始？</span></div><div class="check-item"><strong>④ 看出口</strong><span>空指针返回什么？</span></div><div class="check-item"><strong>⑤ 看复杂度</strong><span>遍历 O(n)，查找 O(h)。</span></div></div>
+    </section>
+
+    <section class="page section" id="quiz">
+      <div class="section-head"><h2>20 题<span class="under">专项诊断</span></h2><p>13 道选择 + 7 道判断，覆盖结构性质、遍历、数组存储、递归、BST、哈夫曼树与复杂度。</p></div>
+      <div class="quiz">
+        <div class="quiz-main"><div class="quiz-top"><strong id="quiz-count">第 1 / 20 题</strong><div class="progress" aria-label="答题进度"><div id="quiz-progress"></div></div></div><div class="meta"><span id="quiz-type">选择题</span><span id="quiz-topic">主题：基本概念</span><span id="quiz-trap">易错：度与深度</span></div><p class="question" id="question"></p><div class="options" id="options"></div><div class="feedback hidden" id="feedback" aria-live="polite"></div><div class="controls"><button class="button alt" id="quiz-prev" disabled>上一题</button><button class="button alt" id="quiz-next">下一题</button><button class="button coral" id="quiz-submit">提交并查看结果</button></div></div>
+        <aside class="score-card"><h3>本次练习得分</h3><div class="score-num" id="score-num">— / 20</div><p id="score-text">完成后显示结果与复习建议。</p><ul><li>遍历：根的访问位置</li><li>存储：0/1 下标公式</li><li>递归：出口与返回值</li><li>BST：中序与树高</li></ul></aside>
+      </div>
+      <p class="source">考法范围参考 <a href="https://gesp.ccf.org.cn/101/1010/index.html" target="_blank" rel="noopener noreferrer">CCF GESP 官方真题页面</a> 及本地六至八级真题归档。练习题为原创改编，不复现完整真题。</p>
+    </section>
+  </main>
+  <footer><div class="page">GESP C++ 树与二叉树专题 · 先找根，再分左右；先判条件，再套模板</div></footer>
+
+  <script>
+    (function(){
+      const traversals={
+        pre:{title:'前序遍历',rule:'根 → 左 → 右',explain:'先记录当前根，再递归访问左子树和右子树。',seq:['A','B','D','E','C','F','G']},
+        in:{title:'中序遍历',rule:'左 → 根 → 右',explain:'先完成左子树，再记录当前根，最后完成右子树。',seq:['D','B','E','A','F','C','G']},
+        post:{title:'后序遍历',rule:'左 → 右 → 根',explain:'左右子树都处理完，最后才记录当前根。',seq:['D','E','B','F','G','C','A']},
+        level:{title:'层序遍历',rule:'从上到下，同层从左到右',explain:'使用队列保存下一批要访问的结点，属于广度优先搜索。',seq:['A','B','C','D','E','F','G']}
+      };
+      let mode='pre',step=0,timer=null;
+      const modeButtons=[...document.querySelectorAll('.mode')];
+      const labNodes=[...document.querySelectorAll('.lab-tree .node')];
+      const sequence=document.getElementById('sequence');
+      const playButton=document.getElementById('play-tree');
+      const prevStep=document.getElementById('prev-step');
+      const nextStep=document.getElementById('next-step');
+
+      function stopPlay(){if(timer){clearInterval(timer);timer=null}playButton.textContent='播放'}
+      function drawTraversal(){
+        const data=traversals[mode];
+        document.getElementById('mode-title').textContent=data.title;
+        document.getElementById('mode-rule').innerHTML='<strong>口诀：</strong>'+data.rule;
+        document.getElementById('mode-explain').textContent=data.explain;
+        sequence.innerHTML=data.seq.map(function(v,i){return '<span class="token '+(i<step-1?'done':i===step-1?'now':'')+'">'+v+'</span>'}).join('');
+        labNodes.forEach(function(node){const idx=data.seq.indexOf(node.dataset.node);node.classList.toggle('visited',idx<step-1);node.classList.toggle('current',idx===step-1);node.innerHTML=node.dataset.node+(idx<step?'<small>'+(idx+1)+'</small>':'')});
+        document.getElementById('visit-status').textContent=step===0?'点击“播放”或“下一步”，观察访问顺序。':step===data.seq.length?'遍历完成：'+data.seq.join(' → '):'第 '+step+' 步：访问结点 '+data.seq[step-1];
+        prevStep.disabled=step===0;nextStep.disabled=step===data.seq.length;
+        if(step===data.seq.length)stopPlay();
+      }
+      modeButtons.forEach(function(btn){btn.addEventListener('click',function(){stopPlay();mode=btn.dataset.mode;step=0;modeButtons.forEach(function(b){b.setAttribute('aria-selected',String(b===btn))});drawTraversal()})});
+      nextStep.addEventListener('click',function(){if(step<traversals[mode].seq.length){step++;drawTraversal()}});
+      prevStep.addEventListener('click',function(){stopPlay();if(step>0){step--;drawTraversal()}});
+      playButton.addEventListener('click',function(){if(timer){stopPlay();return}if(step===traversals[mode].seq.length)step=0;playButton.textContent='暂停';drawTraversal();timer=setInterval(function(){if(step<traversals[mode].seq.length){step++;drawTraversal()}else stopPlay()},720)});
+      drawTraversal();
+
+      const indexButtons=[...document.querySelectorAll('.index-switch button')];
+      indexButtons.forEach(function(btn){btn.addEventListener('click',function(){const base=btn.dataset.base;indexButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b===btn))});document.querySelectorAll('.cell small').forEach(function(el,i){el.textContent=String(i+Number(base))});document.getElementById('index-formulas').innerHTML=base==='0'?'<code>左孩子：2*i + 1</code><code>右孩子：2*i + 2</code><code>父结点：(i - 1) / 2 向下取整</code>':'<code>左孩子：2*i</code><code>右孩子：2*i + 1</code><code>父结点：i / 2 向下取整</code>'})});
+
+      const tabs=[...document.querySelectorAll('.tab')];
+      tabs.forEach(function(tab){tab.addEventListener('click',function(){tabs.forEach(function(t){t.setAttribute('aria-selected',String(t===tab))});document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('active',p.id===tab.dataset.panel)})})});
+
+      const questions=[
+        {type:'选择题',topic:'基本概念',trap:'度与叶子',q:'二叉树中，一个叶子结点的度是多少？',o:['0','1','2','取决于所在层'],a:0,e:'叶子结点没有孩子，因此度为 0。'},
+        {type:'选择题',topic:'结构性质',trap:'层数从 1 开始',q:'一棵二叉树的第 4 层最多有多少个结点？',o:['4','8','15','16'],a:1,e:'第 k 层最多 2^(k-1) 个结点，所以第 4 层最多 8 个。'},
+        {type:'判断题',topic:'结构性质',trap:'叶子与度为 2',q:'任意非空二叉树中，叶子结点数总比度为 2 的结点数多 1。',o:['正确','错误'],a:0,e:'这是二叉树的重要性质：n0 = n2 + 1。'},
+        {type:'选择题',topic:'前序遍历',trap:'根在最前',q:'示例树的前序遍历是哪个序列？',o:['A B D E C F G','D B E A F C G','D E B F G C A','A B C D E F G'],a:0,e:'前序是根、左、右，所以得到 A B D E C F G。'},
+        {type:'选择题',topic:'中序遍历',trap:'根在中间',q:'示例树的中序遍历是哪个序列？',o:['A B D E C F G','D B E A F C G','D E B F G C A','D E B A F G C'],a:1,e:'中序是左、根、右，所以得到 D B E A F C G。'},
+        {type:'选择题',topic:'后序遍历',trap:'根在最后',q:'示例树的后序遍历是哪个序列？',o:['A B D E C F G','D B E A F C G','D E B F G C A','D E B A F G C'],a:2,e:'后序是左、右、根，所以根 A 最后出现。'},
+        {type:'选择题',topic:'层序遍历',trap:'需要队列',q:'层序遍历通常使用哪种数据结构？',o:['栈','队列','优先队列','集合'],a:1,e:'队列先入先出，能按层从左到右访问。'},
+        {type:'判断题',topic:'树的还原',trap:'缺少中序',q:'只知道一棵普通二叉树的前序与后序序列，通常可以唯一确定这棵树。',o:['正确','错误'],a:1,e:'通常不能唯一确定；前序+中序或中序+后序才可唯一还原（结点值互异）。'},
+        {type:'选择题',topic:'树的还原',trap:'前序首项是根',q:'前序 A B D E C F、中序 D B E A F C 对应的后序是？',o:['D E B F C A','E D B F C A','D B E F C A','D E B C F A'],a:0,e:'根 A 切分左右子树，左后序 D E B，右后序 F C，最后写 A。'},
+        {type:'选择题',topic:'数组存储',trap:'根下标为 0',q:'完全二叉树存于 tree[0...]，下标 i 的右孩子下标是？',o:['2*i','2*i+1','2*i+2','i/2'],a:2,e:'0 下标：左 2*i+1，右 2*i+2。'},
+        {type:'判断题',topic:'哈夫曼树',trap:'前缀编码',q:'哈夫曼编码是前缀编码，任何字符的编码都不会成为另一个字符编码的前缀。',o:['正确','错误'],a:0,e:'这个性质保证编码串无需额外分隔符也能唯一解码。'},
+        {type:'选择题',topic:'递归',trap:'高度取最大值',q:'空树高度为 0。若左右子树高度为 L、R，当前树高是？',o:['L+R','max(L,R)','max(L,R)+1','L+R+1'],a:2,e:'根到最深叶子的路径只会进入一侧，所以取最大值再加当前层。'},
+        {type:'判断题',topic:'非递归遍历',trap:'栈后进先出',q:'栈实现前序遍历并希望先访问左子树时，应先压入右孩子，再压入左孩子。',o:['正确','错误'],a:0,e:'左孩子后压栈，会先弹出，从而先访问左子树。'},
+        {type:'选择题',topic:'代码识别',trap:'输出语句位置',q:'若输出语句位于“递归左子树”和“递归右子树”之间，代码实现什么遍历？',o:['前序','中序','后序','层序'],a:1,e:'根在左右两次递归中间访问，就是中序遍历。'},
+        {type:'判断题',topic:'二叉搜索树',trap:'适用范围',q:'任何二叉树做中序遍历都会得到递增序列。',o:['正确','错误'],a:1,e:'只有满足 BST 次序性质的树，其中序遍历才保证有序。'},
+        {type:'选择题',topic:'二叉搜索树',trap:'复杂度看高度',q:'含 n 个结点的 BST 退化成链时，查找的最坏时间复杂度是？',o:['O(1)','O(log n)','O(n)','O(n log n)'],a:2,e:'退化后可能逐个比较 n 个结点，最坏为 O(n)。'},
+        {type:'判断题',topic:'二叉搜索树',trap:'递归定义',q:'二叉搜索树的左右子树也必须分别是二叉搜索树。',o:['正确','错误'],a:0,e:'BST 的定义是递归的，左右子树必须继续满足相同规则。'},
+        {type:'选择题',topic:'复杂度',trap:'遍历每个结点',q:'遍历一棵含 n 个结点的二叉树，时间复杂度通常是？',o:['O(1)','O(log n)','O(n)','O(n²)'],a:2,e:'完整遍历需要访问每个结点一次，所以是 O(n)。'},
+        {type:'判断题',topic:'哈夫曼树',trap:'构造顺序',q:'构造哈夫曼树时，每一轮都从当前权值集合中选取最小的两个进行合并。',o:['正确','错误'],a:0,e:'“小、小、合”是哈夫曼树的核心构造步骤，合并后的新权值要放回集合。'},
+        {type:'选择题',topic:'递归安全',trap:'空指针出口',q:'递归遍历函数开头最应该先检查什么？',o:['根值是否为 0','左右孩子是否相等','root 是否为 nullptr','树是否完全'],a:2,e:'空指针是递归的基本出口，必须在解引用 root 前处理。'}
+      ];
+      let qi=0;const answers=new Array(questions.length).fill(null);
+      const qEl=document.getElementById('question'),optionsEl=document.getElementById('options'),feedback=document.getElementById('feedback');
+      function renderQuestion(){
+        const q=questions[qi];
+        document.getElementById('quiz-count').textContent='第 '+(qi+1)+' / '+questions.length+' 题';
+        document.getElementById('quiz-progress').style.width=((qi+1)/questions.length*100)+'%';
+        document.getElementById('quiz-type').textContent=q.type;document.getElementById('quiz-topic').textContent='主题：'+q.topic;document.getElementById('quiz-trap').textContent='易错：'+q.trap;qEl.textContent=q.q;
+        optionsEl.innerHTML=q.o.map(function(opt,i){const checked=answers[qi]===i?' checked':'';return '<label class="option"><input type="radio" name="answer" value="'+i+'"'+checked+'><span>'+String.fromCharCode(65+i)+'. '+opt+'</span></label>'}).join('');
+        optionsEl.querySelectorAll('input').forEach(function(input){input.addEventListener('change',function(){answers[qi]=Number(input.value);feedback.classList.add('hidden');optionsEl.querySelectorAll('.option').forEach(function(x){x.classList.remove('correct','wrong')})})});
+        feedback.className='feedback hidden';feedback.textContent='';document.getElementById('quiz-prev').disabled=qi===0;document.getElementById('quiz-next').disabled=qi===questions.length-1;
+      }
+      function showAnswer(){const q=questions[qi];if(answers[qi]===null){feedback.className='feedback wrong';feedback.textContent='请先选择一个答案。';return false}const labels=[...optionsEl.querySelectorAll('.option')];labels[q.a].classList.add('correct');if(answers[qi]!==q.a)labels[answers[qi]].classList.add('wrong');feedback.className='feedback'+(answers[qi]===q.a?'':' wrong');feedback.textContent=(answers[qi]===q.a?'回答正确。':'回答错误。')+q.e;return true}
+      document.getElementById('quiz-prev').addEventListener('click',function(){if(qi>0){qi--;renderQuestion()}});
+      document.getElementById('quiz-next').addEventListener('click',function(){if(!showAnswer())return;setTimeout(function(){if(qi<questions.length-1){qi++;renderQuestion()}},220)});
+      document.getElementById('quiz-submit').addEventListener('click',function(){
+        const unanswered=answers.filter(function(x){return x===null}).length;
+        if(unanswered){feedback.className='feedback wrong';feedback.textContent='还有 '+unanswered+' 题未作答。可以用上一题/下一题继续检查。';return}
+        showAnswer();let score=0;const wrongTopics={};questions.forEach(function(q,i){if(answers[i]===q.a)score++;else wrongTopics[q.topic]=(wrongTopics[q.topic]||0)+1});
+        document.getElementById('score-num').textContent=score+' / '+questions.length;
+        const weak=Object.keys(wrongTopics).sort(function(a,b){return wrongTopics[b]-wrongTopics[a]}).slice(0,2);
+        document.getElementById('score-text').textContent=score>=18?'基础很稳，可以继续做还原树和综合代码题。':score>=14?'整体合格，重点回看：'+(weak.join('、')||'易错点')+'。':'建议先重播遍历动画，再默写数组公式和递归出口。重点：'+(weak.join('、')||'基本概念')+'。';
+      });
+      renderQuestion();
+    })();
+  </script>
+</body>
+</html>
