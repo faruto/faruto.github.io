@@ -3,8 +3,8 @@
   "level": 4,
   "title": "小葵的 GESP 4 级错题本",
   "subtitle": "把做错过的题，再认真做一遍。",
-  "updatedAt": "2026-08-23",
-  "source": "GESP错题本-4级-20260823.docx",
+  "updatedAt": "2026-08-29",
+  "source": "GESP错题本-4级-20260829.docx",
   "questions": [
     {
       "id": "l4-202607-s1",
@@ -543,6 +543,81 @@
         {"key": "D", "label": "O(2^n)", "code": true}
       ],
       "knowledge": "递归斐波那契的时间复杂度"
+    },
+    {
+      "id": "l4-20260829-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "C++ 中，关于文件路径说法错误的是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "\"GESP.txt\"：指定与当前工作目录中的程序文件同目录中的 GESP.txt 文件"},
+        {"key": "B", "label": "\"../data/GESP.txt\"：指定与当前工作目录的上一级目录下的 data 目录中的 GESP.txt 文件"},
+        {"key": "C", "label": "\"./data/GESP.txt\"：指定当前工作目录下的 data 目录中的 GESP.txt 文件"},
+        {"key": "D", "label": "\"GESP.txt\" 是绝对路径"}
+      ],
+      "knowledge": "文件路径"
+    },
+    {
+      "id": "l4-20260829-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "数组 `{45, 66, 23, 1, 10, 97, 52, 88, 5, 33}` 进行从小到大冒泡排序过程中，第一遍冒泡过后的序列是（）。"}
+      ],
+      "options": [
+        {"key": "A", "label": "{45, 23, 1, 10, 66, 52, 88, 5, 33, 97}"},
+        {"key": "B", "label": "{45, 66, 1, 23, 10, 97, 52, 88, 5, 33}"},
+        {"key": "C", "label": "{45, 66, 23, 1, 10, 52, 88, 5, 33, 97}"},
+        {"key": "D", "label": "{45, 66, 23, 1, 10, 97, 52, 88, 33, 5}"}
+      ],
+      "knowledge": "冒泡排序第一遍"
+    },
+    {
+      "id": "l4-20260829-s3",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "下面的排序算法程序中，横线处应该填入的是（）。"},
+        {"type": "code", "language": "cpp", "value": "int a[8] = {2,3,4,5,6,2,3,1};\nfor (int i=1;i<8;i++)\n{\n    int key = a[i];\n    int j=i-1;\n    while(a[j]>key && j>=0)\n    {\n        ______;\n        j -= 1;\n    }\n    a[j + 1] = key;\n}"}
+      ],
+      "options": [
+        {"key": "A", "label": "a[j] = a[j-1];", "code": true},
+        {"key": "B", "label": "a[i] = a[j+1];", "code": true},
+        {"key": "C", "label": "a[j+1] = a[j-1];", "code": true},
+        {"key": "D", "label": "a[j+1] = a[j];", "code": true}
+      ],
+      "knowledge": "插入排序搬移语句"
+    },
+    {
+      "id": "l4-20260829-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "以下代码不能够正确执行。"},
+        {"type": "code", "language": "cpp", "value": "#include <iostream>\nusing namespace std;\nint main()\n{\n    int a = 20;\n    int& ra;\n    ra = &a;\n    cout << ra << endl;\n}"}
+      ],
+      "knowledge": "引用"
+    },
+    {
+      "id": "l4-20260829-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "引用是一个指针常量。"}
+      ],
+      "knowledge": "引用与指针"
+    },
+    {
+      "id": "l4-20260829-t3",
+      "type": "true-false",
+      "sourceNumber": 3,
+      "stem": [
+        {"type": "text", "value": "下面代码输出的值等于 `0`。"},
+        {"type": "code", "language": "cpp", "value": "#include <iostream>\nusing namespace std;\nint main()\n{\n    int *p = NULL;\n    cout << p << endl;\n}"}
+      ],
+      "knowledge": "指针与 NULL"
     }
   ]
 }
