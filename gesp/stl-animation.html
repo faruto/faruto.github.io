@@ -262,6 +262,26 @@
             background: linear-gradient(180deg, #FFB74D, #FF9800);
         }
 
+        .bar.merge-left {
+            background: linear-gradient(180deg, #4DD0E1, #0097A7);
+        }
+
+        .bar.merge-right {
+            background: linear-gradient(180deg, #FFB74D, #F57C00);
+        }
+
+        .bar.writing {
+            background: linear-gradient(180deg, #EF5350, #C62828);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(198, 40, 40, 0.24);
+        }
+
+        .bar.merge-left.comparing,
+        .bar.merge-right.comparing {
+            transform: translateY(-7px);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.22);
+        }
+
         /* 栈和队列样式 */
         .stack-container {
             display: flex;
@@ -510,6 +530,7 @@
         <div class="algo-tab" data-algo="queue">队列 Queue</div>
         <div class="algo-tab" data-algo="selection">选择排序</div>
         <div class="algo-tab" data-algo="insertion">插入排序</div>
+        <div class="algo-tab" data-algo="merge">归并排序</div>
     </div>
 
     <div class="main-content">
@@ -720,6 +741,47 @@
                         <li>GESP 4级考点</li>
                     </ul>`
             },
+            merge: {
+                title: '归并排序 Merge Sort',
+                desc: '先递归拆成小段，再把两个有序段合并成一个更大的有序段',
+                countLabel: '比较次数',
+                swapLabel: '写回次数',
+                showTarget: false,
+                showPush: false,
+                code: `<span class="code-comment">// 归并排序：分治 + 递归</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;vector&gt;</span>
+<span class="code-keyword">using namespace</span> std;
+
+<span class="code-keyword">void</span> <span class="code-function">mergeSort</span>(vector&lt;<span class="code-keyword">int</span>&gt;&amp; a, <span class="code-keyword">int</span> left, <span class="code-keyword">int</span> right) {
+    <span class="code-keyword">if</span> (left >= right) <span class="code-keyword">return</span>;
+
+    <span class="code-keyword">int</span> mid = left + (right - left) / <span class="code-string">2</span>;
+    mergeSort(a, left, mid);
+    mergeSort(a, mid + <span class="code-string">1</span>, right);
+
+    vector&lt;<span class="code-keyword">int</span>&gt; temp;
+    <span class="code-keyword">int</span> i = left, j = mid + <span class="code-string">1</span>;
+    <span class="code-keyword">while</span> (i <= mid &amp;&amp; j <= right) {
+        <span class="code-keyword">if</span> (a[i] <= a[j]) temp.push_back(a[i++]);
+        <span class="code-keyword">else</span> temp.push_back(a[j++]);
+    }
+    <span class="code-keyword">while</span> (i <= mid) temp.push_back(a[i++]);
+    <span class="code-keyword">while</span> (j <= right) temp.push_back(a[j++]);
+
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> k = <span class="code-string">0</span>; k < temp.size(); k++)
+        a[left + k] = temp[k];
+}`,
+                descHtml: `<p><strong>时间复杂度：</strong>O(n log n)</p>
+                    <p><strong>空间复杂度：</strong>O(n)</p>
+                    <p><strong>稳定性：</strong>稳定排序</p>
+                    <ul>
+                        <li><strong>分：</strong>不断把区间一分为二</li>
+                        <li><strong>治：</strong>单个元素天然有序</li>
+                        <li><strong>合：</strong>比较两段开头，较小值先写回</li>
+                        <li>相等时先取左段，才能保持稳定</li>
+                        <li>适合 GESP 6级以上递归、分治复习</li>
+                    </ul>`
+            },
             binary: {
                 title: '二分查找 Binary Search',
                 desc: '在有序数组中，每次排除一半元素，快速定位目标',
@@ -886,6 +948,18 @@ q.empty();      <span class="code-comment">// 是否为空</span>`,
                 if (highlights.mid === idx) {
                     bar.classList.add('mid');
                 }
+                if (highlights.leftRange && idx >= highlights.leftRange[0] && idx <= highlights.leftRange[1]) {
+                    bar.classList.add('merge-left');
+                }
+                if (highlights.rightRange && idx >= highlights.rightRange[0] && idx <= highlights.rightRange[1]) {
+                    bar.classList.add('merge-right');
+                }
+                if (highlights.writing && highlights.writing.includes(idx)) {
+                    bar.classList.add('writing');
+                }
+                if (highlights.activeRange && (idx < highlights.activeRange[0] || idx > highlights.activeRange[1])) {
+                    bar.style.opacity = '0.28';
+                }
                 if (highlights.range) {
                     if (idx < highlights.range[0] || idx > highlights.range[1]) {
                         bar.style.opacity = '0.3';
@@ -1017,6 +1091,8 @@ q.empty();      <span class="code-comment">// 是否为空</span>`,
                 startSelectionSort();
             } else if (currentAlgo === 'insertion') {
                 startInsertionSort();
+            } else if (currentAlgo === 'merge') {
+                startMergeSort();
             } else if (currentAlgo === 'binary') {
                 startBinarySearch();
             }
@@ -1214,6 +1290,138 @@ q.empty();      <span class="code-comment">// 是否为空</span>`,
             }
             
             step();
+        }
+
+        // 归并排序动画
+        function startMergeSort() {
+            isRunning = true;
+            startBtn.disabled = true;
+            compareCount = 0;
+            swapCount = 0;
+            updateStats();
+
+            const working = [...data];
+            const steps = [];
+            let comparisons = 0;
+            let writes = 0;
+
+            function record(type, details = {}) {
+                steps.push({
+                    type,
+                    array: [...working],
+                    comparisons,
+                    writes,
+                    ...details
+                });
+            }
+
+            function buildMergeSteps(left, right) {
+                if (left >= right) return;
+
+                const mid = Math.floor((left + right) / 2);
+                record('split', { left, mid, right });
+                buildMergeSteps(left, mid);
+                buildMergeSteps(mid + 1, right);
+
+                const leftPart = working.slice(left, mid + 1);
+                const rightPart = working.slice(mid + 1, right + 1);
+                let i = 0;
+                let j = 0;
+                let k = left;
+
+                while (i < leftPart.length && j < rightPart.length) {
+                    const leftValue = leftPart[i];
+                    const rightValue = rightPart[j];
+                    const sourceIndices = [left + i, mid + 1 + j];
+                    comparisons++;
+                    record('compare', { left, mid, right, leftValue, rightValue, sourceIndices });
+
+                    const value = leftValue <= rightValue ? leftValue : rightValue;
+                    if (leftValue <= rightValue) i++;
+                    else j++;
+                    working[k] = value;
+                    writes++;
+                    record('write', { left, mid, right, value, writeIndex: k, sourceIndices });
+                    k++;
+                }
+
+                while (i < leftPart.length) {
+                    const value = leftPart[i++];
+                    working[k] = value;
+                    writes++;
+                    record('write', { left, mid, right, value, writeIndex: k });
+                    k++;
+                }
+
+                while (j < rightPart.length) {
+                    const value = rightPart[j++];
+                    working[k] = value;
+                    writes++;
+                    record('write', { left, mid, right, value, writeIndex: k });
+                    k++;
+                }
+
+                record('merged', { left, mid, right });
+            }
+
+            if (working.length > 0) {
+                buildMergeSteps(0, working.length - 1);
+            }
+
+            let stepIndex = 0;
+
+            function playStep() {
+                if (stepIndex >= steps.length) {
+                    data = [...working];
+                    renderBars({ sorted: Array.from({length: data.length}, (_, index) => index) });
+                    statusBar.textContent = `✅ 归并排序完成！共比较 ${compareCount} 次，写回 ${swapCount} 次`;
+                    isRunning = false;
+                    startBtn.disabled = false;
+                    animationId = null;
+                    return;
+                }
+
+                const current = steps[stepIndex++];
+                data = [...current.array];
+                compareCount = current.comparisons;
+                swapCount = current.writes;
+                updateStats();
+
+                const highlights = {
+                    activeRange: [current.left, current.right],
+                    leftRange: [current.left, current.mid],
+                    rightRange: [current.mid + 1, current.right]
+                };
+
+                if (current.type === 'split') {
+                    statusBar.textContent = `拆分 [${current.left}, ${current.right}] → [${current.left}, ${current.mid}] 和 [${current.mid + 1}, ${current.right}]`;
+                } else if (current.type === 'compare') {
+                    highlights.comparing = current.sourceIndices;
+                    statusBar.textContent = `比较左段 ${current.leftValue} 与右段 ${current.rightValue}，较小值先写回`;
+                } else if (current.type === 'write') {
+                    highlights.writing = [current.writeIndex];
+                    statusBar.textContent = `把 ${current.value} 写入 arr[${current.writeIndex}]`;
+                } else {
+                    highlights.sorted = Array.from({length: current.right - current.left + 1}, (_, index) => current.left + index);
+                    statusBar.textContent = `区间 [${current.left}, ${current.right}] 合并完成：${data.slice(current.left, current.right + 1).join(', ')}`;
+                }
+
+                renderBars(highlights);
+                const delay = current.type === 'split' || current.type === 'merged'
+                    ? Math.max(180, getDelay() * 0.7)
+                    : Math.max(120, getDelay() * 0.55);
+                animationId = setTimeout(playStep, delay);
+            }
+
+            if (steps.length === 0) {
+                renderBars({ sorted: Array.from({length: data.length}, (_, index) => index) });
+                statusBar.textContent = '✅ 数据不足两个元素，已经有序';
+                isRunning = false;
+                startBtn.disabled = false;
+                return;
+            }
+
+            playStep();
         }
 
         // 二分查找动画
