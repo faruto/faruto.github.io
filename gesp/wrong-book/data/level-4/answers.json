@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "level": 4,
-  "updatedAt": "2026-08-29",
+  "updatedAt": "2026-08-31",
   "answers": [
     {"id": "l4-202607-s1", "answer": "C", "explanation": ["稳定排序要求相等元素排序后相对位置不变。选择排序每轮把最小值交换到前面，可能破坏相等元素的相对顺序，因此选择排序一般不稳定，错误说法是 C。"]},
     {"id": "l4-202607-s2", "answer": "C", "explanation": ["当 y 为 0 时，程序抛出字符串常量 Zero Error，类型可以被 catch (const char* msg) 捕获。因此输出 Caught: Zero Error，选 C。"]},
@@ -51,5 +51,8 @@
     ,{"id": "l4-20260829-t1", "answer": "true", "explanation": ["引用声明时必须立即绑定到一个对象，`int& ra;` 没有初始化是非法的；而且 `ra = &a` 右侧是 `int*`，也不能赋给 `int&`。因此代码不能正确执行，判断为正确。"]}
     ,{"id": "l4-20260829-t2", "answer": "true", "explanation": ["引用可以看作已经绑定且不能改指向的别名，其底层通常通过指针常量实现：引用一旦初始化就不能再绑定到其他对象。因此“引用是一个指针常量”在本题语境下判断为正确。"]}
     ,{"id": "l4-20260829-t3", "answer": "true", "explanation": ["`p` 被初始化为空指针常量 `NULL`，通过 `cout` 输出该指针时表示空地址，题目环境下输出为 0，因此判断为正确。"]}
+    ,{"id": "l4-20260831-s1", "answer": "C", "explanation": ["`Person p = {\"Yang\", 10};` 按结构体成员声明顺序进行聚合初始化，分别把 `name` 和 `age` 初始化为 `\"Yang\"` 和 `10`。A 需要相应构造函数，B 的成员声明使用了错误的逗号，D 把 `new` 返回的指针赋给结构体对象，因此选 C。"]}
+    ,{"id": "l4-20260831-s2", "answer": "C", "explanation": ["选项 C 虽然打开了 `outFile(\"log.txt\")`，但实际仍使用 `cout` 输出，既没有向 `outFile` 写入，也没有把 `cout` 的缓冲区重定向到文件，因此不能把内容写入 `log.txt`。A 使用 `freopen`，B 直接写入 `ofstream`，D 使用 `rdbuf` 重定向，均可实现题意，所以选 C。"]}
+    ,{"id": "l4-20260831-t1", "answer": "true", "explanation": ["异常抛出后，如果沿调用栈一直没有匹配的处理程序，C++ 运行时会调用 `std::terminate()` 终止程序，因此判断为正确。"]}
   ]
 }

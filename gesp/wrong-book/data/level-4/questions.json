@@ -3,8 +3,8 @@
   "level": 4,
   "title": "小葵的 GESP 4 级错题本",
   "subtitle": "把做错过的题，再认真做一遍。",
-  "updatedAt": "2026-08-29",
-  "source": "GESP错题本-4级-20260829.docx",
+  "updatedAt": "2026-08-31",
+  "source": "GESP错题本-4级-20260831.docx",
   "questions": [
     {
       "id": "l4-202607-s1",
@@ -618,6 +618,45 @@
         {"type": "code", "language": "cpp", "value": "#include <iostream>\nusing namespace std;\nint main()\n{\n    int *p = NULL;\n    cout << p << endl;\n}"}
       ],
       "knowledge": "指针与 NULL"
+    },
+    {
+      "id": "l4-20260831-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "下面的描述中，哪一项正确定义了一个名为 `Person` 的结构体并正确初始化了一个 `Person` 结构体变量 `p`？"}
+      ],
+      "options": [
+        {"key": "A", "label": "struct Person {\n    string name;\n    int age;\n};\nPerson p(\"Yang\", 10);", "code": true},
+        {"key": "B", "label": "struct Person {\n    string name,\n    int age;\n};\nPerson p;\np.age = 10;\np.name = \"Yang\";", "code": true},
+        {"key": "C", "label": "struct Person {\n    string name;\n    int age;\n};\nPerson p = {\"Yang\", 10};", "code": true},
+        {"key": "D", "label": "struct Person {\n    string name;\n    int age;\n};\nPerson p = new Person(\"Yang\", 10);", "code": true}
+      ],
+      "knowledge": "结构体聚合初始化"
+    },
+    {
+      "id": "l4-20260831-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [
+        {"type": "text", "value": "下面哪种方式不能实现将字符串 `Happy Spring!` 的输出重定向到文件 `log.txt`？"}
+      ],
+      "options": [
+        {"key": "A", "label": "freopen(\"log.txt\", \"w\", stdout);\ncout << \"Happy Spring!\" << endl;\nfclose(stdout);", "code": true},
+        {"key": "B", "label": "std::ofstream outFile(\"log.txt\");\noutFile << \"Happy Spring!\" << std::endl;\noutFile.close();", "code": true},
+        {"key": "C", "label": "std::ofstream outFile(\"log.txt\");\ncout << \"Happy Spring!\" << endl;\noutFile.close();", "code": true},
+        {"key": "D", "label": "ofstream log_file(\"log.txt\");\nstreambuf* org_cout = std::cout.rdbuf();\ncout.rdbuf(log_file.rdbuf());\ncout << \"Happy Spring!\" << endl;\ncout.rdbuf(org_cout);", "code": true}
+      ],
+      "knowledge": "输出重定向与文件流"
+    },
+    {
+      "id": "l4-20260831-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [
+        {"type": "text", "value": "未捕获异常会调用 `std::terminate` 终止程序。"}
+      ],
+      "knowledge": "未捕获异常的后果"
     }
   ]
 }
