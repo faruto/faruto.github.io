@@ -657,6 +657,92 @@
         {"type": "text", "value": "未捕获异常会调用 `std::terminate` 终止程序。"}
       ],
       "knowledge": "未捕获异常的后果"
+    },
+    {
+      "id": "l4-20260906-s1",
+      "type": "single-choice",
+      "sourceNumber": 1,
+      "stem": [{"type": "text", "value": "在 C++ 中，形参与实参的关系描述正确的是（）。"}],
+      "options": [
+        {"key": "A", "label": "形参在函数调用时指定，实参在函数定义时传递"},
+        {"key": "B", "label": "形参在函数定义时指定，实参在函数调用时传递"},
+        {"key": "C", "label": "形参和实参可以互换"},
+        {"key": "D", "label": "形参和实参必须是完全相同的类型，不能有任何差异"}
+      ],
+      "knowledge": "函数参数"
+    },
+    {
+      "id": "l4-20260906-s2",
+      "type": "single-choice",
+      "sourceNumber": 2,
+      "stem": [{"type": "text", "value": "下面 C++ 代码执行后输出的是（）。"}, {"type": "code", "language": "cpp", "value": "int main()\n{\n    char *p=\"I love GESP!\";\n    cout << p+5 << endl;\n\n    cout << endl;\n    return 0;\n}"}],
+      "options": [
+        {"key": "A", "label": "e", "code": true},
+        {"key": "B", "label": "I lov", "code": true},
+        {"key": "C", "label": "e GESP!", "code": true},
+        {"key": "D", "label": "GESP!", "code": true}
+      ],
+      "knowledge": "指针与地址"
+    },
+    {
+      "id": "l4-20260906-s3",
+      "type": "single-choice",
+      "sourceNumber": 3,
+      "stem": [{"type": "text", "value": "在如下的 C++ 代码执行后，设第 11 和第 12 行的输出地址分别为 X 和 Y，则下面正确的是（）。"}, {"type": "code", "language": "cpp", "value": "struct pass{\n    int no;\n    char name[20];\n    int level;\n};\n\nint main()\n{\n    struct pass XiaoYang;\n    cout << \"&XiaoYang=\" << &XiaoYang << endl; //第11行\n    cout << \"&XiaoYang.no=\" << &(XiaoYang.no) << endl; //第12行\n    cout << endl;\n    return 0;\n}"}],
+      "options": [
+        {"key": "A", "label": "X>Y", "code": true},
+        {"key": "B", "label": "X==Y", "code": true},
+        {"key": "C", "label": "X<Y", "code": true},
+        {"key": "D", "label": "不确定"}
+      ],
+      "knowledge": "地址与结构体"
+    },
+    {
+      "id": "l4-20260906-s4",
+      "type": "single-choice",
+      "sourceNumber": 4,
+      "stem": [{"type": "text", "value": "执行下列 C++ 代码时输出中的第 2 行是（）。"}, {"type": "code", "language": "cpp", "value": "int main()\n{\n    char *s[]={ (char*)\"2024\", (char*)\"3.16\", (char*)\"GESP\"};\n\n    for (int i=0; i<2; i++){\n        cout << *s+i << endl;\n    }\n\n    cout << endl;\n    return 0;\n}"}],
+      "options": [
+        {"key": "A", "label": "2024", "code": true},
+        {"key": "B", "label": "3.16", "code": true},
+        {"key": "C", "label": "024", "code": true},
+        {"key": "D", "label": "3", "code": true}
+      ],
+      "knowledge": "指针与地址"
+    },
+    {
+      "id": "l4-20260906-s5",
+      "type": "single-choice",
+      "sourceNumber": 5,
+      "stem": [{"type": "text", "value": "C++ 语言中下面哪个关键字能够限定对象的作用域（）。"}],
+      "options": [
+        {"key": "A", "label": "extern", "code": true},
+        {"key": "B", "label": "static", "code": true},
+        {"key": "C", "label": "inline", "code": true},
+        {"key": "D", "label": "public", "code": true}
+      ],
+      "knowledge": "作用域"
+    },
+    {
+      "id": "l4-20260906-t1",
+      "type": "true-false",
+      "sourceNumber": 1,
+      "stem": [{"type": "text", "value": "指针的大小与其所指向的变量的数据类型的大小相同。"}],
+      "knowledge": "指针"
+    },
+    {
+      "id": "l4-20260906-t2",
+      "type": "true-false",
+      "sourceNumber": 2,
+      "stem": [{"type": "text", "value": "在 C++ 中，如果没有捕获到异常（没有匹配的 `catch` 块），程序会继续执行而不会终止。"}],
+      "knowledge": "异常抛出与捕获"
+    },
+    {
+      "id": "l4-20260906-t3",
+      "type": "true-false",
+      "sourceNumber": 3,
+      "stem": [{"type": "text", "value": "在 C++ 语言中，函数的参数为指针时，可以在函数内部修改该参数的值。"}],
+      "knowledge": "函数与引用传递"
     }
   ]
 }
